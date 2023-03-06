@@ -1,0 +1,225 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
+import 'package:projecture/utils/font_style_utils.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../utils/color_utils.dart';
+import '../../utils/size_config_utils.dart';
+
+class CheckingScreen extends StatefulWidget {
+  String id;
+  CheckingScreen({required this.id});
+
+  @override
+  State<CheckingScreen> createState() => _CheckingScreenState();
+}
+
+class _CheckingScreenState extends State<CheckingScreen> {
+  final _auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    String id = widget.id;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Project List"),
+        centerTitle: true,
+        backgroundColor: ColorUtils.primaryColor,
+        iconTheme: const IconThemeData(color: ColorUtils.white),
+      ),
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection(id)
+                .doc(id)
+                .collection('user')
+                .doc(_auth.currentUser!.uid)
+                .collection('Current Project')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (BuildContext context, i) {
+                    var data = snapshot.data!.docs[i];
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 2.w, horizontal: 5.w),
+                      child: Slidable(
+                        key: const ValueKey(0),
+                        endActionPane: ActionPane(
+                          motion: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ShowTaskChecking(
+                                            id: id,
+                                            Project: data['Project Name'])));
+                              },
+                              child: Container(
+                                height: 18.w,
+                                margin: EdgeInsets.only(left: 3.sp),
+                                decoration: BoxDecoration(
+                                  color: ColorUtils.green2A.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Show \nTask",
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            fontWeight: FontWeightClass.semiB),
+                                  ),
+                                ),
+                              )),
+                          extentRatio: .3,
+                          dragDismissible: false,
+                          children: const [],
+                        ),
+                        child: Container(
+                          height: 18.w,
+                          width: Get.width,
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              color: ColorUtils.purple),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.w, vertical: 3.w),
+                            child: Text(
+                              data['Project Name'],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.white,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else
+                return CircularProgressIndicator();
+            }),
+      ),
+    );
+  }
+}
+
+class ShowTaskChecking extends StatefulWidget {
+  String id;
+  String Project;
+  ShowTaskChecking({required this.id, required this.Project});
+
+  @override
+  State<ShowTaskChecking> createState() => _ShowTaskCheckingState();
+}
+
+class _ShowTaskCheckingState extends State<ShowTaskChecking> {
+  final _auth = FirebaseAuth.instance;
+  var selectIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    String id = widget.id;
+    String Project = widget.Project;
+    late String Name;
+    late String Email;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Show Task"),
+        centerTitle: true,
+        backgroundColor: ColorUtils.primaryColor,
+        iconTheme: const IconThemeData(color: ColorUtils.white),
+      ),
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: SingleChildScrollView(
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection(id)
+                  .doc(id)
+                  .collection('user')
+                  .doc(_auth.currentUser!.uid)
+                  .collection('Current Project')
+                  .doc(Project)
+                  .collection('InChecking')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, i) {
+                      var data = snapshot.data!.docs[i];
+                      return Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.w, horizontal: 7.w),
+                          child: Container(
+                            height: 20.h,
+                            decoration: BoxDecoration(
+                                color: ColorUtils.purple,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: ColorUtils.black.withOpacity(0.2),
+                                    blurRadius: 5.0,
+                                    spreadRadius: 0.9,
+                                  )
+                                ]),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    data['Task'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                SizeConfig.sH1,
+                                data['Image'] == ""
+                                    ? Center(
+                                        child: Text(
+                                          " No Image",
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: ColorUtils.white),
+                                        ),
+                                      )
+                                    : Image.network(
+                                        data['Image'],
+                                        height: 10.h,
+                                        width: 10.w,
+                                        fit: BoxFit.cover,
+                                      ),
+                                SizeConfig.sH1,
+                              ],
+                            ),
+                          ));
+                    },
+                  );
+                } else
+                  return CircularProgressIndicator();
+              }),
+        ),
+      ),
+    );
+  }
+}
