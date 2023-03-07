@@ -29,8 +29,33 @@ class DrawerBottomNavbar extends StatefulWidget {
 
 class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
   @override
+  int select = 0;
+
+  List<Map<String, dynamic>> templist = <Map<String, dynamic>>[
+    {
+      "imagepath": "assets/images/HomeProject.png",
+      "title": 'Project',
+      "textt": '10'
+    },
+    {"imagepath": "assets/images/notice.png", "title": 'Notice', "textt": '10'},
+    {
+      "imagepath": "assets/images/homeEvents.png",
+      "title": 'Events',
+      "textt": '10'
+    },
+    {
+      "imagepath": "assets/images/HomeIsuue.png",
+      "title": 'Issue',
+      "textt": '10'
+    },
+    {
+      "imagepath": "assets/images/history.png",
+      "title": 'History',
+      "textt": '10'
+    },
+  ];
   var pageAll = [
-    const HomeScreen(),
+    const Homescreen(),
     const ChatScreen(),
     const MyProfile(),
   ];
@@ -39,17 +64,6 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
   Widget build(BuildContext context) {
     String id = widget.id;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "Projecture",
-          style: FontTextStyle.Proxima16Medium.copyWith(
-              fontSize: 17.sp, color: ColorUtils.primaryColor),
-        ),
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: ColorUtils.primaryColor),
-      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.symmetric(vertical: 10.w),
@@ -120,11 +134,11 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
             ListTile(
               onTap: () {
-                // Get.to(() => const ToDo());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ToDo(id: id)),
-                );
+                Get.to(() => ToDo(id: id));
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ToDo(id: id)),
+                // );
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
               leading: SvgPicture.asset('assets/icons/board.svg', height: 5.w),
@@ -136,11 +150,11 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
             ListTile(
               onTap: () {
-                // Get.to(() => Process());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Process(id: id)),
-                );
+                Get.to(() => Process(id: id));
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => Process(id: id)),
+                // );
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
               leading: Icon(
@@ -155,11 +169,11 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
             ListTile(
               onTap: () {
-                //Get.to(() => issue());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => issue(id: id)),
-                );
+                Get.to(() => issue(id: id));
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => issue(id: id)),
+                // );
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
               leading: SvgPicture.asset('assets/icons/issues.svg', height: 5.w),
@@ -171,11 +185,11 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
             ListTile(
               onTap: () {
-                //Get.to(() => WalletScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const WalletScreen()),
-                );
+                Get.to(() => WalletScreen());
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const WalletScreen()),
+                // );
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
               leading: SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
@@ -187,12 +201,12 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
             ListTile(
               onTap: () {
-                //Get.to(() => const CheckingScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CheckingScreen(id: id)),
-                );
+                Get.to(() => CheckingScreen(id: id));
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => CheckingScreen(id: id)),
+                // );
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
               leading: SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
@@ -204,11 +218,11 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
             ListTile(
               onTap: () {
-                //Get.to(() => DoneScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DoneScreen(id: id)),
-                );
+                Get.to(() => DoneScreen(id: id));
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => DoneScreen(id: id)),
+                // );
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
               leading:
@@ -245,11 +259,12 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                         actions: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen(id: id)),
-                              );
+                              Get.to(() => LoginScreen(id: id));
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => LoginScreen(id: id)),
+                              // );
                             },
                             child: Container(
                               height: 10.w,
@@ -400,6 +415,17 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
             ),
           ],
         ),
+      ),
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          "Projecture",
+          style: FontTextStyle.Proxima16Medium.copyWith(
+              fontSize: 17.sp, color: ColorUtils.primaryColor),
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: ColorUtils.primaryColor),
       ),
       body: pageAll[myIndex],
       bottomNavigationBar: Container(

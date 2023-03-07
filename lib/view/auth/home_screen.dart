@@ -1,24 +1,31 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:octo_image/octo_image.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
+import 'package:projecture/view/auth/Login_screen.dart';
 import 'package:projecture/view/auth/events/makarSankrantiEvent_screen.dart';
 import 'package:projecture/view/auth/events_screen.dart';
 import 'package:projecture/view/auth/history_screen.dart';
+import 'package:projecture/view/auth/invite_screen.dart';
 import 'package:projecture/view/auth/issue_screen.dart';
 import 'package:projecture/view/auth/notice_list_screen.dart';
 import 'package:projecture/view/auth/todo_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class Homescreen extends StatefulWidget {
+  const Homescreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<Homescreen> createState() => _HomescreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomescreenState extends State<Homescreen> {
   int select = 0;
 
   List<Map<String, dynamic>> templist = <Map<String, dynamic>>[
@@ -44,6 +51,22 @@ class _HomeScreenState extends State<HomeScreen> {
       "textt": '10'
     },
   ];
+
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,56 +88,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Column(
                     children: [
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     templist[index]['title'] == "Issue"
-                      //         ? Get.to(() => const issue())
-                      //         : const SizedBox();
-                      //     templist[index]['title'] == "Project"
-                      //         ? Get.to(() =>  ToDo(id:id))
-                      //         : const SizedBox();
-                      //     templist[index]['title'] == "Notice"
-                      //         ? Get.to(() => const NoticeListScreen())
-                      //         : const SizedBox();
-                      //     templist[index]['title'] == "Events"
-                      //         ? Get.to(() => const EventScreen())
-                      //         : const SizedBox();
-                      //     templist[index]['title'] == "History"
-                      //         ? Get.to(() => const HistoryScreen())
-                      //         : const SizedBox();
-                      //   },
-                      //   child: Container(
-                      //     height: 33.w,
-                      //     width: 35.w,
-                      //     decoration: BoxDecoration(
-                      //         gradient: const LinearGradient(
-                      //             colors: [
-                      //               ColorUtils.purple,
-                      //               ColorUtils.purpleColor,
-                      //               ColorUtils.primaryColor
-                      //             ],
-                      //             begin: FractionalOffset(0.5, 0.0),
-                      //             end: FractionalOffset(0.0, 0.5),
-                      //             tileMode: TileMode.clamp),
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //               blurRadius: 9.0,
-                      //               color: ColorUtils.black.withOpacity(0.2),
-                      //               spreadRadius: 0.5),
-                      //         ],
-                      //         borderRadius: BorderRadius.circular(3.w),
-                      //         color: ColorUtils.white),
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       mainAxisAlignment: MainAxisAlignment.start,
-                      //       children: [
-                      //         SizeConfig.sH2,
-                      //         Image.asset(templist[index]['imagepath'],
-                      //             scale: 0.8.w),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      GestureDetector(
+                        onTap: () {
+                          setData();
+                          // templist[index]['title'] == "Issue"
+                          //     ? Get.to(() => issue(id: id))
+                          //     : const SizedBox();
+                          // templist[index]['title'] == "Project"
+                          //     ? Get.to(() => ToDo(id: id))
+                          //     : const SizedBox();
+                          templist[index]['title'] == "Notice"
+                              ? Get.to(() => NoticeListScreen())
+                              : const SizedBox();
+                          templist[index]['title'] == "Events"
+                              ? Get.to(() => const EventScreen())
+                              : const SizedBox();
+                          // templist[index]['title'] == "History"
+                          //     ? Get.to(() => const HistoryScreen())
+                          //     : const SizedBox();
+                        },
+                        child: Container(
+                          height: 33.w,
+                          width: 35.w,
+                          decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                  colors: [
+                                    ColorUtils.purple,
+                                    ColorUtils.purpleColor,
+                                    ColorUtils.primaryColor
+                                  ],
+                                  begin: FractionalOffset(0.5, 0.0),
+                                  end: FractionalOffset(0.0, 0.5),
+                                  tileMode: TileMode.clamp),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 9.0,
+                                    color: ColorUtils.black.withOpacity(0.2),
+                                    spreadRadius: 0.5),
+                              ],
+                              borderRadius: BorderRadius.circular(3.w),
+                              color: ColorUtils.white),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizeConfig.sH2,
+                              Image.asset(templist[index]['imagepath'],
+                                  scale: 0.8.w),
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   Padding(

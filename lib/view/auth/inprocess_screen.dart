@@ -56,12 +56,14 @@ class _ProcessState extends State<Process> {
                         endActionPane: ActionPane(
                           motion: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ShowTaskProcess(
-                                            id: id,
-                                            Project: data['Project Name'])));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => ShowTaskProcess(
+                                //             id: id,
+                                //             Project: data['Project Name'])));
+                                Get.to(() => ShowTaskProcess(
+                                    id: id, Project: data['Project Name']));
                               },
                               child: Container(
                                 height: 18.w,

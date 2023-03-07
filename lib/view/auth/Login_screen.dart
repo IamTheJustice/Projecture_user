@@ -11,10 +11,12 @@ import 'package:projecture/view/auth/forgot_password_screen.dart';
 import 'package:projecture/view/auth/Drawer_BottomNavbar_screen.dart';
 import 'package:projecture/view/auth/issue_home_screen.dart';
 import 'package:projecture/view/auth/register_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
   String id;
+
   LoginScreen({required this.id});
 
   @override
@@ -30,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     late String abcd = "aa";
@@ -218,6 +221,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             break;
                           }
                         }
+                        final pref = await SharedPreferences.getInstance();
+                        pref.setString("userId", _auth.currentUser!.uid);
+                        pref.setString("companyId", id);
                         if (_auth.currentUser!.uid == leader) {
                           print("Leader are " + leader);
                           Navigator.push(context,

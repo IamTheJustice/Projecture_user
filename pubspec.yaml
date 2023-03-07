@@ -59,6 +59,8 @@ dependencies:
   dio: ^5.0.1
   path_provider: ^2.0.13
   external_path: ^1.0.3
+  shared_preferences: ^2.0.18
+
 
 
 #  animated_text_kit: ^4.2.2

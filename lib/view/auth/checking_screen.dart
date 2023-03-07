@@ -56,12 +56,14 @@ class _CheckingScreenState extends State<CheckingScreen> {
                         endActionPane: ActionPane(
                           motion: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ShowTaskChecking(
-                                            id: id,
-                                            Project: data['Project Name'])));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => ShowTaskChecking(
+                                //             id: id,
+                                //             Project: data['Project Name'])));
+                                Get.to(() => ShowTaskChecking(
+                                    id: id, Project: data['Project Name']));
                               },
                               child: Container(
                                 height: 18.w,

@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
-import 'package:projecture/view/auth/Login_screen.dart';
 import 'package:projecture/view/auth/register_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -94,13 +92,15 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
                                           vertical: 2.w, horizontal: 3.w),
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    RegisterScreen(
-                                                        id: data['uid'])),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           RegisterScreen(
+                                          //               id: data['uid'])),
+                                          // );
+                                          Get.to(() =>
+                                              RegisterScreen(id: data['uid']));
                                         },
                                         child: Container(
                                             height: 5.h,
