@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class MyProfile extends StatefulWidget {
@@ -16,6 +18,25 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  String? cid;
+  String? uid;
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    cid = pref.getString("companyId");
+    uid = pref.getString("userId");
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
+
   File? imageFile;
   final formkey = GlobalKey<FormState>();
   bool isCheckPassword = true;

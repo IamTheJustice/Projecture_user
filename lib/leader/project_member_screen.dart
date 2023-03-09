@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:projecture/leader/approve_screen.dart';
 import 'package:projecture/leader/give_task_data_screen.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../utils/color_utils.dart';
@@ -23,6 +25,25 @@ class ProjectMemberScreen extends StatefulWidget {
 }
 
 class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  String? cid;
+  String? uid;
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    cid = pref.getString("companyId");
+    uid = pref.getString("userId");
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
+
   @override
   Widget build(BuildContext context) {
     String id = widget.id;

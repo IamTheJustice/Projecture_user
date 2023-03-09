@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -12,6 +13,7 @@ import 'package:projecture/Download.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +37,24 @@ class _issueState extends State<issue> {
   final formkey = GlobalKey<FormState>();
   late String Name;
   late String Email;
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  String? cid;
+  String? uid;
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    cid = pref.getString("companyId");
+    uid = pref.getString("userId");
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/Login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -19,6 +22,25 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  String? cid;
+  String? uid;
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    cid = pref.getString("companyId");
+    uid = pref.getString("userId");
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
+
   final firebase = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final formkey = GlobalKey<FormState>();

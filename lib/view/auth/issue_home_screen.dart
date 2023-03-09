@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class IssueHomeScreen extends StatefulWidget {
@@ -13,6 +16,25 @@ class IssueHomeScreen extends StatefulWidget {
 }
 
 class _IssueHomeScreenState extends State<IssueHomeScreen> {
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  String? cid;
+  String? uid;
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    cid = pref.getString("companyId");
+    uid = pref.getString("userId");
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,7 @@ import 'package:projecture/view/auth/profile_screen.dart';
 import 'package:projecture/view/auth/chat_screen.dart';
 import 'package:projecture/view/auth/checking_screen.dart';
 import 'package:projecture/view/auth/wallet_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:octo_image/octo_image.dart';
 
@@ -28,6 +31,25 @@ class DrawerBottomNavbar extends StatefulWidget {
 }
 
 class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  String? cid;
+  String? uid;
+  setData() async {
+    final pref = await SharedPreferences.getInstance();
+    cid = pref.getString("companyId");
+    uid = pref.getString("userId");
+    log("""
+    
+   userid       ${pref.getString("userId")};
+    company id -- ${pref.getString("companyId")};
+    """);
+  }
+
   @override
   int select = 0;
 
