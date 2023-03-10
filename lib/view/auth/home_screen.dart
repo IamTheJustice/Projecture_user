@@ -58,6 +58,8 @@ class _HomescreenState extends State<Homescreen> {
     super.initState();
   }
 
+  String? id;
+
   setData() async {
     final pref = await SharedPreferences.getInstance();
     log("""
@@ -65,6 +67,7 @@ class _HomescreenState extends State<Homescreen> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    id = pref.getString("companyId");
   }
 
   @override
@@ -91,12 +94,12 @@ class _HomescreenState extends State<Homescreen> {
                       GestureDetector(
                         onTap: () {
                           setData();
-                          // templist[index]['title'] == "Issue"
-                          //     ? Get.to(() => issue(id: id))
-                          //     : const SizedBox();
-                          // templist[index]['title'] == "Project"
-                          //     ? Get.to(() => ToDo(id: id))
-                          //     : const SizedBox();
+                          templist[index]['title'] == "Issue"
+                              ? Get.to(() => issue(id: id!))
+                              : const SizedBox();
+                          templist[index]['title'] == "Project"
+                              ? Get.to(() => ToDo(id: id!))
+                              : const SizedBox();
                           templist[index]['title'] == "Notice"
                               ? Get.to(() => NoticeListScreen())
                               : const SizedBox();

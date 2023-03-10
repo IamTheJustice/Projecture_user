@@ -121,7 +121,10 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
                 },
               );
             } else
-              return CircularProgressIndicator();
+              return Center(
+                  child: CircularProgressIndicator(
+                strokeWidth: 1.1,
+              ));
           }),
     );
   }

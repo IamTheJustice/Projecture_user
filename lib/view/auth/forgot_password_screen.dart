@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -13,6 +15,9 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final firebase = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +53,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           Padding(
             padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 11.w),
             child: TextFormField(
+              controller: emailController,
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(4.w),
                   filled: true,
@@ -73,17 +79,41 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
           ),
           SizeConfig.sH3,
-          Container(
-            height: 12.w,
-            width: 60.w,
-            decoration: const BoxDecoration(
-                color: ColorUtils.primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            child: Center(
-              child: Text(
-                "Send Email",
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.white, fontWeight: FontWeightClass.semiB),
+          GestureDetector(
+            onTap: () {
+              setState(() async {
+                try {
+                  await _auth.sendPasswordResetEmail(
+                      email: emailController.text);
+                  Get.showSnackbar(
+                    GetSnackBar(
+                      message: "Email send Successfully",
+                      borderRadius: 10.0,
+                      margin:
+                          EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: ColorUtils.primaryColor,
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                } catch (e) {
+                  print(e);
+                }
+              });
+            },
+            child: Container(
+              height: 12.w,
+              width: 60.w,
+              decoration: const BoxDecoration(
+                  color: ColorUtils.primaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              child: Center(
+                child: Text(
+                  "Send Email",
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.white,
+                      fontWeight: FontWeightClass.semiB),
+                ),
               ),
             ),
           ),

@@ -192,8 +192,12 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
                                   ],
                                 );
                               });
-                        } else
-                          return CircularProgressIndicator();
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            strokeWidth: 1.1,
+                          ));
+                        }
                       })
                   : SizedBox(),
             ],

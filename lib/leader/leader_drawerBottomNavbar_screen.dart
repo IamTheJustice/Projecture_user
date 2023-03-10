@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -81,6 +83,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
       "textt": '10'
     },
   ];
+  final _auth = FirebaseAuth.instance;
   var pageAll = [
     const Homescreen(),
     const ChatScreen(),
@@ -103,481 +106,414 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
         iconTheme: const IconThemeData(color: ColorUtils.primaryColor),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 10.w),
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 50.0,
-                    child: ClipOval(
-                      child: OctoImage(
-                        image: const NetworkImage(
-                            // "${PreferenceUtils.getProfileImage()}",
-                            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/1024px-Macaca_nigra_self-portrait_large.jpg"),
-                        placeholderBuilder: OctoPlaceholder.blurHash(
-                          'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-                        ),
-                        errorBuilder: OctoError.icon(color: Colors.red),
-                        width: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizeConfig.sH2,
-                  Text(
-                    "Anurag Jagani",
-                    // '${PreferenceUtils.getisuser()}',
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeightClass.semiB),
-                  ),
-                  Text(
-                    "anuragjagani34@gmail.com",
-                    // '${PreferenceUtils.getEmail()}',
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                      color: ColorUtils.primaryColor,
-                    ),
-                  ),
-                ],
+        child: ScrollConfiguration(
+          behavior: ScrollBehavior().copyWith(overscroll: false),
+          child: ListView(
+            children: [
+              id != null
+                  ? StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection(id!)
+                          .doc(id)
+                          .collection('user')
+                          .where('Uid', isEqualTo: _auth.currentUser!.uid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 19.h,
+                            child: ListView.builder(
+                                shrinkWrap: false,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, i) {
+                                  var data = snapshot.data!.docs[i];
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 6.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 50.0,
+                                          child: ClipOval(
+                                            child: OctoImage(
+                                              image: const NetworkImage(
+                                                  // "${PreferenceUtils.getProfileImage()}",
+                                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/1024px-Macaca_nigra_self-portrait_large.jpg"),
+                                              placeholderBuilder:
+                                                  OctoPlaceholder.blurHash(
+                                                'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                              ),
+                                              errorBuilder: OctoError.icon(
+                                                  color: Colors.red),
+                                              width: 100.0,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        SizeConfig.sH2,
+                                        Text(
+                                          data['Name'],
+                                          // '${PreferenceUtils.getisuser()}',
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color:
+                                                      ColorUtils.primaryColor,
+                                                  fontSize: 13.sp,
+                                                  fontWeight:
+                                                      FontWeightClass.semiB),
+                                        ),
+                                        Text(
+                                          data['Email'],
+                                          // '${PreferenceUtils.getEmail()}',
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                            color: ColorUtils.primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          );
+                        } else
+                          return CircularProgressIndicator();
+                      })
+                  : SizedBox(),
+              SizeConfig.sH1,
+              const Divider(
+                thickness: 1,
+                color: ColorUtils.greyB6,
               ),
-            ),
-            SizeConfig.sH1,
-            const Divider(
-              thickness: 1,
-              color: ColorUtils.greyB6,
-            ),
-            ListTile(
-              onTap: () {
-                // Get.to(() => InviteScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => InviteScreen(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: Icon(
-                Icons.insert_invitation,
-                color: ColorUtils.black.withOpacity(0.6),
+              ListTile(
+                onTap: () {
+                  // Get.to(() => InviteScreen());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InviteScreen(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading: Icon(
+                  Icons.insert_invitation,
+                  color: ColorUtils.black.withOpacity(0.6),
+                ),
+                title: Text(
+                  'Invite',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-              title: Text(
-                'Invite',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
+              ListTile(
+                onTap: () {
+                  // Get.to(() => const ToDo());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ToDo(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading:
+                    SvgPicture.asset('assets/icons/board.svg', height: 5.w),
+                title: Text(
+                  'To Do',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor, fontSize: 11.sp),
+                ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                // Get.to(() => const ToDo());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ToDo(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: SvgPicture.asset('assets/icons/board.svg', height: 5.w),
-              title: Text(
-                'To Do',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor, fontSize: 11.sp),
+              ListTile(
+                onTap: () {
+                  // Get.to(() => Process());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Process(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading: Icon(
+                  Icons.drive_folder_upload,
+                  color: ColorUtils.black.withOpacity(0.6),
+                ),
+                title: Text(
+                  'In Process',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                // Get.to(() => Process());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Process(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: Icon(
-                Icons.drive_folder_upload,
-                color: ColorUtils.black.withOpacity(0.6),
+              ListTile(
+                onTap: () {
+                  //Get.to(() => issue());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => issue(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading:
+                    SvgPicture.asset('assets/icons/issues.svg', height: 5.w),
+                title: Text(
+                  'Issue',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-              title: Text(
-                'In Process',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LeaderGiveTaskScreen(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading:
+                    SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
+                title: Text(
+                  'Give task',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                //Get.to(() => issue());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => issue(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: SvgPicture.asset('assets/icons/issues.svg', height: 5.w),
-              title: Text(
-                'Issue',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
+              ListTile(
+                onTap: () {
+                  //Get.to(() => WalletScreen());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const WalletScreen()),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading:
+                    SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
+                title: Text(
+                  'Wallet',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LeaderGiveTaskScreen(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
-              title: Text(
-                'Give task',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
+              ListTile(
+                onTap: () {
+                  //Get.to(() => const CheckingScreen());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CheckingScreen(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading:
+                    SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
+                title: Text(
+                  'Checking',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                //Get.to(() => WalletScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const WalletScreen()),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
-              title: Text(
-                'Wallet',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
+              ListTile(
+                onTap: () {
+                  //Get.to(() => DoneScreen());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DoneScreen(id: id)),
+                  );
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading:
+                    SvgPicture.asset('assets/icons/premium.svg', height: 5.w),
+                title: Text(
+                  'Done',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                //Get.to(() => const CheckingScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CheckingScreen(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
-              title: Text(
-                'Checking',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                //Get.to(() => DoneScreen());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DoneScreen(id: id)),
-                );
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading:
-                  SvgPicture.asset('assets/icons/premium.svg', height: 5.w),
-              title: Text(
-                'Done',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.primaryColor),
-              ),
-            ),
-            ListTile(
-              onTap: () async {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Column(
-                          children: [
-                            Text(
-                              'Log out',
-                              style: FontTextStyle.Proxima16Medium.copyWith(
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeightClass.extraB,
-                                  fontSize: 13.sp),
-                            ),
-                            SizeConfig.sH1,
-                            Lottie.asset("assets/images/logout.json",
-                                height: 25.w),
-                          ],
-                        ),
-                        content: Text('are you sure you want to log out?',
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                color: ColorUtils.primaryColor)),
-                        actions: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen(id: id)),
-                              );
-                            },
-                            child: Container(
-                              height: 10.w,
-                              width: 25.w,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  color: ColorUtils.primaryColor),
-                              child: const Center(
-                                child: Text(
-                                  "Done",
-                                  style: TextStyle(color: ColorUtils.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              height: 10.w,
-                              width: 25.w,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  color: ColorUtils.primaryColor),
-                              child: const Center(
-                                child: Text(
-                                  "Cancle",
-                                  style: TextStyle(color: ColorUtils.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: const Icon(
-                Icons.exit_to_app,
-                color: ColorUtils.redColor,
-              ),
-              title: Text(
-                'Log out',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.redColor),
-              ),
-            ),
-            ListTile(
-              onTap: () async {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Column(
-                          children: [
-                            Text('Delete',
+              ListTile(
+                onTap: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Column(
+                            children: [
+                              Text(
+                                'Log out',
                                 style: FontTextStyle.Proxima16Medium.copyWith(
                                     color: ColorUtils.primaryColor,
                                     fontWeight: FontWeightClass.extraB,
-                                    fontSize: 13.sp)),
-                            SizeConfig.sH1,
-                            Lottie.asset("assets/images/delete.json",
-                                height: 25.w)
-                          ],
-                        ),
-                        content: Text('are you sure you want to delete?',
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                color: ColorUtils.primaryColor)),
-                        actions: [
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              height: 10.w,
-                              width: 25.w,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  color: ColorUtils.primaryColor),
-                              child: const Center(
-                                child: Text(
-                                  "Done",
-                                  style: TextStyle(color: ColorUtils.white),
-                                ),
+                                    fontSize: 13.sp),
                               ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              height: 10.w,
-                              width: 25.w,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  color: ColorUtils.primaryColor),
-                              child: const Center(
-                                child: Text(
-                                  "Cancle",
-                                  style: TextStyle(color: ColorUtils.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-              leading: const Icon(
-                Icons.exit_to_app,
-                color: ColorUtils.redColor,
-              ),
-              title: Text(
-                'Delete',
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.redColor),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    "Finding this app usefull?",
-                    style: FontTextStyle.Proxima12Regular.copyWith(
-                        color: ColorUtils.greyBB),
-                  )),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/images/drawerImage.svg'),
-                  const Spacer(),
-                  SvgPicture.asset('assets/icons/sucessfully.svg'),
-                  SizeConfig.sW2,
-                  SvgPicture.asset('assets/icons/unsucessfully.svg'),
-                  SizeConfig.sW2,
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 6.w),
-        child: GridView.builder(
-            padding: EdgeInsets.symmetric(vertical: 4.w),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: templist.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              //childAspectRatio: 0.8,
-              mainAxisSpacing: 12.0,
-              //crossAxisSpacing:0.0
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return Stack(
-                children: [
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          templist[index]['title'] == "Issue"
-                              ? Get.to(() => issue(id: id))
-                              : const SizedBox();
-                          templist[index]['title'] == "Project"
-                              ? Get.to(() => ToDo(id: id))
-                              : const SizedBox();
-                          templist[index]['title'] == "Notice"
-                              ? Get.to(() => NoticeListScreen())
-                              : const SizedBox();
-                          templist[index]['title'] == "Events"
-                              ? Get.to(() => const EventScreen())
-                              : const SizedBox();
-                          templist[index]['title'] == "History"
-                              ? Get.to(() => const HistoryScreen())
-                              : const SizedBox();
-                        },
-                        child: Container(
-                          height: 33.w,
-                          width: 35.w,
-                          decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    ColorUtils.purple,
-                                    ColorUtils.purpleColor,
-                                    ColorUtils.primaryColor
-                                  ],
-                                  begin: FractionalOffset(0.5, 0.0),
-                                  end: FractionalOffset(0.0, 0.5),
-                                  tileMode: TileMode.clamp),
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 9.0,
-                                    color: ColorUtils.black.withOpacity(0.2),
-                                    spreadRadius: 0.5),
-                              ],
-                              borderRadius: BorderRadius.circular(3.w),
-                              color: ColorUtils.white),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizeConfig.sH2,
-                              Image.asset(templist[index]['imagepath'],
-                                  scale: 0.8.w),
+                              SizeConfig.sH1,
+                              Lottie.asset("assets/images/logout.json",
+                                  height: 25.w),
                             ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12.h, left: 2.w, right: 2.w),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 9.0,
-                                color: ColorUtils.black.withOpacity(0.2),
-                                spreadRadius: 0.5),
+                          content: Text('are you sure you want to log out?',
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.primaryColor)),
+                          actions: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          LoginScreen(id: id)),
+                                );
+                              },
+                              child: Container(
+                                height: 10.w,
+                                width: 25.w,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                    color: ColorUtils.primaryColor),
+                                child: const Center(
+                                  child: Text(
+                                    "Done",
+                                    style: TextStyle(color: ColorUtils.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                height: 10.w,
+                                width: 25.w,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                    color: ColorUtils.primaryColor),
+                                child: const Center(
+                                  child: Text(
+                                    "Cancle",
+                                    style: TextStyle(color: ColorUtils.white),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
-                          color: ColorUtils.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      height: 10.h,
-                      width: 30.w,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            templist[index]['title'],
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                fontSize: 14.sp,
-                                color: ColorUtils.primaryColor),
+                        );
+                      });
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading: const Icon(
+                  Icons.exit_to_app,
+                  color: ColorUtils.redColor,
+                ),
+                title: Text(
+                  'Log out',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.redColor),
+                ),
+              ),
+              ListTile(
+                onTap: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Column(
+                            children: [
+                              Text('Delete',
+                                  style: FontTextStyle.Proxima16Medium.copyWith(
+                                      color: ColorUtils.primaryColor,
+                                      fontWeight: FontWeightClass.extraB,
+                                      fontSize: 13.sp)),
+                              SizeConfig.sH1,
+                              Lottie.asset("assets/images/delete.json",
+                                  height: 25.w)
+                            ],
                           ),
-                          SizeConfig.sH05,
-                          Text(
-                            templist[index]['textt'],
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                color: ColorUtils.greyB6),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              );
-            }),
+                          content: Text('are you sure you want to delete?',
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.primaryColor)),
+                          actions: [
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                height: 10.w,
+                                width: 25.w,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                    color: ColorUtils.primaryColor),
+                                child: const Center(
+                                  child: Text(
+                                    "Done",
+                                    style: TextStyle(color: ColorUtils.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                height: 10.w,
+                                width: 25.w,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                    color: ColorUtils.primaryColor),
+                                child: const Center(
+                                  child: Text(
+                                    "Cancle",
+                                    style: TextStyle(color: ColorUtils.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
+                leading: const Icon(
+                  Icons.exit_to_app,
+                  color: ColorUtils.redColor,
+                ),
+                title: Text(
+                  'Delete',
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.redColor),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "Finding this app usefull?",
+                      style: FontTextStyle.Proxima12Regular.copyWith(
+                          color: ColorUtils.greyBB),
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: Row(
+                  children: [
+                    SvgPicture.asset('assets/images/drawerImage.svg'),
+                    const Spacer(),
+                    SvgPicture.asset('assets/icons/sucessfully.svg'),
+                    SizeConfig.sW2,
+                    SvgPicture.asset('assets/icons/unsucessfully.svg'),
+                    SizeConfig.sW2,
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+      body: pageAll[myIndex],
       bottomNavigationBar: Container(
         height: 7.h,
         decoration: BoxDecoration(

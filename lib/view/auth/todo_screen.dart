@@ -11,9 +11,11 @@ import 'package:projecture/utils/size_config_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class ToDo extends StatefulWidget {
   String id;
+
   ToDo({required this.id});
 
   @override
@@ -22,13 +24,83 @@ class ToDo extends StatefulWidget {
 
 class _ToDoState extends State<ToDo> {
   @override
+  late TutorialCoachMark tutorialCoachMark;
+
+  GlobalKey keyBottomNavigation1 = GlobalKey();
+
+  @override
   void initState() {
-    setData();
+    createTutorial();
     super.initState();
+  }
+
+  void showTutorial() {
+    tutorialCoachMark.show(context: context);
+  }
+
+  void createTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+      colorShadow: ColorUtils.primaryColor.withOpacity(0.1),
+      textSkip: "SKIP",
+      textStyleSkip: const TextStyle(color: ColorUtils.white),
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+      onSkip: () {
+        print("skip");
+      },
+    );
+    Future.delayed(Duration(milliseconds: 500), showTutorial);
+  }
+
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+        identify: "keyBottomNavigation1",
+        keyTarget: keyBottomNavigation1,
+        alignSkip: Alignment.bottomCenter,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("swipe the right side box",
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.white,
+                          fontWeight: FontWeightClass.extraB)),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    return targets;
   }
 
   String? cid;
   String? uid;
+
   setData() async {
     final pref = await SharedPreferences.getInstance();
     cid = pref.getString("companyId");
@@ -41,19 +113,18 @@ class _ToDoState extends State<ToDo> {
   }
 
   final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     String id = widget.id;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Project List"),
-        centerTitle: true,
-        backgroundColor: ColorUtils.primaryColor,
-        iconTheme: const IconThemeData(color: ColorUtils.white),
-      ),
-      body: ScrollConfiguration(
-        behavior: const ScrollBehavior().copyWith(overscroll: false),
-        child: StreamBuilder<QuerySnapshot>(
+        appBar: AppBar(
+          title: const Text("Project List"),
+          centerTitle: true,
+          backgroundColor: ColorUtils.primaryColor,
+          iconTheme: const IconThemeData(color: ColorUtils.white),
+        ),
+        body: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection(id)
                 .doc(id)
@@ -106,23 +177,29 @@ class _ToDoState extends State<ToDo> {
                           dragDismissible: false,
                           children: const [],
                         ),
-                        child: Container(
-                          height: 18.w,
-                          width: Get.width,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              color: ColorUtils.purple),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5.w, vertical: 3.w),
-                            child: Text(
-                              data['Project Name'],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: FontTextStyle.Proxima16Medium.copyWith(
-                                  color: ColorUtils.white,
-                                  decoration: TextDecoration.underline),
+                        child: GestureDetector(
+                          onTap: () {
+                            showTutorial();
+                          },
+                          child: Container(
+                            key: i == 0 ? keyBottomNavigation1 : null,
+                            height: 18.w,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                color: ColorUtils.purple),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 3.w),
+                              child: Text(
+                                data['Project Name'],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: FontTextStyle.Proxima16Medium.copyWith(
+                                    color: ColorUtils.white,
+                                    decoration: TextDecoration.underline),
+                              ),
                             ),
                           ),
                         ),
@@ -132,15 +209,14 @@ class _ToDoState extends State<ToDo> {
                 );
               } else
                 return CircularProgressIndicator();
-            }),
-      ),
-    );
+            }));
   }
 }
 
 class ShowTaskToDo extends StatefulWidget {
   String id;
   String Project;
+
   ShowTaskToDo({required this.id, required this.Project});
 
   @override
@@ -150,6 +226,7 @@ class ShowTaskToDo extends StatefulWidget {
 class _ShowTaskToDoState extends State<ShowTaskToDo> {
   final _auth = FirebaseAuth.instance;
   var selectIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     String id = widget.id;

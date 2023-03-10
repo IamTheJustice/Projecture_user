@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:projecture/leader/approve_screen.dart';
+
 import 'package:projecture/leader/give_task_data_screen.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -100,7 +100,10 @@ class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
                         );
                       });
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    strokeWidth: 1.1,
+                  ));
                 }
               }),
         ),

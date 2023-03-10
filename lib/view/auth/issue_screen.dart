@@ -107,7 +107,7 @@ class _issueState extends State<issue> {
                                       padding: EdgeInsets.symmetric(
                                           vertical: 2.w, horizontal: 7.w),
                                       child: Container(
-                                        height: 25.h,
+                                        height: 30.h,
                                         decoration: BoxDecoration(
                                             color: ColorUtils.purple,
                                             borderRadius:
@@ -333,7 +333,10 @@ class _issueState extends State<issue> {
                                 },
                               );
                             } else
-                              return CircularProgressIndicator();
+                              return Center(
+                                  child: CircularProgressIndicator(
+                                strokeWidth: 1.1,
+                              ));
                           }),
                     ),
                   ),

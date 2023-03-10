@@ -9,7 +9,7 @@ import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/forgot_password_screen.dart';
 import 'package:projecture/view/auth/Drawer_BottomNavbar_screen.dart';
-import 'package:projecture/view/auth/issue_home_screen.dart';
+
 import 'package:projecture/view/auth/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -224,6 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final pref = await SharedPreferences.getInstance();
                         pref.setString("userId", _auth.currentUser!.uid);
                         pref.setString("companyId", id);
+
                         if (_auth.currentUser!.uid == leader) {
                           print("Leader are " + leader);
                           Navigator.push(context,
@@ -233,21 +234,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else {
                           Get.showSnackbar(
                             GetSnackBar(
-                              message: "Register Successfully",
+                              message: "Login Successfully",
                               borderRadius: 10.0,
                               margin: EdgeInsets.only(
                                   left: 4.w, right: 4.w, bottom: 4.w),
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: ColorUtils.primaryColor,
-                              duration: const Duration(seconds: 2),
+                              duration: const Duration(seconds: 1),
                             ),
                           );
-                          Future.delayed(const Duration(seconds: 3), () {
+                          Future.delayed(const Duration(seconds: 1), () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return DrawerBottomNavbar(
-                                id: id,
-                              );
+                              return DrawerBottomNavbar();
                             }));
                           });
                         }

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projecture/testing.dart';
 
 import 'package:projecture/utils/color_utils.dart';
 
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           // smartManagement: SmartManagement.full,
           home: SplashScreen(),
-          //home: EventScreen(),
+          //home: ToDo(),
           //home: CompanyListScreen(),
         );
       },

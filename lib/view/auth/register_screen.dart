@@ -128,6 +128,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     controller: fullnameController,
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -153,6 +155,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     controller: cityController,
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -186,6 +190,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                       return null;
                     },
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(4.w),
                         filled: true,
@@ -200,17 +206,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onTap: () async {
                       await showDatePicker(
                         context: context,
+                        builder: (context, child) {
+                          return Theme(
+                              data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                      primary: ColorUtils.primaryColor,
+                                      onPrimary: ColorUtils.white,
+                                      onSurface: ColorUtils.primaryColor)),
+                              child: child!);
+                        },
                         initialDate: date,
                         firstDate: DateTime(2022),
                         lastDate: DateTime(2030),
                       ).then((selectedDate) {
-                        // if (selectedDate != null) {
-                        //   setState(() {
-                        //     date = selectedDate;
-                        //     formattedDate =
-                        //         DateFormat('d-MMM-yy').format(selectedDate);
-                        //   });
-                        // }
                         if (selectedDate != null) {
                           formattedDate =
                               DateFormat('d-MMM-yy').format(selectedDate);
@@ -225,6 +233,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     controller: emailController,
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -254,6 +264,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     maxLength: 10,
                     keyboardType: TextInputType.number,
                     controller: PhoneController,
@@ -283,6 +295,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     controller: passwordController,
                     validator: (v) {
                       // add your custom validation here.
@@ -309,6 +323,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
                     controller: confirmPasswordController,
                     validator: (v) {
                       if (v!.isEmpty) return 'Empty';
@@ -373,11 +389,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 left: 4.w, right: 4.w, bottom: 4.w),
                             snackPosition: SnackPosition.BOTTOM,
                             backgroundColor: ColorUtils.primaryColor,
-                            duration: const Duration(seconds: 2),
+                            duration: const Duration(seconds: 1),
                           ),
                         );
                         Future.delayed(
-                          const Duration(seconds: 3),
+                          const Duration(seconds: 2),
                           () {
                             Navigator.push(
                               context,

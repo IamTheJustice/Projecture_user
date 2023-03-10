@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:projecture/view/auth/Login_screen.dart';
 import 'package:projecture/view/auth/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -17,25 +18,6 @@ class CompanyListScreen extends StatefulWidget {
 }
 
 class _CompanyListScreenState extends State<CompanyListScreen> {
-  @override
-  void initState() {
-    setData();
-    super.initState();
-  }
-
-  String? cid;
-  String? uid;
-  setData() async {
-    final pref = await SharedPreferences.getInstance();
-    cid = pref.getString("companyId");
-    uid = pref.getString("userId");
-    log("""
-    
-   userid       ${pref.getString("userId")};
-    company id -- ${pref.getString("companyId")};
-    """);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,7 +104,7 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
                                           //               id: data['uid'])),
                                           // );
                                           Get.to(() =>
-                                              RegisterScreen(id: data['uid']));
+                                              LoginScreen(id: data['uid']));
                                         },
                                         child: Container(
                                             height: 5.h,

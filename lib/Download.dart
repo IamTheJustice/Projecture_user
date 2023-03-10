@@ -38,15 +38,17 @@ class _DownloadFileState extends State<DownloadFile> {
 
   Future<String> getDownloadFolderPath() async {
     return await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
+        ExternalPath.DIRECTORY_DOCUMENTS);
   }
 
   Future downloadFile(String downloadDirectory) async {
     Dio dio = Dio();
     String fileName = widget.fileNm;
     String url = widget.fileLink;
-    var downloadedPath = '$downloadDirectory/$fileName.jpg';
-    await dio.download(
+    var downloadedPath =
+        '$downloadDirectory/$fileName + ${DateTime.now().toString()}.jpg';
+
+    dio.download(
       url,
       downloadedPath,
       onReceiveProgress: (recivedBytes, totalBytes) {

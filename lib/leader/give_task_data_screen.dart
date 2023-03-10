@@ -11,7 +11,7 @@ import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:projecture/leader/approve_screen.dart';
+
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -642,7 +642,10 @@ class _TaskDataState extends State<TaskData> {
                           },
                         );
                       } else
-                        return CircularProgressIndicator();
+                        return Center(
+                            child: CircularProgressIndicator(
+                          strokeWidth: 1.1,
+                        ));
                     }),
               ],
             ),

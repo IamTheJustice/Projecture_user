@@ -132,7 +132,10 @@ class _DoneScreenState extends State<DoneScreen> {
                   },
                 );
               } else
-                return CircularProgressIndicator();
+                return Center(
+                    child: CircularProgressIndicator(
+                  strokeWidth: 1.1,
+                ));
             }),
       ),
     );
@@ -240,7 +243,10 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                     },
                   );
                 } else
-                  return CircularProgressIndicator();
+                  return Center(
+                      child: CircularProgressIndicator(
+                    strokeWidth: 1.1,
+                  ));
               }),
         ),
       ),

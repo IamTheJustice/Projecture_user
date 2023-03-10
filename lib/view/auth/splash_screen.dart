@@ -38,6 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
   }
 
   @override
@@ -71,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
           duration: 4000,
           splashTransition: SplashTransition.sizeTransition,
           backgroundColor: ColorUtils.white,
-          nextScreen: uid != null ? WalletScreen() : EventScreen()),
+          nextScreen: uid != null ? DrawerBottomNavbar() : OnBoardingScreen()),
     );
   }
 }
