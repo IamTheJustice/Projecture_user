@@ -133,6 +133,7 @@ class _MyProfileState extends State<MyProfile> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.w),
                       child: TextFormField(
+                        cursorColor: ColorUtils.primaryColor,
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please name required";
@@ -159,6 +160,7 @@ class _MyProfileState extends State<MyProfile> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.w),
                       child: TextFormField(
+                        cursorColor: ColorUtils.primaryColor,
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please email required";
@@ -189,6 +191,7 @@ class _MyProfileState extends State<MyProfile> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.w),
                       child: TextFormField(
+                        cursorColor: ColorUtils.primaryColor,
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please city required";
@@ -215,6 +218,7 @@ class _MyProfileState extends State<MyProfile> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.w),
                       child: TextFormField(
+                        cursorColor: ColorUtils.primaryColor,
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please city required";
@@ -241,6 +245,7 @@ class _MyProfileState extends State<MyProfile> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.w),
                       child: TextFormField(
+                        cursorColor: ColorUtils.primaryColor,
                         maxLength: 10,
                         keyboardType: TextInputType.number,
                         validator: (v) {
@@ -271,6 +276,7 @@ class _MyProfileState extends State<MyProfile> {
                     Padding(
                       padding: EdgeInsets.only(top: 2.w),
                       child: TextFormField(
+                        cursorColor: ColorUtils.primaryColor,
                         obscureText: isCheckPassword,
                         controller: passwordController,
                         validator: (v) {

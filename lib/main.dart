@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           // smartManagement: SmartManagement.full,
-          home: SplashScreen(),
+          home: const SplashScreen(),
           //home: ToDo(),
           //home: CompanyListScreen(),
         );

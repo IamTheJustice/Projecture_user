@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -26,6 +27,20 @@ class _DownloadFileState extends State<DownloadFile> {
   Dio dio = Dio();
   double progress = 0.0;
 
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  //
+  // void showDownloadNotification(String fileName, String downloadedPath) async {
+  //   var androidDetails = new AndroidNotificationDetails(
+  //       'channel id', 'channel NAME',
+  //       priority: Priority.high, importance: Importance.max);
+  //   var iOSDetails = new IOSNotificationDetails();
+  //   var platformDetails =
+  //       new NotificationDetails(android: androidDetails, iOS: iOSDetails);
+  //   await flutterLocalNotificationsPlugin.show(
+  //       0, 'Download Complete', '$fileName downloaded ', platformDetails);
+  // }
+
   void displayFile(String downloadDirectory) {
     downloading = false;
     progressString = "COMPLETED";
@@ -38,17 +53,18 @@ class _DownloadFileState extends State<DownloadFile> {
 
   Future<String> getDownloadFolderPath() async {
     return await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOCUMENTS);
+        ExternalPath.DIRECTORY_DOWNLOADS);
   }
 
   Future downloadFile(String downloadDirectory) async {
     Dio dio = Dio();
+    String folderName = 'pp';
     String fileName = widget.fileNm;
     String url = widget.fileLink;
-    var downloadedPath =
-        '$downloadDirectory/$fileName + ${DateTime.now().toString()}.jpg';
+    final downloadedPath =
+        '$downloadDirectory/  ${DateTime.now().toString()}.jpg';
 
-    dio.download(
+    await dio.download(
       url,
       downloadedPath,
       onReceiveProgress: (recivedBytes, totalBytes) {
@@ -59,7 +75,15 @@ class _DownloadFileState extends State<DownloadFile> {
         print(progress);
         progressString = 'COMPLETED';
       },
+      // options: Options(
+      //   responseType: ResponseType.bytes,
+      //   followRedirects: false,
+      //   validateStatus: (status) {
+      //     return status! < 500;
+      //   },
+      // ),
     );
+    // showDownloadNotification(fileName, downloadedPath);
     await Future.delayed(const Duration(seconds: 2));
     return downloadedPath;
   }

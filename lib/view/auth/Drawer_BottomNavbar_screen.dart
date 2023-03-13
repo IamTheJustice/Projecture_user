@@ -1,10 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
@@ -40,6 +43,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
 
   String? id;
   String? uid;
+
   setData() async {
     final pref = await SharedPreferences.getInstance();
     id = pref.getString("companyId");
@@ -53,8 +57,10 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
   }
 
   @override
+  String imageUrl = '';
   int select = 0;
   final _auth = FirebaseAuth.instance;
+  bool circular = false;
 
   List<Map<String, dynamic>> templist = <Map<String, dynamic>>[
     {
@@ -86,6 +92,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
   ];
 
   var myIndex = 0;
+
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
@@ -118,24 +125,95 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 50.0,
-                                          child: ClipOval(
-                                            child: OctoImage(
-                                              image: const NetworkImage(
-                                                  // "${PreferenceUtils.getProfileImage()}",
-                                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/1024px-Macaca_nigra_self-portrait_large.jpg"),
-                                              placeholderBuilder:
-                                                  OctoPlaceholder.blurHash(
-                                                'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                        data['ProfileImage'] == ""
+                                            ? CircleAvatar(
+                                                radius: 50.0,
+                                                backgroundColor:
+                                                    ColorUtils.primaryColor,
+                                                child: circular == true
+                                                    ? Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                        ),
+                                                      )
+                                                    : IconButton(
+                                                        onPressed: () async {
+                                                          circular = true;
+                                                          setState(() {});
+                                                          ImagePicker
+                                                              imagePicker =
+                                                              ImagePicker();
+                                                          XFile? file =
+                                                              await imagePicker
+                                                                  .pickImage(
+                                                                      source: ImageSource
+                                                                          .gallery);
+                                                          print(
+                                                              '${file?.path}');
+
+                                                          if (file == null)
+                                                            return;
+
+                                                          Reference
+                                                              referenceRoot =
+                                                              FirebaseStorage
+                                                                  .instance
+                                                                  .ref();
+                                                          Reference
+                                                              referenceDirImages =
+                                                              referenceRoot
+                                                                  .child(
+                                                                      'images');
+
+                                                          Reference
+                                                              referenceImageToUpload =
+                                                              referenceDirImages
+                                                                  .child(file
+                                                                      .name);
+
+                                                          try {
+                                                            await referenceImageToUpload
+                                                                .putFile(File(
+                                                                        file!
+                                                                            .path)
+                                                                    .absolute);
+
+                                                            imageUrl =
+                                                                await referenceImageToUpload
+                                                                    .getDownloadURL();
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(id!)
+                                                                .doc(id)
+                                                                .collection(
+                                                                    'user')
+                                                                .doc(_auth
+                                                                    .currentUser!
+                                                                    .uid)
+                                                                .update({
+                                                              'ProfileImage':
+                                                                  imageUrl
+                                                            });
+                                                            circular = false;
+                                                            setState(() {});
+                                                          } catch (error) {
+                                                            //Some error occurred
+                                                          }
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.camera_alt)),
+                                              )
+                                            : CircleAvatar(
+                                                radius: 51.0,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                      data['ProfileImage'],
+                                                      fit: BoxFit.contain),
+                                                ),
                                               ),
-                                              errorBuilder: OctoError.icon(
-                                                  color: Colors.red),
-                                              width: 100.0,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
                                         SizeConfig.sH2,
                                         Text(
                                           data['Name'],

@@ -29,8 +29,7 @@ import 'package:sizer/sizer.dart';
 import 'package:octo_image/octo_image.dart';
 
 class LeaderDrawerBottomNavbar extends StatefulWidget {
-  String id;
-  LeaderDrawerBottomNavbar({required this.id});
+  LeaderDrawerBottomNavbar({Key? key});
 
   @override
   State<LeaderDrawerBottomNavbar> createState() =>
@@ -44,17 +43,18 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
     super.initState();
   }
 
-  String? cid;
+  String? id;
   String? uid;
   setData() async {
     final pref = await SharedPreferences.getInstance();
-    cid = pref.getString("companyId");
+    id = pref.getString("companyId");
     uid = pref.getString("userId");
     log("""
     
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
   }
 
   @override
@@ -92,7 +92,6 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
 
   var myIndex = 0;
   Widget build(BuildContext context) {
-    String id = widget.id;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -192,7 +191,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => InviteScreen(id: id)),
+                        builder: (context) => InviteScreen(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -211,7 +210,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   // Get.to(() => const ToDo());
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ToDo(id: id)),
+                    MaterialPageRoute(builder: (context) => ToDo(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -228,7 +227,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   // Get.to(() => Process());
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Process(id: id)),
+                    MaterialPageRoute(builder: (context) => Process(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -247,7 +246,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   //Get.to(() => issue());
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => issue(id: id)),
+                    MaterialPageRoute(builder: (context) => issue(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -264,7 +263,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => LeaderGiveTaskScreen(id: id)),
+                        builder: (context) => LeaderGiveTaskScreen(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -300,7 +299,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CheckingScreen(id: id)),
+                        builder: (context) => CheckingScreen(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -317,7 +316,8 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   //Get.to(() => DoneScreen());
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DoneScreen(id: id)),
+                    MaterialPageRoute(
+                        builder: (context) => DoneScreen(id: id!)),
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -359,7 +359,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          LoginScreen(id: id)),
+                                          LoginScreen(id: id!)),
                                 );
                               },
                               child: Container(

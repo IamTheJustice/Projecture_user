@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:projecture/service/animayted_text.dart';
@@ -12,6 +14,8 @@ import 'package:projecture/view/auth/onBorading_screen.dart';
 import 'package:projecture/view/auth/wallet_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../leader/leader_drawerBottomNavbar_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -29,10 +33,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   String? cid;
   String? uid;
+  String? leader;
   setData() async {
     final pref = await SharedPreferences.getInstance();
     cid = pref.getString("companyId");
     uid = pref.getString("userId");
+    leader = pref.getString("leaderId");
     log("""
     
    userid       ${pref.getString("userId")};
@@ -40,6 +46,9 @@ class _SplashScreenState extends State<SplashScreen> {
     """);
     setState(() {});
   }
+
+  final _auth = FirebaseAuth.instance;
+  // late String leader;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +81,11 @@ class _SplashScreenState extends State<SplashScreen> {
           duration: 4000,
           splashTransition: SplashTransition.sizeTransition,
           backgroundColor: ColorUtils.white,
-          nextScreen: uid != null ? DrawerBottomNavbar() : OnBoardingScreen()),
+          nextScreen: uid == null
+              ? OnBoardingScreen()
+              : leader == uid
+                  ? LeaderDrawerBottomNavbar()
+                  : DrawerBottomNavbar()),
     );
   }
 }

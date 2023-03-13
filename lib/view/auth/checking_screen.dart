@@ -190,7 +190,7 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                           padding: EdgeInsets.symmetric(
                               vertical: 2.w, horizontal: 7.w),
                           child: Container(
-                            height: 20.h,
+                            height: 36.h,
                             decoration: BoxDecoration(
                                 color: ColorUtils.purple,
                                 borderRadius:
@@ -217,7 +217,7 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                                                 TextDecoration.underline),
                                   ),
                                 ),
-                                SizeConfig.sH1,
+                                SizeConfig.sH3,
                                 data['Image'] == ""
                                     ? Center(
                                         child: Text(
@@ -230,10 +230,64 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                                     : Image.network(
                                         data['Image'],
                                         height: 10.h,
-                                        width: 10.w,
+                                        width: 20.w,
                                         fit: BoxFit.cover,
                                       ),
                                 SizeConfig.sH1,
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    "Task Assign Date " + data['AssignDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    "Due Date " + data['LastDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    "Task Starting Date " +
+                                        data['StartingDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    "Checking Request Date " +
+                                        data['CheckRequestDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
                               ],
                             ),
                           ));

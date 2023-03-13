@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_downloader/image_downloader.dart';
+import 'package:intl/intl.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
@@ -266,7 +267,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                           padding: EdgeInsets.symmetric(
                               vertical: 2.w, horizontal: 7.w),
                           child: Container(
-                            height: 23.h,
+                            height: 30.h,
                             decoration: BoxDecoration(
                                 color: ColorUtils.purple,
                                 borderRadius:
@@ -413,6 +414,33 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    'Due Date ' + data['LastDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    'Assign Date ' +
+                                        data['AssignDate'].toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
                                 Spacer(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -469,10 +497,16 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                           result.docs;
                                                       for (var abc
                                                           in document1) {
-                                                        Name = abc.get('Name');
-                                                        Email =
-                                                            abc.get('Email');
+                                                        if (_auth.currentUser!
+                                                                .uid ==
+                                                            abc.get('Uid')) {
+                                                          Name =
+                                                              abc.get('Name');
+                                                          Email =
+                                                              abc.get('Email');
+                                                        }
                                                       }
+
                                                       FirebaseFirestore.instance
                                                           .collection(id)
                                                           .doc(id)
@@ -481,11 +515,53 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                           .collection('Process')
                                                           .doc()
                                                           .set({
+                                                        'AssignDate':
+                                                            data['AssignDate'],
+                                                        'LastData':
+                                                            data['LastDate'],
+                                                        'StartingDate':
+                                                            DateFormat(
+                                                                    'dd-MMM-yy')
+                                                                .format(DateTime
+                                                                    .now()),
                                                         'task': data['Task'],
                                                         'Image': data["Image"],
                                                         'Name': Name,
                                                         'Email': Email,
                                                       });
+                                                      try {
+                                                        // Get a reference to the 'task' subcollection
+                                                        CollectionReference
+                                                            taskCollection =
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(id)
+                                                                .doc(id)
+                                                                .collection(
+                                                                    Project)
+                                                                .doc(Project)
+                                                                .collection(
+                                                                    'task');
+
+                                                        // Query for the document with field name 'task' and value 'mk'
+                                                        QuerySnapshot
+                                                            querySnapshot =
+                                                            await taskCollection
+                                                                .where('task',
+                                                                    isEqualTo: data[
+                                                                        'Task'])
+                                                                .get();
+
+                                                        // Delete the document(s) found by the query
+                                                        querySnapshot.docs
+                                                            .forEach((doc) {
+                                                          doc.reference
+                                                              .delete();
+                                                        });
+                                                      } catch (e) {
+                                                        print(
+                                                            'Error deleting document: $e');
+                                                      }
 
                                                       FirebaseFirestore.instance
                                                           .collection(id)
@@ -499,6 +575,15 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                           .collection('Process')
                                                           .doc()
                                                           .set({
+                                                        'AssignDate':
+                                                            data['AssignDate'],
+                                                        'LastDate':
+                                                            data['LastDate'],
+                                                        'StartingDate':
+                                                            DateFormat(
+                                                                    'dd-MMM-yy')
+                                                                .format(DateTime
+                                                                    .now()),
                                                         'Task': data['Task'],
                                                         'Image': data['Image'],
                                                       }).whenComplete(() => {

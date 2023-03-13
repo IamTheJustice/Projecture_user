@@ -11,6 +11,7 @@ import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
@@ -39,7 +40,10 @@ class TaskData extends StatefulWidget {
 class _TaskDataState extends State<TaskData> {
   final TextEditingController TaskNameController = TextEditingController();
   final TextEditingController DescriptionController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+  DateTime date = DateTime.now();
+  late var formattedDate = "Date of Birth";
   File? imageFile;
   String imageUrl = '';
   final formkey = GlobalKey<FormState>();
@@ -237,6 +241,60 @@ class _TaskDataState extends State<TaskData> {
                                         Radius.circular(10.0)))),
                           ),
                         ),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                          child: TextFormField(
+                            controller: dateController,
+                            readOnly: true,
+                            validator: (v) {
+                              if (v == null || v.isEmpty) {
+                                return "please required date";
+                              }
+                              return null;
+                            },
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: ColorUtils.primaryColor),
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(4.w),
+                                filled: true,
+                                fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                                hintText: "${formattedDate}",
+                                hintStyle:
+                                    FontTextStyle.Proxima14Regular.copyWith(
+                                        color: ColorUtils.primaryColor),
+                                border: const OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)))),
+                            onTap: () async {
+                              await showDatePicker(
+                                context: context,
+                                builder: (context, child) {
+                                  return Theme(
+                                      data: Theme.of(context).copyWith(
+                                          colorScheme: ColorScheme.light(
+                                              primary: ColorUtils.primaryColor,
+                                              onPrimary: ColorUtils.white,
+                                              onSurface:
+                                                  ColorUtils.primaryColor)),
+                                      child: child!);
+                                },
+                                initialDate: date,
+                                firstDate: DateTime(2022),
+                                lastDate: DateTime(2030),
+                              ).then((selectedDate) {
+                                if (selectedDate != null) {
+                                  formattedDate = DateFormat('dd-MMM-yy')
+                                      .format(selectedDate);
+                                  setState(() {
+                                    dateController.text = formattedDate;
+                                  });
+                                }
+                              });
+                            },
+                          ),
+                        ),
                         SizeConfig.sH2,
                         AnimatedButton(
                             height: 12.w,
@@ -297,7 +355,11 @@ class _TaskDataState extends State<TaskData> {
                                                 'task': TaskNameController.text,
                                                 'Image': imageUrl,
                                                 'Name': Name,
-                                                'Email': Email
+                                                'Email': Email,
+                                                'LastDate': dateController.text,
+                                                'AssignDate':
+                                                    DateFormat('dd-MMM-yy')
+                                                        .format(DateTime.now()),
                                               });
                                               FirebaseFirestore.instance
                                                   .collection(id)
@@ -311,6 +373,10 @@ class _TaskDataState extends State<TaskData> {
                                                   .set({
                                                 'Task': TaskNameController.text,
                                                 'Image': imageUrl,
+                                                'LastDate': dateController.text,
+                                                'AssignDate':
+                                                    DateFormat('dd-MMM-yy')
+                                                        .format(DateTime.now()),
                                               });
                                               Get.back();
 
@@ -368,7 +434,7 @@ class _TaskDataState extends State<TaskData> {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 2.w, horizontal: 7.w),
                                 child: Container(
-                                  height: 23.h,
+                                  height: 37.h,
                                   decoration: BoxDecoration(
                                       color: ColorUtils.purple,
                                       borderRadius: const BorderRadius.all(
@@ -414,6 +480,62 @@ class _TaskDataState extends State<TaskData> {
                                               width: 25.w,
                                               fit: BoxFit.cover,
                                             ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 1.h),
+                                        child: Text(
+                                          "Task Assign Date " +
+                                              data['AssignDate'],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: ColorUtils.white,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 1.h),
+                                        child: Text(
+                                          "Due Date " + data['LastDate'],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: ColorUtils.white,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 1.h),
+                                        child: Text(
+                                          "Task Starting Date " +
+                                              data['StartingDate'],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: ColorUtils.white,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 1.h),
+                                        child: Text(
+                                          "Checking Request Date " +
+                                              data['CheckRequestDate'],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: ColorUtils.white,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                        ),
+                                      ),
+                                      SizeConfig.sH1,
                                       Spacer(),
                                       Row(
                                         mainAxisAlignment:
@@ -474,10 +596,16 @@ class _TaskDataState extends State<TaskData> {
                                                                 result.docs;
                                                             for (var abc
                                                                 in document1) {
-                                                              Name = abc
-                                                                  .get('Name');
-                                                              Email = abc
-                                                                  .get('Email');
+                                                              if (_auth
+                                                                      .currentUser!
+                                                                      .uid ==
+                                                                  abc.get(
+                                                                      'Uid')) {
+                                                                Name = abc.get(
+                                                                    'Name');
+                                                                Email = abc.get(
+                                                                    'Email');
+                                                              }
                                                             }
                                                             FirebaseFirestore
                                                                 .instance
@@ -496,6 +624,19 @@ class _TaskDataState extends State<TaskData> {
                                                                   data["Image"],
                                                               'Name': Name,
                                                               'Email': Email,
+                                                              'AssignDate': data[
+                                                                  'AssignDate'],
+                                                              'LastDate': data[
+                                                                  'LastDate'],
+                                                              'CheckRequestDate':
+                                                                  data[
+                                                                      'CheckRequestDate'],
+                                                              'StartingDate': data[
+                                                                  'StartingDate'],
+                                                              'ApprovedDate': DateFormat(
+                                                                      'dd-MMM-yy')
+                                                                  .format(DateTime
+                                                                      .now()),
                                                             }).whenComplete(() => FirebaseFirestore
                                                                     .instance
                                                                     .collection(
@@ -513,6 +654,43 @@ class _TaskDataState extends State<TaskData> {
                                                                           data[
                                                                               'Task'],
                                                                     ));
+                                                            try {
+                                                              // Get a reference to the 'task' subcollection
+                                                              CollectionReference
+                                                                  taskCollection =
+                                                                  FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          id)
+                                                                      .doc(id)
+                                                                      .collection(
+                                                                          Project)
+                                                                      .doc(
+                                                                          Project)
+                                                                      .collection(
+                                                                          'InChecking');
+
+                                                              // Query for the document with field name 'task' and value 'mk'
+                                                              QuerySnapshot
+                                                                  querySnapshot =
+                                                                  await taskCollection
+                                                                      .where(
+                                                                          'task',
+                                                                          isEqualTo:
+                                                                              data['Task'])
+                                                                      .get();
+
+                                                              // Delete the document(s) found by the query
+                                                              querySnapshot.docs
+                                                                  .forEach(
+                                                                      (doc) {
+                                                                doc.reference
+                                                                    .delete();
+                                                              });
+                                                            } catch (e) {
+                                                              print(
+                                                                  'Error deleting document: $e');
+                                                            }
                                                             FirebaseFirestore
                                                                 .instance
                                                                 .collection(id)
@@ -531,6 +709,19 @@ class _TaskDataState extends State<TaskData> {
                                                                   data['Task'],
                                                               'Image':
                                                                   data['Image'],
+                                                              'AssignDate': data[
+                                                                  'AssignDate'],
+                                                              'LastDate': data[
+                                                                  'LastDate'],
+                                                              'CheckRequestDate':
+                                                                  data[
+                                                                      'CheckRequestDate'],
+                                                              'StartingDate': data[
+                                                                  'StartingDate'],
+                                                              'ApprovedDate': DateFormat(
+                                                                      'dd-MMM-yy')
+                                                                  .format(DateTime
+                                                                      .now()),
                                                             }).whenComplete(
                                                                     () => {
                                                                           snapshot

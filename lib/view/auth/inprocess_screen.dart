@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
@@ -190,7 +191,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                           padding: EdgeInsets.symmetric(
                               vertical: 2.w, horizontal: 7.w),
                           child: Container(
-                            height: 20.h,
+                            height: 36.h,
                             decoration: BoxDecoration(
                                 color: ColorUtils.purple,
                                 borderRadius:
@@ -233,6 +234,45 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                         width: 10.w,
                                         fit: BoxFit.cover,
                                       ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    'Assign Date ' + data['AssignDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    'Due Data ' + data['LastDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    'Stating Data ' + data['StartingDate'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
                                 Spacer(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -250,7 +290,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                       scale: 1.w,
                                                     ),
                                                     Text(
-                                                      'Start Task',
+                                                      'Complete !',
                                                       style: FontTextStyle
                                                               .Proxima16Medium
                                                           .copyWith(
@@ -264,7 +304,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                   ],
                                                 ),
                                                 content: Text(
-                                                    'are you sure want to start Task?',
+                                                    'are you sure you had done this task ?',
                                                     textAlign: TextAlign.center,
                                                     style: FontTextStyle
                                                             .Proxima16Medium
@@ -289,9 +329,14 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                           result.docs;
                                                       for (var abc
                                                           in document1) {
-                                                        Name = abc.get('Name');
-                                                        Email =
-                                                            abc.get('Email');
+                                                        if (_auth.currentUser!
+                                                                .uid ==
+                                                            abc.get('Uid')) {
+                                                          Name =
+                                                              abc.get('Name');
+                                                          Email =
+                                                              abc.get('Email');
+                                                        }
                                                       }
                                                       FirebaseFirestore.instance
                                                           .collection(id)
@@ -302,10 +347,21 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                               'InChecking')
                                                           .doc()
                                                           .set({
+                                                        'AssignDate':
+                                                            data['AssignDate'],
                                                         'task': data['Task'],
                                                         'Image': data["Image"],
                                                         'Name': Name,
                                                         'Email': Email,
+                                                        'LastDate':
+                                                            data['LastDate'],
+                                                        'CheckRequestDate':
+                                                            DateFormat(
+                                                                    'dd-MMM-yy')
+                                                                .format(DateTime
+                                                                    .now()),
+                                                        'StartingDate': data[
+                                                            'StartingDate'],
                                                       }).whenComplete(() =>
                                                               FirebaseFirestore
                                                                   .instance
@@ -322,6 +378,39 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                                     isEqualTo: data[
                                                                         'Task'],
                                                                   ));
+                                                      try {
+                                                        // Get a reference to the 'task' subcollection
+                                                        CollectionReference
+                                                            taskCollection =
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(id)
+                                                                .doc(id)
+                                                                .collection(
+                                                                    Project)
+                                                                .doc(Project)
+                                                                .collection(
+                                                                    'Process');
+
+                                                        // Query for the document with field name 'task' and value 'mk'
+                                                        QuerySnapshot
+                                                            querySnapshot =
+                                                            await taskCollection
+                                                                .where('task',
+                                                                    isEqualTo: data[
+                                                                        'Task'])
+                                                                .get();
+
+                                                        // Delete the document(s) found by the query
+                                                        querySnapshot.docs
+                                                            .forEach((doc) {
+                                                          doc.reference
+                                                              .delete();
+                                                        });
+                                                      } catch (e) {
+                                                        print(
+                                                            'Error deleting document: $e');
+                                                      }
                                                       FirebaseFirestore.instance
                                                           .collection(id)
                                                           .doc(id)
@@ -337,6 +426,17 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                           .set({
                                                         'Task': data['Task'],
                                                         'Image': data['Image'],
+                                                        'AssignDate':
+                                                            data['AssignDate'],
+                                                        'LastDate':
+                                                            data['LastDate'],
+                                                        'CheckRequestDate':
+                                                            DateFormat(
+                                                                    'dd-MMM-yy')
+                                                                .format(DateTime
+                                                                    .now()),
+                                                        'StartingDate': data[
+                                                            'StartingDate'],
                                                       }).whenComplete(() => {
                                                                 snapshot
                                                                     .data!

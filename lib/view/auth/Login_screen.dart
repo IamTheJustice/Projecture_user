@@ -98,6 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 11.w),
                 child: TextFormField(
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                  cursorColor: ColorUtils.primaryColor,
+                  textInputAction: TextInputAction.next,
                   controller: emailController,
                   validator: (v) {
                     if (v!.isEmpty) {
@@ -120,6 +124,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Icons.email_outlined,
                         size: 5.w,
                       ),
+                      suffixIconColor: MaterialStateColor.resolveWith(
+                          (states) => states.contains(MaterialState.focused)
+                              ? ColorUtils.primaryColor
+                              : Colors.grey),
                       hintStyle: FontTextStyle.Proxima14Regular.copyWith(
                           color: ColorUtils.primaryColor),
                       border: const OutlineInputBorder(
@@ -131,6 +139,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 4.w),
                 child: TextFormField(
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.primaryColor),
+                  cursorColor: ColorUtils.primaryColor,
                   controller: passwordController,
                   validator: (v) {
                     // add your custom validation here.
@@ -138,11 +149,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       return 'Please enter password';
                     }
                     if (v.length <= 8) {
-                      return 'Password must be atleast 8 characters long';
+                      return 'Password must be at least 8 characters long';
                     }
                   },
                   obscureText: isCheckPassword,
                   decoration: InputDecoration(
+                      suffixIconColor: MaterialStateColor.resolveWith(
+                          (states) => states.contains(MaterialState.focused)
+                              ? ColorUtils.primaryColor
+                              : Colors.grey),
                       contentPadding: EdgeInsets.all(4.w),
                       filled: true,
                       fillColor: ColorUtils.greyE7.withOpacity(0.5),
@@ -224,12 +239,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         final pref = await SharedPreferences.getInstance();
                         pref.setString("userId", _auth.currentUser!.uid);
                         pref.setString("companyId", id);
+                        pref.setString("leaderId", leader);
 
                         if (_auth.currentUser!.uid == leader) {
                           print("Leader are " + leader);
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return LeaderDrawerBottomNavbar(id: id);
+                            return LeaderDrawerBottomNavbar();
                           }));
                         } else {
                           Get.showSnackbar(

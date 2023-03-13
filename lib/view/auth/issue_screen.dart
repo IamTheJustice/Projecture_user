@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:projecture/Download.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
@@ -54,6 +55,19 @@ class _issueState extends State<issue> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
+  }
+
+  void pdfStatus() async {
+    // if(featuresList[index]['name']==AppString.stepCounter){
+    PermissionStatus pdf = await Permission.storage.request();
+    if (pdfStatus == PermissionStatus.granted) {
+      return;
+    }
+    if (pdfStatus == PermissionStatus.denied) {
+      print("Permission Denied");
+      openAppSettings();
+    }
   }
 
   @override
@@ -243,19 +257,37 @@ class _issueState extends State<issue> {
                                                               onTap: () async {
                                                                 print('click');
                                                                 try {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (context) {
-                                                                    return DownloadFile(
-                                                                      fileNm: data[
-                                                                          'Name'],
-                                                                      fileLink:
-                                                                          data[
-                                                                              'Image'],
-                                                                    );
-                                                                  }));
+                                                                  PermissionStatus
+                                                                      pdf =
+                                                                      await Permission
+                                                                          .storage
+                                                                          .request();
+                                                                  if (pdf ==
+                                                                      PermissionStatus
+                                                                          .granted) {
+                                                                    Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(builder:
+                                                                            (context) {
+                                                                      return DownloadFile(
+                                                                        fileNm:
+                                                                            data['Name'],
+                                                                        fileLink:
+                                                                            data['Image'],
+                                                                      );
+                                                                    }));
+                                                                  }
+                                                                  if (pdf ==
+                                                                      PermissionStatus
+                                                                          .denied) {
+                                                                    // Get.back();
+                                                                  }
+                                                                  if (pdf ==
+                                                                      PermissionStatus
+                                                                          .permanentlyDenied) {
+                                                                    openAppSettings();
+                                                                  }
+
 //                                                                   Get.to(() =>
 // );
 //                                                                   print(

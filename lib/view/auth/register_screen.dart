@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Register",
+                              "Sign Up",
                               style: FontTextStyle.Proxima16Medium.copyWith(
                                   fontSize: 18.sp,
                                   color: ColorUtils.primaryColor,
@@ -128,6 +128,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    textInputAction: TextInputAction.next,
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     controller: fullnameController,
@@ -155,6 +157,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    textInputAction: TextInputAction.next,
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     controller: cityController,
@@ -162,7 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (v!.isEmpty) {
                         return "please city required";
                       } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                        return "please valid cityname ";
+                        return "please valid city name ";
                       }
                       return null;
                     },
@@ -182,6 +186,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    textInputAction: TextInputAction.next,
                     controller: dateController,
                     readOnly: true,
                     validator: (v) {
@@ -233,6 +239,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    textInputAction: TextInputAction.next,
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     controller: emailController,
@@ -264,6 +272,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    textInputAction: TextInputAction.next,
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     maxLength: 10,
@@ -295,6 +305,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    textInputAction: TextInputAction.next,
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     controller: passwordController,
@@ -323,6 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     controller: confirmPasswordController,
@@ -378,6 +391,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             'Phone': PhoneController.text,
                             'Password': passwordController.text,
                             'Uid': _auth.currentUser!.uid,
+                            'ProfileImage': "",
                           });
                         });
 
