@@ -441,6 +441,19 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 TextDecoration.underline),
                                   ),
                                 ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: Text(
+                                    'Task Point :' + data['Point'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ),
+                                ),
                                 const Spacer(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,

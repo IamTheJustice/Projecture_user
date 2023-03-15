@@ -480,13 +480,17 @@ class _issueState extends State<issue> {
                             },
                             child: Container(
                               height: 5.h,
-                              width: 35.w,
+                              width: 32.w,
                               decoration: BoxDecoration(
-                                  color: Colors.yellow,
+                                  color: ColorUtils.primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0))),
                               child: Center(
-                                child: Text("Select Image"),
+                                child: Text(
+                                  "Select Image",
+                                  style: FontTextStyle.Proxima16Medium.copyWith(
+                                      color: ColorUtils.white),
+                                ),
                               ),
                             ),
                           ),
