@@ -1,10 +1,12 @@
 import 'dart:developer';
-
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture/leader/give_task_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -12,12 +14,9 @@ import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/Login_screen.dart';
 import 'package:projecture/view/auth/done_screen.dart';
-import 'package:projecture/view/auth/events_screen.dart';
-import 'package:projecture/view/auth/history_screen.dart';
 import 'package:projecture/view/auth/invite_screen.dart';
 import 'package:projecture/view/auth/issue_screen.dart';
 import 'package:projecture/view/auth/inprocess_screen.dart';
-import 'package:projecture/view/auth/notice_list_screen.dart';
 import 'package:projecture/view/auth/todo_screen.dart';
 import 'package:projecture/view/auth/home_screen.dart';
 import 'package:projecture/view/auth/profile_screen.dart';
@@ -91,6 +90,8 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
   ];
 
   var myIndex = 0;
+  String imageUrl = '';
+  bool circular = false;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -120,9 +121,10 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return SizedBox(
-                            height: 19.h,
+                            height: 20.h,
                             child: ListView.builder(
                                 shrinkWrap: false,
+                                physics: NeverScrollableScrollPhysics(),
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, i) {
                                   var data = snapshot.data!.docs[i];
@@ -133,24 +135,95 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 50.0,
-                                          child: ClipOval(
-                                            child: OctoImage(
-                                              image: const NetworkImage(
-                                                  // "${PreferenceUtils.getProfileImage()}",
-                                                  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/1024px-Macaca_nigra_self-portrait_large.jpg"),
-                                              placeholderBuilder:
-                                                  OctoPlaceholder.blurHash(
-                                                'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                        data['ProfileImage'] == ""
+                                            ? CircleAvatar(
+                                                radius: 50.0,
+                                                backgroundColor:
+                                                    ColorUtils.primaryColor,
+                                                child: circular == true
+                                                    ? Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                        ),
+                                                      )
+                                                    : IconButton(
+                                                        onPressed: () async {
+                                                          circular = true;
+                                                          setState(() {});
+                                                          ImagePicker
+                                                              imagePicker =
+                                                              ImagePicker();
+                                                          XFile? file =
+                                                              await imagePicker
+                                                                  .pickImage(
+                                                                      source: ImageSource
+                                                                          .gallery);
+                                                          print(
+                                                              '${file?.path}');
+
+                                                          if (file == null)
+                                                            return;
+
+                                                          Reference
+                                                              referenceRoot =
+                                                              FirebaseStorage
+                                                                  .instance
+                                                                  .ref();
+                                                          Reference
+                                                              referenceDirImages =
+                                                              referenceRoot
+                                                                  .child(
+                                                                      'images');
+
+                                                          Reference
+                                                              referenceImageToUpload =
+                                                              referenceDirImages
+                                                                  .child(file
+                                                                      .name);
+
+                                                          try {
+                                                            await referenceImageToUpload
+                                                                .putFile(File(
+                                                                        file!
+                                                                            .path)
+                                                                    .absolute);
+
+                                                            imageUrl =
+                                                                await referenceImageToUpload
+                                                                    .getDownloadURL();
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(id!)
+                                                                .doc(id)
+                                                                .collection(
+                                                                    'user')
+                                                                .doc(_auth
+                                                                    .currentUser!
+                                                                    .uid)
+                                                                .update({
+                                                              'ProfileImage':
+                                                                  imageUrl
+                                                            });
+                                                            circular = false;
+                                                            setState(() {});
+                                                          } catch (error) {
+                                                            //Some error occurred
+                                                          }
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.camera_alt)),
+                                              )
+                                            : CircleAvatar(
+                                                radius: 51.0,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                      data['ProfileImage'],
+                                                      fit: BoxFit.fill),
+                                                ),
                                               ),
-                                              errorBuilder: OctoError.icon(
-                                                  color: Colors.red),
-                                              width: 100.0,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
                                         SizeConfig.sH2,
                                         Text(
                                           data['Name'],
@@ -177,7 +250,12 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                 }),
                           );
                         } else
-                          return CircularProgressIndicator();
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: ColorUtils.primaryColor,
+                              strokeWidth: 1.1,
+                            ),
+                          );
                       })
                   : SizedBox(),
               SizeConfig.sH1,
@@ -303,8 +381,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-                leading:
-                    SvgPicture.asset('assets/icons/wallet.svg', height: 5.w),
+                leading: Icon(Icons.check_circle_outline),
                 title: Text(
                   'Checking',
                   style: FontTextStyle.Proxima16Medium.copyWith(

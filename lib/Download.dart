@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,10 +11,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:sizer/sizer.dart';
+import 'package:http/http.dart' as http;
 
 class DownloadFile extends StatefulWidget {
   var fileLink;
   var fileNm;
+
   DownloadFile({
     required this.fileNm,
     required this.fileLink,
@@ -24,7 +30,7 @@ class _DownloadFileState extends State<DownloadFile> {
   bool downloading = false;
   String progressString = '';
   String downloadedPath = '';
-  Dio dio = Dio();
+  // Dio dio = Dio();
   double progress = 0.0;
 
   // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -57,35 +63,57 @@ class _DownloadFileState extends State<DownloadFile> {
   }
 
   Future downloadFile(String downloadDirectory) async {
-    Dio dio = Dio();
-    String folderName = 'pp';
-    String fileName = widget.fileNm;
+    // Dio dio = Dio();
+    // String folderName = 'pp';
+    // String fileName = widget.fileNm;
     String url = widget.fileLink;
-    final downloadedPath =
-        '$downloadDirectory/  ${DateTime.now().toString()}.jpg';
+    // final downloadedPath =
+    //     '$downloadDirectory/${DateTime.now().toString()}.jpg';
+    //final file = File(downloadedPath);
 
-    await dio.download(
-      url,
-      downloadedPath,
-      onReceiveProgress: (recivedBytes, totalBytes) {
-        downloading = true;
-        setState(() {
-          progress = recivedBytes / totalBytes;
-        });
-        print(progress);
-        progressString = 'COMPLETED';
-      },
-      // options: Options(
-      //   responseType: ResponseType.bytes,
-      //   followRedirects: false,
-      //   validateStatus: (status) {
-      //     return status! < 500;
-      //   },
-      // ),
-    );
-    // showDownloadNotification(fileName, downloadedPath);
-    await Future.delayed(const Duration(seconds: 2));
-    return downloadedPath;
+    // if (file.existsSync()) {
+    //   print('File is already Exists we replace it ');
+    //   file.deleteSync();
+    // }
+    // await dio.download(
+    //   url,
+    //   downloadedPath,
+    //   onReceiveProgress: (recivedBytes, totalBytes) {
+    //     downloading = true;
+    //     setState(() {
+    //       progress = recivedBytes / totalBytes;
+    //     });
+    //     print(progress);
+    //     progressString = 'COMPLETED';
+    //   },
+
+    // options: Options(
+    //   responseType: ResponseType.bytes,
+    //   followRedirects: false,
+    //   validateStatus: (status) {
+    //     return status! < 500;
+    //   },
+    // ),
+    // );
+
+    var uri = Uri.parse(url);
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      var dir = await DownloadsPathProvider.downloadsDirectory;
+
+      log('download === $dir     $url');
+      log('download === $downloadedPath');
+
+      String savePath = "${dir!.path}/${DateTime.now().microsecond}";
+      // log("path $savePath");
+
+      var file = File("$savePath.png");
+      await file.writeAsBytes(response.bodyBytes);
+
+      // showDownloadNotification(fileName, downloadedPath);
+      await Future.delayed(const Duration(seconds: 2));
+      return downloadedPath;
+    }
   }
 
   Future<void> doDownloadFile() async {

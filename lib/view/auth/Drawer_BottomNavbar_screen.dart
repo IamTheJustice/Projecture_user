@@ -99,6 +99,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
         child: ScrollConfiguration(
           behavior: ScrollBehavior().copyWith(overscroll: false),
           child: ListView(
+            primary: false,
             children: [
               SizeConfig.sH1,
               id != null
@@ -114,7 +115,8 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                           return SizedBox(
                             height: 19.h,
                             child: ListView.builder(
-                                shrinkWrap: false,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, i) {
                                   var data = snapshot.data!.docs[i];
@@ -214,7 +216,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                                       fit: BoxFit.contain),
                                                 ),
                                               ),
-                                        SizeConfig.sH2,
+                                        // SizeConfig.sH1,
                                         Text(
                                           data['Name'],
                                           // '${PreferenceUtils.getisuser()}',
@@ -433,7 +435,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                     color: ColorUtils.primaryColor),
                                 child: const Center(
                                   child: Text(
-                                    "Cancle",
+                                    "Cancel",
                                     style: TextStyle(color: ColorUtils.white),
                                   ),
                                 ),
@@ -508,7 +510,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                     color: ColorUtils.primaryColor),
                                 child: const Center(
                                   child: Text(
-                                    "Cancle",
+                                    "Cancel",
                                     style: TextStyle(color: ColorUtils.white),
                                   ),
                                 ),

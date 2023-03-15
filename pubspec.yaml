@@ -60,10 +60,11 @@ dependencies:
   path_provider: ^2.0.13
   external_path: ^1.0.3
   shared_preferences: ^2.0.18
-  tutorial_coach_mark: ^1.2.6
+ # tutorial_coach_mark: ^1.2.6
+  tutorial_coach_mark: ^1.2.7
   flutter_launcher_icons: ^0.12.0
   flutter_local_notifications: ^9.2.0
-
+  downloads_path_provider_28: ^0.1.2
 
 
 #  animated_text_kit: ^4.2.2
@@ -99,6 +100,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/lotties/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

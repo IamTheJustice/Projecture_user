@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
@@ -131,11 +132,13 @@ class _DoneScreenState extends State<DoneScreen> {
                     );
                   },
                 );
-              } else
-                return Center(
+              } else {
+                return const Center(
                     child: CircularProgressIndicator(
                   strokeWidth: 1.1,
+                  color: ColorUtils.primaryColor,
                 ));
+              }
             }),
       ),
     );
@@ -193,7 +196,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                           padding: EdgeInsets.symmetric(
                               vertical: 2.w, horizontal: 7.w),
                           child: Container(
-                            height: 37.h,
+                            height: 40.h,
                             decoration: BoxDecoration(
                                 color: ColorUtils.purple,
                                 borderRadius:
@@ -223,11 +226,18 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 SizeConfig.sH1,
                                 data['Image'] == ""
                                     ? Center(
-                                        child: Text(
-                                          " No Image",
-                                          style: FontTextStyle.Proxima16Medium
-                                              .copyWith(
-                                                  color: ColorUtils.white),
+                                        child: Column(
+                                          children: [
+                                            Lottie.asset(
+                                                "assets/lotties/warning.json",
+                                                height: 10.w),
+                                            Text(
+                                              " No Image",
+                                              style: FontTextStyle
+                                                      .Proxima16Medium
+                                                  .copyWith(color: Colors.red),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     : Image.network(
@@ -310,11 +320,13 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                           ));
                     },
                   );
-                } else
-                  return Center(
+                } else {
+                  return const Center(
                       child: CircularProgressIndicator(
                     strokeWidth: 1.1,
+                    color: ColorUtils.primaryColor,
                   ));
+                }
               }),
         ),
       ),

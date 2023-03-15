@@ -138,7 +138,7 @@ class _ToDoState extends State<ToDo> {
                 return ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, i) {
                     var data = snapshot.data!.docs[i];
@@ -258,7 +258,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (BuildContext context, i) {
@@ -441,7 +441,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 TextDecoration.underline),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -689,8 +689,14 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                           ));
                     },
                   );
-                } else
-                  return CircularProgressIndicator();
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: ColorUtils.primaryColor,
+                      strokeWidth: 1.1,
+                    ),
+                  );
+                }
               }),
         ),
       ),

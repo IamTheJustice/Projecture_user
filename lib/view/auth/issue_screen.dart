@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:projecture/Download.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -16,7 +17,6 @@ import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:http/http.dart' as http;
 
 class issue extends StatefulWidget {
@@ -121,7 +121,7 @@ class _issueState extends State<issue> {
                                       padding: EdgeInsets.symmetric(
                                           vertical: 2.w, horizontal: 7.w),
                                       child: Container(
-                                        height: 30.h,
+                                        height: 32.h,
                                         decoration: BoxDecoration(
                                             color: ColorUtils.purple,
                                             borderRadius:
@@ -136,84 +136,81 @@ class _issueState extends State<issue> {
                                               )
                                             ]),
                                         child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 1.h),
+                                              padding: EdgeInsets.only(
+                                                  top: 2.h, left: 4.w),
                                               child: Text(
                                                 "Uploader Name : " +
                                                     data['Name'],
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils.white,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline),
+                                                    .Proxima16Medium.copyWith(
+                                                  color: ColorUtils.white,
+                                                ),
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 1.h),
+                                              padding: EdgeInsets.only(
+                                                  top: 1.h, left: 4.w),
                                               child: Text(
                                                 "Email : " + data['Email'],
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils.white,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline),
+                                                    .Proxima16Medium.copyWith(
+                                                  color: ColorUtils.white,
+                                                ),
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 1.h),
+                                              padding: EdgeInsets.only(
+                                                  top: 1.h, left: 4.w),
                                               child: Text(
                                                 "Issue Name : " +
                                                     data['Issue Name'],
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils.white,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline),
+                                                    .Proxima16Medium.copyWith(
+                                                  color: ColorUtils.white,
+                                                ),
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 1.h),
+                                              padding: EdgeInsets.only(
+                                                  top: 1.h, left: 4.w),
                                               child: Text(
                                                 "Description : " +
                                                     data['Description'],
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils.white,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline),
+                                                    .Proxima16Medium.copyWith(
+                                                  color: ColorUtils.white,
+                                                ),
                                               ),
                                             ),
                                             SizeConfig.sH1,
                                             if (data['Image'] == "")
                                               Center(
-                                                child: Text(
-                                                  " No Image",
-                                                  style: FontTextStyle
-                                                          .Proxima16Medium
-                                                      .copyWith(
-                                                          color:
-                                                              ColorUtils.white),
+                                                child: Column(
+                                                  children: [
+                                                    Lottie.asset(
+                                                        "assets/lotties/warning.json",
+                                                        height: 10.w),
+                                                    Text(
+                                                      " No Image",
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.red),
+                                                    ),
+                                                  ],
                                                 ),
                                               )
                                             else
@@ -288,18 +285,7 @@ class _issueState extends State<issue> {
                                                                     openAppSettings();
                                                                   }
 
-//                                                                   Get.to(() =>
-// );
-//                                                                   print(
-//                                                                       '''-=-==-=--==${data['Image']},
-//                                                                   -=-=-=-=-=-===-${data['Name']}
-//                                                                   ''');
-//                                                                   // var imageId =
-//                                                                   //     await ImageDownloader
-//                                                                   //         .downloadImage(
-//                                                                   //   data['Image']
-//                                                                   //       .toString(),
-//                                                                   // );
+//
                                                                 } catch (error) {
                                                                   print(error);
                                                                 }
@@ -340,7 +326,7 @@ class _issueState extends State<issue> {
                                                                 child:
                                                                     const Center(
                                                                   child: Text(
-                                                                    "Cancle",
+                                                                    "Cancel",
                                                                     style: TextStyle(
                                                                         color: ColorUtils
                                                                             .white),
@@ -352,11 +338,15 @@ class _issueState extends State<issue> {
                                                         );
                                                       });
                                                 },
-                                                child: Image.network(
-                                                  data['Image'],
-                                                  height: 10.h,
-                                                  width: 20.w,
-                                                  fit: BoxFit.cover,
+                                                child: Center(
+                                                  child: SizedBox(
+                                                    height: 12.h,
+                                                    width: 30.w,
+                                                    child: Image.network(
+                                                      data['Image'],
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
                                                 ),
                                               )
                                           ],
@@ -364,11 +354,12 @@ class _issueState extends State<issue> {
                                       ));
                                 },
                               );
-                            } else
-                              return Center(
+                            } else {
+                              return const Center(
                                   child: CircularProgressIndicator(
                                 strokeWidth: 1.1,
                               ));
+                            }
                           }),
                     ),
                   ),
@@ -382,6 +373,10 @@ class _issueState extends State<issue> {
                                 left: 5.w, right: 5.w, top: 2.w),
                             child: TextFormField(
                               controller: NameController,
+                              cursorColor: ColorUtils.primaryColor,
+                              textInputAction: TextInputAction.next,
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.primaryColor),
                               validator: (v) {
                                 if (v!.isEmpty) {
                                   return "please name required";
@@ -430,14 +425,9 @@ class _issueState extends State<issue> {
                                               )),
                                         )
                                       : Container(
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/images/profile.png"),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                          child: Lottie.asset(
+                                              "assets/lotties/chooseImage.json",
+                                              height: 20.w),
                                           height: 30.w,
                                           width: 30.w,
                                         ),
@@ -445,54 +435,68 @@ class _issueState extends State<issue> {
                               ),
                             ),
                           ),
-                          IconButton(
-                              onPressed: () async {
-                                /*Step 1:Pick image*/
-                                //Install image_picker
-                                //Import the corresponding library
+                          InkWell(
+                            onTap: () async {
+                              /*Step 1:Pick image*/
+                              //Install image_picker
+                              //Import the corresponding library
 
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                    source: ImageSource.gallery);
-                                print('${file?.path}');
-                                setState(() {
-                                  imageFile = File(file!.path);
-                                });
+                              ImagePicker imagePicker = ImagePicker();
+                              XFile? file = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
+                              print('${file?.path}');
+                              setState(() {
+                                imageFile = File(file!.path);
+                              });
 
-                                if (file == null) return;
-                                //Import dart:core
+                              if (file == null) return;
+                              //Import dart:core
 
-                                /*Step 2: Upload to Firebase storage*/
-                                //Install firebase_storage
-                                //Import the library
+                              /*Step 2: Upload to Firebase storage*/
+                              //Install firebase_storage
+                              //Import the library
 
-                                //Get a reference to storage root
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
+                              //Get a reference to storage root
+                              Reference referenceRoot =
+                                  FirebaseStorage.instance.ref();
+                              Reference referenceDirImages =
+                                  referenceRoot.child('images');
 
-                                //Create a reference for the image to be stored
-                                Reference referenceImageToUpload =
-                                    referenceDirImages.child(file.name);
+                              //Create a reference for the image to be stored
+                              Reference referenceImageToUpload =
+                                  referenceDirImages.child(file.name);
 
-                                //Handle errors/success
-                                try {
-                                  //Store the file
-                                  await referenceImageToUpload
-                                      .putFile(File(file!.path).absolute);
-                                  //Success: get the download URL
-                                  imageUrl = await referenceImageToUpload
-                                      .getDownloadURL();
-                                } catch (error) {
-                                  //Some error occurred
-                                }
-                              },
-                              icon: Icon(Icons.camera_alt)),
+                              //Handle errors/success
+                              try {
+                                //Store the file
+                                await referenceImageToUpload
+                                    .putFile(File(file!.path).absolute);
+                                //Success: get the download URL
+                                imageUrl = await referenceImageToUpload
+                                    .getDownloadURL();
+                              } catch (error) {
+                                //Some error occurred
+                              }
+                            },
+                            child: Container(
+                              height: 5.h,
+                              width: 35.w,
+                              decoration: BoxDecoration(
+                                  color: Colors.yellow,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0))),
+                              child: Center(
+                                child: Text("Select Image"),
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 5.w, right: 5.w, top: 2.w),
                             child: TextFormField(
+                              cursorColor: ColorUtils.primaryColor,
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.primaryColor),
                               controller: DescriptionController,
                               maxLines: 3,
                               validator: (v) {
@@ -531,21 +535,30 @@ class _issueState extends State<issue> {
                               isReverse: true,
                               onPress: () {
                                 FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
+                                    .requestFocus(FocusNode());
                                 if (formkey.currentState!.validate()) {
                                   showDialog(
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: Text(
-                                            'Upload',
-                                            style: FontTextStyle.Proxima16Medium
-                                                .copyWith(
-                                                    color:
-                                                        ColorUtils.primaryColor,
-                                                    fontWeight:
-                                                        FontWeightClass.extraB,
-                                                    fontSize: 13.sp),
+                                          title: Column(
+                                            children: [
+                                              Text(
+                                                'Upload',
+                                                style: FontTextStyle
+                                                        .Proxima16Medium
+                                                    .copyWith(
+                                                        color: ColorUtils
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeightClass
+                                                                .extraB,
+                                                        fontSize: 13.sp),
+                                              ),
+                                              Lottie.asset(
+                                                  "assets/lotties/upload.json",
+                                                  height: 25.w)
+                                            ],
                                           ),
                                           content: Text(
                                               'are you sure want to Upload?',
@@ -555,75 +568,103 @@ class _issueState extends State<issue> {
                                                           color: ColorUtils
                                                               .primaryColor)),
                                           actions: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                icon: const Icon(
-                                                  Icons.cancel,
-                                                  color:
-                                                      ColorUtils.primaryColor,
-                                                )),
-                                            IconButton(
-                                                onPressed: () async {
-                                                  final QuerySnapshot result =
-                                                      await FirebaseFirestore
-                                                          .instance
-                                                          .collection(id)
-                                                          .doc(id)
-                                                          .collection('user')
-                                                          .get();
-                                                  final List<DocumentSnapshot>
-                                                      document1 = result.docs;
-                                                  for (var abc in document1) {
-                                                    if (_auth
-                                                            .currentUser!.uid ==
-                                                        abc.id) {
-                                                      Name = abc.get('Name');
-                                                      Email = abc.get('Email');
-                                                    }
+                                            InkWell(
+                                              onTap: () async {
+                                                final QuerySnapshot result =
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection(id)
+                                                        .doc(id)
+                                                        .collection('user')
+                                                        .get();
+                                                final List<DocumentSnapshot>
+                                                    document1 = result.docs;
+                                                for (var abc in document1) {
+                                                  if (_auth.currentUser!.uid ==
+                                                      abc.id) {
+                                                    Name = abc.get('Name');
+                                                    Email = abc.get('Email');
                                                   }
-                                                  FirebaseFirestore.instance
-                                                      .collection(id)
-                                                      .doc(id)
-                                                      .collection('Issue')
-                                                      .doc()
-                                                      .set({
-                                                    'Issue Name':
-                                                        NameController.text,
-                                                    'Image': imageUrl,
-                                                    'Description':
-                                                        DescriptionController
-                                                            .text,
-                                                    'Name': Name,
-                                                    'Email': Email,
-                                                  });
+                                                }
+                                                FirebaseFirestore.instance
+                                                    .collection(id)
+                                                    .doc(id)
+                                                    .collection('Issue')
+                                                    .doc()
+                                                    .set({
+                                                  'Issue Name':
+                                                      NameController.text,
+                                                  'Image': imageUrl,
+                                                  'Description':
+                                                      DescriptionController
+                                                          .text,
+                                                  'Name': Name,
+                                                  'Email': Email,
+                                                });
 
-                                                  Get.showSnackbar(
-                                                    GetSnackBar(
-                                                      message:
-                                                          "Upload Data Succesfully",
-                                                      borderRadius: 10.0,
-                                                      margin: EdgeInsets.only(
-                                                          left: 4.w,
-                                                          right: 4.w,
-                                                          bottom: 4.w),
-                                                      snackPosition:
-                                                          SnackPosition.BOTTOM,
-                                                      backgroundColor:
-                                                          ColorUtils
-                                                              .primaryColor
-                                                              .withOpacity(0.9),
-                                                      duration: const Duration(
-                                                          seconds: 3),
-                                                    ),
-                                                  );
-                                                },
-                                                icon: const Icon(
-                                                  Icons.check,
-                                                  color:
-                                                      ColorUtils.primaryColor,
-                                                ))
+                                                Get.showSnackbar(
+                                                  GetSnackBar(
+                                                    message:
+                                                        "Upload Data Succesfully",
+                                                    borderRadius: 10.0,
+                                                    margin: EdgeInsets.only(
+                                                        left: 4.w,
+                                                        right: 4.w,
+                                                        bottom: 4.w),
+                                                    snackPosition:
+                                                        SnackPosition.BOTTOM,
+                                                    backgroundColor: ColorUtils
+                                                        .primaryColor
+                                                        .withOpacity(0.9),
+                                                    duration: const Duration(
+                                                        seconds: 2),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                height: 10.w,
+                                                width: 25.w,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.0)),
+                                                    color: ColorUtils
+                                                        .primaryColor),
+                                                child: const Center(
+                                                  child: Text(
+                                                    "Done",
+                                                    style: TextStyle(
+                                                        color:
+                                                            ColorUtils.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Container(
+                                                height: 10.w,
+                                                width: 25.w,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.0)),
+                                                    color: ColorUtils
+                                                        .primaryColor),
+                                                child: const Center(
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        color:
+                                                            ColorUtils.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         );
                                       });

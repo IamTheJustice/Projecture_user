@@ -1,18 +1,10 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-
 import 'package:projecture/leader/give_task_data_screen.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-
 import '../utils/color_utils.dart';
 
 class ProjectMemberScreen extends StatefulWidget {
@@ -58,7 +50,11 @@ class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorUtils.primaryColor,
-          title: Text('PROJECT MEMBER'),
+          title: Text('PROJECT MEMBER',
+              style: FontTextStyle.Proxima16Medium.copyWith(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeightClass.medium,
+                  color: Colors.white)),
           centerTitle: true,
         ),
         body: Form(
@@ -72,6 +68,7 @@ class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
+                      padding: EdgeInsets.only(top: 1.5.h),
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, i) {
@@ -88,13 +85,22 @@ class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
                                   Email: data['Email']);
                             }));
                           },
-                          child: ListTile(
-                            leading: CircleAvatar(),
-                            title: Text(data['Name']),
-                            subtitle: Text(data['Email']),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.send),
-                              onPressed: () {},
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 3.w, right: 3.w, top: 1.h),
+                            child: Card(
+                              elevation: 4,
+                              child: ListTile(
+                                  title: Text(data['Name']),
+                                  subtitle: Text(data['Email']),
+                                  trailing: CircleAvatar(
+                                    backgroundColor: ColorUtils.purple,
+                                    child: Icon(
+                                      size: 5.w,
+                                      Icons.send_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  )),
                             ),
                           ),
                         );

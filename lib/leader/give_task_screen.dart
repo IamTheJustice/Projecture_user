@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:projecture/leader/project_member_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
@@ -37,6 +35,7 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
   }
 
   final _auth = FirebaseAuth.instance;
@@ -87,8 +86,10 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: FontTextStyle.Proxima16Medium.copyWith(
-                                  color: ColorUtils.white,
-                                  decoration: TextDecoration.underline),
+                                color: ColorUtils.white,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeightClass.extraB,
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -102,13 +103,24 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
                                           Project: data['Project name']);
                                     }));
                                   },
-                                  child: Text(
-                                    "Give Task",
-                                    style:
-                                        FontTextStyle.Proxima16Medium.copyWith(
-                                            color: ColorUtils.white,
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeightClass.semiB),
+                                  child: Container(
+                                    height: 4.5.h,
+                                    width: 29.w,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0))),
+                                    child: Center(
+                                      child: Text(
+                                        "Give Task",
+                                        style: FontTextStyle.Proxima16Medium
+                                            .copyWith(
+                                                color: ColorUtils.purple,
+                                                fontSize: 13.sp,
+                                                fontWeight:
+                                                    FontWeightClass.semiB),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -120,11 +132,12 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
                   );
                 },
               );
-            } else
-              return Center(
+            } else {
+              return const Center(
                   child: CircularProgressIndicator(
                 strokeWidth: 1.1,
               ));
+            }
           }),
     );
   }
