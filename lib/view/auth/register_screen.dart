@@ -64,387 +64,391 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.white,
-        body: SingleChildScrollView(
-          child: Form(
-            key: formkey,
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Image.asset("assets/images/background.png"),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/logo.png',
-                            color: ColorUtils.white,
-                            height: 9.w,
-                            width: 12.w,
-                          ),
-                          Text(
-                            "Projecture",
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                color: ColorUtils.white,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeightClass.extraB),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 45.w),
-                      child: Container(
-                        height: 20.w,
-                        width: Get.width,
-                        decoration: const BoxDecoration(
-                            color: ColorUtils.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(90.0))),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+        body: ScrollConfiguration(
+          behavior: ScrollBehavior().copyWith(overscroll: false),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formkey,
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Image.asset("assets/images/background.png"),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15.w),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Image.asset(
+                              'assets/icons/logo.png',
+                              color: ColorUtils.white,
+                              height: 9.w,
+                              width: 12.w,
+                            ),
                             Text(
-                              "Sign Up",
+                              "Projecture",
                               style: FontTextStyle.Proxima16Medium.copyWith(
-                                  fontSize: 18.sp,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeightClass.semiB),
-                            ),
-                            Text(
-                              "create your account",
-                              style: FontTextStyle.Proxima14Regular.copyWith(
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeightClass.semiB),
-                            ),
+                                  color: ColorUtils.white,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeightClass.extraB),
+                            )
                           ],
                         ),
                       ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    textInputAction: TextInputAction.next,
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    controller: fullnameController,
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "please name required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                        return "please valid name ";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "Full Name",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    textInputAction: TextInputAction.next,
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    controller: cityController,
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "please city required";
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                        return "please valid city name ";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "City",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    textInputAction: TextInputAction.next,
-                    controller: dateController,
-                    readOnly: true,
-                    validator: (v) {
-                      if (v == null || v.isEmpty) {
-                        return "please required date";
-                      }
-                      return null;
-                    },
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "${formattedDate}",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                    onTap: () async {
-                      await showDatePicker(
-                        context: context,
-                        builder: (context, child) {
-                          return Theme(
-                              data: Theme.of(context).copyWith(
-                                  colorScheme: ColorScheme.light(
-                                      primary: ColorUtils.primaryColor,
-                                      onPrimary: ColorUtils.white,
-                                      onSurface: ColorUtils.primaryColor)),
-                              child: child!);
-                        },
-                        initialDate: date,
-                        firstDate: DateTime(2022),
-                        lastDate: DateTime(2030),
-                      ).then((selectedDate) {
-                        if (selectedDate != null) {
-                          formattedDate =
-                              DateFormat('d-MMM-yy').format(selectedDate);
-                          setState(() {
-                            dateController.text = formattedDate;
-                          });
-                        }
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    textInputAction: TextInputAction.next,
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    controller: emailController,
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "please email required";
-                      } else if (!RegExp(
-                              r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                              r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                              r"{0,253}[a-zA-Z0-9])?)*$")
-                          .hasMatch(v)) {
-                        return "please enter valid email ";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "Email/Username",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    textInputAction: TextInputAction.next,
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    maxLength: 10,
-                    keyboardType: TextInputType.number,
-                    controller: PhoneController,
-                    validator: (v) {
-                      // add your custom validation here.
-                      if (v!.isEmpty) {
-                        return "please mobile number required";
-                      } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                          .hasMatch(v)) {
-                        return "please enter 10 digits ";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "Phone Number",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    textInputAction: TextInputAction.next,
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    controller: passwordController,
-                    validator: (v) {
-                      // add your custom validation here.
-                      if (v!.isEmpty) {
-                        return 'Please enter password';
-                      }
-                      if (v.length <= 8) {
-                        return 'Password must be atleast 8 characters long';
-                      }
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "Password",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
-                  child: TextFormField(
-                    cursorColor: ColorUtils.primaryColor,
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor),
-                    controller: confirmPasswordController,
-                    validator: (v) {
-                      if (v!.isEmpty) return 'Empty';
-                      if (v != passwordController.text) return 'Not Match';
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.w),
-                        filled: true,
-                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                        hintText: "Confirm Password",
-                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            color: ColorUtils.primaryColor),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
-                  ),
-                ),
-                SizeConfig.sH3,
-                AnimatedButton(
-                    height: 12.w,
-                    width: 60.w,
-                    text: "REGISTER",
-                    textStyle: FontTextStyle.Proxima14Regular.copyWith(
-                        fontSize: 12.sp, color: ColorUtils.white),
-                    borderRadius: 10.0,
-                    backgroundColor: ColorUtils.primaryColor,
-                    selectedBackgroundColor: ColorUtils.purple,
-                    transitionType: TransitionType.CENTER_ROUNDER,
-                    selectedTextColor: ColorUtils.white,
-                    isReverse: true,
-                    onPress: () async {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      if (formkey.currentState!.validate()) {
-                        final newuser = await _auth
-                            .createUserWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text)
-                            .then((value) {
-                          FirebaseFirestore.instance
-                              .collection(id)
-                              .doc(id)
-                              .collection('user')
-                              .doc(_auth.currentUser!.uid)
-                              .set({
-                            'Name': fullnameController.text,
-                            'City': cityController.text,
-                            'DOB': dateController.text,
-                            'Email': emailController.text,
-                            'Phone': PhoneController.text,
-                            'Password': passwordController.text,
-                            'Uid': _auth.currentUser!.uid,
-                            'ProfileImage': "",
-                          });
-                        });
-
-                        Get.showSnackbar(
-                          GetSnackBar(
-                            message: "Register Succesfully",
-                            borderRadius: 10.0,
-                            margin: EdgeInsets.only(
-                                left: 4.w, right: 4.w, bottom: 4.w),
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: ColorUtils.primaryColor,
-                            duration: const Duration(seconds: 1),
+                      Padding(
+                        padding: EdgeInsets.only(top: 45.w),
+                        child: Container(
+                          height: 20.w,
+                          width: Get.width,
+                          decoration: const BoxDecoration(
+                              color: ColorUtils.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(90.0))),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Sign Up",
+                                style: FontTextStyle.Proxima16Medium.copyWith(
+                                    fontSize: 18.sp,
+                                    color: ColorUtils.primaryColor,
+                                    fontWeight: FontWeightClass.semiB),
+                              ),
+                              Text(
+                                "create your account",
+                                style: FontTextStyle.Proxima14Regular.copyWith(
+                                    color: ColorUtils.primaryColor,
+                                    fontWeight: FontWeightClass.semiB),
+                              ),
+                            ],
                           ),
-                        );
-                        Future.delayed(
-                          const Duration(seconds: 2),
-                          () {
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      textInputAction: TextInputAction.next,
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      controller: fullnameController,
+                      validator: (v) {
+                        if (v!.isEmpty) {
+                          return "please name required";
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                          return "please valid name ";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "Full Name",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      textInputAction: TextInputAction.next,
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      controller: cityController,
+                      validator: (v) {
+                        if (v!.isEmpty) {
+                          return "please city required";
+                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                          return "please valid city name ";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "City",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      textInputAction: TextInputAction.next,
+                      controller: dateController,
+                      readOnly: true,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return "please required date";
+                        }
+                        return null;
+                      },
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "${formattedDate}",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                      onTap: () async {
+                        await showDatePicker(
+                          context: context,
+                          builder: (context, child) {
+                            return Theme(
+                                data: Theme.of(context).copyWith(
+                                    colorScheme: const ColorScheme.light(
+                                        primary: ColorUtils.primaryColor,
+                                        onPrimary: ColorUtils.white,
+                                        onSurface: ColorUtils.primaryColor)),
+                                child: child!);
+                          },
+                          initialDate: date,
+                          firstDate: DateTime(2022),
+                          lastDate: DateTime(2030),
+                        ).then((selectedDate) {
+                          if (selectedDate != null) {
+                            formattedDate =
+                                DateFormat('d-MMM-yy').format(selectedDate);
+                            setState(() {
+                              dateController.text = formattedDate;
+                            });
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      textInputAction: TextInputAction.next,
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      controller: emailController,
+                      validator: (v) {
+                        if (v!.isEmpty) {
+                          return "please email required";
+                        } else if (!RegExp(
+                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                r"{0,253}[a-zA-Z0-9])?)*$")
+                            .hasMatch(v)) {
+                          return "please enter valid email ";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "Email/Username",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      textInputAction: TextInputAction.next,
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      maxLength: 10,
+                      keyboardType: TextInputType.number,
+                      controller: PhoneController,
+                      validator: (v) {
+                        if (v!.isEmpty) {
+                          return "please mobile number required";
+                        } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                            .hasMatch(v)) {
+                          return "please enter 10 digits ";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "Phone Number",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      textInputAction: TextInputAction.next,
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      controller: passwordController,
+                      validator: (v) {
+                        // add your custom validation here.
+                        if (v!.isEmpty) {
+                          return 'Please enter password';
+                        }
+                        if (v.length <= 8) {
+                          return 'Password must be atleast 8 characters long';
+                        }
+                      },
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "Password",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
+                    child: TextFormField(
+                      cursorColor: ColorUtils.primaryColor,
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.primaryColor),
+                      controller: confirmPasswordController,
+                      validator: (v) {
+                        if (v!.isEmpty) return 'Empty';
+                        if (v != passwordController.text) return 'Not Match';
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.w),
+                          filled: true,
+                          fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                          hintText: "Confirm Password",
+                          hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                              color: ColorUtils.primaryColor),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)))),
+                    ),
+                  ),
+                  SizeConfig.sH3,
+                  AnimatedButton(
+                      height: 12.w,
+                      width: 60.w,
+                      text: "Sign Up",
+                      textStyle: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.white,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeightClass.extraB),
+                      borderRadius: 10.0,
+                      backgroundColor: ColorUtils.primaryColor,
+                      selectedBackgroundColor: ColorUtils.purple,
+                      transitionType: TransitionType.CENTER_ROUNDER,
+                      selectedTextColor: ColorUtils.white,
+                      isReverse: true,
+                      onPress: () async {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        if (formkey.currentState!.validate()) {
+                          final newuser = await _auth
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text)
+                              .then((value) {
+                            FirebaseFirestore.instance
+                                .collection(id)
+                                .doc(id)
+                                .collection('user')
+                                .doc(_auth.currentUser!.uid)
+                                .set({
+                              'Name': fullnameController.text,
+                              'City': cityController.text,
+                              'DOB': dateController.text,
+                              'Email': emailController.text,
+                              'Phone': PhoneController.text,
+                              'Password': passwordController.text,
+                              'Uid': _auth.currentUser!.uid,
+                              'ProfileImage': "",
+                            });
+                          });
+
+                          Get.showSnackbar(
+                            GetSnackBar(
+                              message: "Register Succesfully",
+                              borderRadius: 10.0,
+                              margin: EdgeInsets.only(
+                                  left: 4.w, right: 4.w, bottom: 4.w),
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: ColorUtils.primaryColor,
+                              duration: const Duration(seconds: 1),
+                            ),
+                          );
+                          Future.delayed(
+                            const Duration(seconds: 2),
+                            () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen(id: id)),
+                              );
+                            },
+                          );
+                        }
+                      }),
+                  SizeConfig.sH1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Do you have an account ?",
+                        style: FontTextStyle.Proxima10Regular.copyWith(
+                            color: ColorUtils.primaryColor,
+                            fontWeight: FontWeightClass.semiB),
+                      ),
+                      TextButton(
+                          onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoginScreen(id: id)),
                             );
                           },
-                        );
-                      }
-                    }),
-                SizeConfig.sH1,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Do you have an account ?",
-                      style: FontTextStyle.Proxima10Regular.copyWith(
-                          color: ColorUtils.primaryColor,
-                          fontWeight: FontWeightClass.semiB),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen(id: id)),
-                          );
-                        },
-                        child: Text(
-                          "Sign In",
-                          style: FontTextStyle.Proxima14Regular.copyWith(
-                              color: ColorUtils.primaryColor,
-                              fontWeight: FontWeightClass.semiB),
-                        )),
-                  ],
-                ),
-              ],
+                          child: Text(
+                            "Sign In",
+                            style: FontTextStyle.Proxima14Regular.copyWith(
+                                color: ColorUtils.primaryColor,
+                                fontWeight: FontWeightClass.semiB),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

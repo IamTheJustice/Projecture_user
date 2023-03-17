@@ -6,15 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class DoneScreen extends StatefulWidget {
   String id;
-  DoneScreen({required this.id});
+  DoneScreen({super.key, required this.id});
 
   @override
   State<DoneScreen> createState() => _DoneScreenState();
@@ -44,111 +46,115 @@ class _DoneScreenState extends State<DoneScreen> {
   @override
   Widget build(BuildContext context) {
     String id = widget.id;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Project List"),
-        centerTitle: true,
-        backgroundColor: ColorUtils.primaryColor,
-        iconTheme: const IconThemeData(color: ColorUtils.white),
-      ),
-      body: ScrollConfiguration(
-        behavior: const ScrollBehavior().copyWith(overscroll: false),
-        child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection(id)
-                .doc(id)
-                .collection('user')
-                .doc(_auth.currentUser!.uid)
-                .collection('Current Project')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (BuildContext context, i) {
-                    var data = snapshot.data!.docs[i];
-                    return Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 2.w, horizontal: 5.w),
-                      child: Slidable(
-                        key: const ValueKey(0),
-                        endActionPane: ActionPane(
-                          motion: GestureDetector(
-                              onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => ShowTaskDone(
-                                //             id: id,
-                                //             Project: data['Project Name'])));
-                                Get.to(() => ShowTaskDone(
-                                    id: id, Project: data['Project Name']));
-                              },
-                              child: Container(
-                                height: 18.w,
-                                margin: EdgeInsets.only(left: 3.sp),
-                                decoration: BoxDecoration(
-                                  color: ColorUtils.green2A.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Show \nTask",
-                                    style:
-                                        FontTextStyle.Proxima16Medium.copyWith(
-                                            color: ColorUtils.white,
-                                            fontWeight: FontWeightClass.semiB),
+    return Consumer<ModelTheme>(
+        builder: (context, ModelTheme themeNotifier, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Project List"),
+          centerTitle: true,
+          backgroundColor:
+              themeNotifier.isDark ? ColorUtils.black : ColorUtils.primaryColor,
+          iconTheme: const IconThemeData(color: ColorUtils.white),
+        ),
+        body: ScrollConfiguration(
+          behavior: const ScrollBehavior().copyWith(overscroll: false),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection(id)
+                  .doc(id)
+                  .collection('user')
+                  .doc(_auth.currentUser!.uid)
+                  .collection('Current Project')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    padding: EdgeInsets.only(top: 2.h),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, i) {
+                      var data = snapshot.data!.docs[i];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 0.8.h, horizontal: 5.w),
+                        child: Slidable(
+                          key: const ValueKey(0),
+                          endActionPane: ActionPane(
+                            motion: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => ShowTaskDone(
+                                      id: id, Project: data['Project Name']));
+                                },
+                                child: Container(
+                                  height: 18.w,
+                                  margin: EdgeInsets.only(left: 3.sp),
+                                  decoration: BoxDecoration(
+                                    color: themeNotifier.isDark
+                                        ? ColorUtils.blueF0
+                                        : ColorUtils.purple.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ),
-                              )),
-                          extentRatio: .3,
-                          dragDismissible: false,
-                          children: const [],
-                        ),
-                        child: Container(
-                          height: 18.w,
-                          width: Get.width,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              color: ColorUtils.purple),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5.w, vertical: 3.w),
-                            child: Text(
-                              data['Project Name'],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: FontTextStyle.Proxima16Medium.copyWith(
-                                  color: ColorUtils.white,
-                                  decoration: TextDecoration.underline),
+                                  child: Center(
+                                    child: Text(
+                                      "Show \nTask",
+                                      style: FontTextStyle.Proxima16Medium
+                                          .copyWith(
+                                              color: themeNotifier.isDark
+                                                  ? ColorUtils.black
+                                                  : ColorUtils.white,
+                                              fontWeight:
+                                                  FontWeightClass.semiB),
+                                    ),
+                                  ),
+                                )),
+                            extentRatio: .3,
+                            dragDismissible: false,
+                            children: const [],
+                          ),
+                          child: Container(
+                            height: 18.w,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                color: ColorUtils.purple),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 3.w),
+                              child: Text(
+                                data['Project Name'],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: FontTextStyle.Proxima16Medium.copyWith(
+                                    color: ColorUtils.white,
+                                    decoration: TextDecoration.underline),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              } else {
-                return const Center(
-                    child: CircularProgressIndicator(
-                  strokeWidth: 1.1,
-                  color: ColorUtils.primaryColor,
-                ));
-              }
-            }),
-      ),
-    );
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    strokeWidth: 1.1,
+                    color: ColorUtils.primaryColor,
+                  ));
+                }
+              }),
+        ),
+      );
+    });
   }
 }
 
 class ShowTaskDone extends StatefulWidget {
   String id;
   String Project;
-  ShowTaskDone({required this.id, required this.Project});
+  ShowTaskDone({super.key, required this.id, required this.Project});
 
   @override
   State<ShowTaskDone> createState() => _ShowTaskDoneState();
@@ -187,7 +193,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (BuildContext context, i) {
@@ -249,7 +255,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 1.h),
                                   child: Text(
-                                    "Task Assign Date " + data['AssignDate'],
+                                    "Task Assign Date : ${data['AssignDate']} ",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:
@@ -262,7 +268,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 1.h),
                                   child: Text(
-                                    "Due Date " + data['LastDate'],
+                                    "Due Date : ${data['LastDate']} ",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:
@@ -275,8 +281,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 1.h),
                                   child: Text(
-                                    "Task Starting Date " +
-                                        data['StartingDate'],
+                                    "Task Starting Date : ${data['StartingDate']} ",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:
@@ -289,8 +294,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 1.h),
                                   child: Text(
-                                    "Checking Request Date " +
-                                        data['CheckRequestDate'],
+                                    "Checking Request Date : ${data['CheckRequestDate']}",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:
@@ -303,8 +307,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 1.h),
                                   child: Text(
-                                    "Task Approved Date " +
-                                        data['ApprovedDate'],
+                                    "Task Approved Date : ${data['ApprovedDate']}",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:

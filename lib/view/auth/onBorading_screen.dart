@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
-import 'package:projecture/view/auth/Login_screen.dart';
 import 'package:projecture/view/auth/company_list_screen.dart';
 import 'package:sizer/sizer.dart';
 

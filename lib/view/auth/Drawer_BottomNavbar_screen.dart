@@ -25,7 +25,6 @@ import 'package:projecture/view/auth/checking_screen.dart';
 import 'package:projecture/view/auth/wallet_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:octo_image/octo_image.dart';
 
 class DrawerBottomNavbar extends StatefulWidget {
   DrawerBottomNavbar({Key? key});
@@ -97,7 +96,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
     return Scaffold(
       drawer: Drawer(
         child: ScrollConfiguration(
-          behavior: ScrollBehavior().copyWith(overscroll: false),
+          behavior: const ScrollBehavior().copyWith(overscroll: false),
           child: ListView(
             primary: false,
             children: [
@@ -115,7 +114,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                           return SizedBox(
                             height: 19.h,
                             child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, i) {
@@ -133,7 +132,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                                 backgroundColor:
                                                     ColorUtils.primaryColor,
                                                 child: circular == true
-                                                    ? Center(
+                                                    ? const Center(
                                                         child:
                                                             CircularProgressIndicator(
                                                           color: Colors.white,
@@ -203,7 +202,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                                             //Some error occurred
                                                           }
                                                         },
-                                                        icon: Icon(
+                                                        icon: const Icon(
                                                             Icons.camera_alt)),
                                               )
                                             : CircleAvatar(
@@ -241,10 +240,15 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                                   );
                                 }),
                           );
-                        } else
-                          return CircularProgressIndicator();
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            color: ColorUtils.primaryColor,
+                            strokeWidth: 1.1,
+                          ));
+                        }
                       })
-                  : SizedBox(),
+                  : const SizedBox(),
               const Divider(
                 thickness: 1,
                 color: ColorUtils.greyB6,

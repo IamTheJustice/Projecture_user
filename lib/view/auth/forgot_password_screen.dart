@@ -52,22 +52,39 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 11.w),
-            child: TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(4.w),
-                  filled: true,
-                  fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                  hintText: "Email/Username",
-                  suffixIcon: Icon(
-                    Icons.email_outlined,
-                    size: 5.w,
-                  ),
-                  hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                      color: ColorUtils.primaryColor),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                inputDecorationTheme:
+                    Theme.of(context).inputDecorationTheme.copyWith(
+                  iconColor: MaterialStateColor.resolveWith(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused)) {
+                      return ColorUtils.primaryColor;
+                    }
+                    if (states.contains(MaterialState.error)) {
+                      return Colors.red;
+                    }
+                    return Colors.grey;
+                  }),
+                ),
+              ),
+              child: TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(4.w),
+                    filled: true,
+                    fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                    hintText: "Email/Username",
+                    suffixIcon: Icon(
+                      Icons.email_outlined,
+                      size: 5.w,
+                    ),
+                    hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                        color: ColorUtils.primaryColor),
+                    border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+              ),
             ),
           ),
           Padding(

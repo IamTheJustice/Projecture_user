@@ -199,7 +199,7 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
                           ));
                         }
                       })
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
         ),

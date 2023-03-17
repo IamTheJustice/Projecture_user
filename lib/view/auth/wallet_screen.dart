@@ -60,7 +60,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   ),
                 ),
                 ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: 6,
                     itemBuilder: (BuildContext context, int index) {

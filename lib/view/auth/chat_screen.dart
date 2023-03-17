@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:projecture/app_mode/model_theme.dart';
+import 'package:projecture/utils/color_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -33,11 +36,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: SvgPicture.asset('assets/icons/test.svg'),
-      ),
-    );
+    return Consumer<ModelTheme>(
+        builder: (context, ModelTheme themeNotifier, child) {
+      return Scaffold(
+        backgroundColor:
+            themeNotifier.isDark ? Colors.black.withOpacity(0.8) : Colors.white,
+        body: Center(
+          child: SvgPicture.asset(
+            'assets/icons/test.svg',
+            color: themeNotifier.isDark ? ColorUtils.white : ColorUtils.black,
+          ),
+        ),
+      );
+    });
   }
 }

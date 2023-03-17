@@ -1,7 +1,7 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:projecture/service/animayted_text.dart';
@@ -9,9 +9,7 @@ import 'package:projecture/service/wavy_text.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/view/auth/Drawer_BottomNavbar_screen.dart';
-import 'package:projecture/view/auth/events_screen.dart';
 import 'package:projecture/view/auth/onBorading_screen.dart';
-import 'package:projecture/view/auth/wallet_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,6 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     setData();
     super.initState();
+    // FirebaseMessaging.instance.getInitialMessage();
+    //
+    // FirebaseMessaging.onMessage.listen((message) {
+    //   if (message.notification != null) {
+    //     log("${message.notification!.body}");
+    //     log("${message.notification!.title}");
+    //   }
+    // });
   }
 
   String? cid;

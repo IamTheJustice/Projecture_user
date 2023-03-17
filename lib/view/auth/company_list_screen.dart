@@ -92,13 +92,6 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
                                           vertical: 2.w, horizontal: 3.w),
                                       child: GestureDetector(
                                         onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           RegisterScreen(
-                                          //               id: data['uid'])),
-                                          // );
                                           Get.to(() =>
                                               LoginScreen(id: data['uid']));
                                         },
@@ -132,8 +125,12 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
                                   ],
                                 );
                               });
-                        } else
-                          return CircularProgressIndicator();
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            color: ColorUtils.primaryColor,
+                          ));
+                        }
                       }),
                 ),
               ],
