@@ -6,6 +6,11 @@ import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
+
+import 'package:projecture/view/auth/Login_screen.dart';
+import 'package:projecture/view/auth/Report_screen.dart';
+import 'package:projecture/view/auth/events/makarSankrantiEvent_screen.dart';
+
 import 'package:projecture/view/auth/events_screen.dart';
 import 'package:projecture/view/auth/issue_screen.dart';
 import 'package:projecture/view/auth/notice_list_screen.dart';
@@ -13,6 +18,8 @@ import 'package:projecture/view/auth/todo_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+
+import '../report_Project_screen.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({Key? key}) : super(key: key);
@@ -46,6 +53,11 @@ class _HomescreenState extends State<Homescreen> {
       "title": 'History',
       "textt": '10'
     },
+    {
+      "imagepath": "assets/images/history.png",
+      "title": 'Report',
+      "textt": '10'
+    },
   ];
 
   @override
@@ -64,6 +76,7 @@ class _HomescreenState extends State<Homescreen> {
     company id -- ${pref.getString("companyId")};
     """);
     id = pref.getString("companyId");
+    setState(() {});
   }
 
   @override

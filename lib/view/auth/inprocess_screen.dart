@@ -277,7 +277,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                   ),
                                   children: <Widget>[
                                     SizedBox(
-                                      height: 190.0,
+                                      height: 230.0,
                                       width: Get.width,
                                       child: Padding(
                                           padding: EdgeInsets.only(bottom: 3.h),
@@ -291,6 +291,21 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 child: const Divider(
                                                   color: ColorUtils.greyCE,
                                                   thickness: 1,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  'Description ' +
+                                                      data['Description'],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
@@ -347,262 +362,231 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                           builder: (context) {
                                                             return AlertDialog(
                                                               title: Column(
-                                                                children: [
-                                                                  Image.asset(
-                                                                    "assets/images/sessionEnd.gif",
-                                                                    scale: 1.w,
-                                                                  ),
-                                                                  Text(
-                                                                    'Complete !',
-                                                                    style: FontTextStyle.Proxima16Medium.copyWith(
-                                                                        color: ColorUtils
-                                                                            .primaryColor,
-                                                                        fontWeight:
-                                                                            FontWeightClass
-                                                                                .extraB,
-                                                                        fontSize:
-                                                                            13.sp),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              content: Text(
-                                                                  'are you sure you had done this task ?',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: FontTextStyle
-                                                                          .Proxima16Medium
-                                                                      .copyWith(
+                                                                  children: [
+                                                                    Image.asset(
+                                                                      "assets/images/sessionEnd.gif",
+                                                                      scale:
+                                                                          1.w,
+                                                                    ),
+                                                                    Text(
+                                                                      'Complete !',
+                                                                      style: FontTextStyle
+                                                                              .Proxima16Medium
+                                                                          .copyWith(),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          top: 1
+                                                                              .h,
+                                                                          left:
+                                                                              5.w),
+                                                                      child:
+                                                                          Text(
+                                                                        "Task Point : ${data['Point']}",
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        maxLines:
+                                                                            2,
+                                                                        style: FontTextStyle.Proxima16Medium
+                                                                            .copyWith(
                                                                           color:
-                                                                              ColorUtils.primaryColor)),
-                                                              actions: [
-                                                                InkWell(
-                                                                  onTap:
-                                                                      () async {
-                                                                    final QuerySnapshot result = await FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            id)
-                                                                        .doc(id)
-                                                                        .collection(
-                                                                            'user')
-                                                                        .get();
-                                                                    final List<
-                                                                            DocumentSnapshot>
-                                                                        document1 =
-                                                                        result
-                                                                            .docs;
-                                                                    for (var abc
-                                                                        in document1) {
-                                                                      if (_auth
-                                                                              .currentUser!
-                                                                              .uid ==
-                                                                          abc.get(
-                                                                              'Uid')) {
-                                                                        Name = abc
-                                                                            .get('Name');
-                                                                        Email =
-                                                                            abc.get('Email');
-                                                                      }
-                                                                    }
-                                                                    FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            id)
-                                                                        .doc(id)
-                                                                        .collection(
-                                                                            Project)
-                                                                        .doc(
-                                                                            Project)
-                                                                        .collection(
-                                                                            'InChecking')
-                                                                        .doc()
-                                                                        .set({
-                                                                      'AssignDate':
-                                                                          data[
-                                                                              'AssignDate'],
-                                                                      'task': data[
-                                                                          'Task'],
-                                                                      'Image': data[
-                                                                          "Image"],
-                                                                      'Name':
-                                                                          Name,
-                                                                      'Email':
-                                                                          Email,
-                                                                      'LastDate':
-                                                                          data[
-                                                                              'LastDate'],
-                                                                      'CheckRequestDate': DateFormat(
-                                                                              'dd-MMM-yy')
-                                                                          .format(
-                                                                              DateTime.now()),
-                                                                      'StartingDate':
-                                                                          data[
-                                                                              'StartingDate'],
-                                                                    }).whenComplete(() => FirebaseFirestore
-                                                                            .instance
-                                                                            .collection(id)
-                                                                            .doc(id)
-                                                                            .collection(Project)
-                                                                            .doc(Project)
-                                                                            .collection('Task')
-                                                                            .where(
-                                                                              'Task',
-                                                                              isEqualTo: data['Task'],
-                                                                            ));
-                                                                    try {
-                                                                      // Get a reference to the 'task' subcollection
-                                                                      CollectionReference taskCollection = FirebaseFirestore
-                                                                          .instance
-                                                                          .collection(
-                                                                              id)
-                                                                          .doc(
-                                                                              id)
-                                                                          .collection(
-                                                                              Project)
-                                                                          .doc(
-                                                                              Project)
-                                                                          .collection(
-                                                                              'Process');
-
-                                                                      // Query for the document with field name 'task' and value 'mk'
-                                                                      QuerySnapshot
-                                                                          querySnapshot =
-                                                                          await taskCollection
-                                                                              .where('task', isEqualTo: data['Task'])
-                                                                              .get();
-
-                                                                      // Delete the document(s) found by the query
-                                                                      querySnapshot
-                                                                          .docs
-                                                                          .forEach(
-                                                                              (doc) {
-                                                                        doc.reference
-                                                                            .delete();
-                                                                      });
-                                                                    } catch (e) {
-                                                                      print(
-                                                                          'Error deleting document: $e');
-                                                                    }
-                                                                    FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            id)
-                                                                        .doc(id)
-                                                                        .collection(
-                                                                            'user')
-                                                                        .doc(_auth
-                                                                            .currentUser!
-                                                                            .uid)
-                                                                        .collection(
-                                                                            'Current Project')
-                                                                        .doc(
-                                                                            Project)
-                                                                        .collection(
-                                                                            'InChecking')
-                                                                        .doc()
-                                                                        .set({
-                                                                      'Task': data[
-                                                                          'Task'],
-                                                                      'Image': data[
-                                                                          'Image'],
-                                                                      'AssignDate':
-                                                                          data[
-                                                                              'AssignDate'],
-                                                                      'LastDate':
-                                                                          data[
-                                                                              'LastDate'],
-                                                                      'CheckRequestDate': DateFormat(
-                                                                              'dd-MMM-yy')
-                                                                          .format(
-                                                                              DateTime.now()),
-                                                                      'StartingDate':
-                                                                          data[
-                                                                              'StartingDate'],
-                                                                    }).whenComplete(() =>
-                                                                            {
-                                                                              snapshot.data!.docs[i].reference.delete()
-                                                                            });
-                                                                    Get.back();
-                                                                    Get.showSnackbar(
-                                                                      GetSnackBar(
-                                                                        message:
-                                                                            "Start Task Succesfully",
-                                                                        borderRadius:
-                                                                            10.0,
-                                                                        margin: EdgeInsets.only(
-                                                                            left:
-                                                                                4.w,
-                                                                            right: 4.w,
-                                                                            bottom: 4.w),
-                                                                        snackPosition:
-                                                                            SnackPosition.BOTTOM,
-                                                                        backgroundColor: ColorUtils
-                                                                            .primaryColor
-                                                                            .withOpacity(0.9),
-                                                                        duration:
-                                                                            const Duration(seconds: 2),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    height:
-                                                                        10.w,
-                                                                    width: 25.w,
-                                                                    decoration: const BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(
-                                                                                8.0)),
-                                                                        color: ColorUtils
-                                                                            .primaryColor),
-                                                                    child:
-                                                                        const Center(
-                                                                      child:
-                                                                          Text(
-                                                                        "Done",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                ColorUtils.white),
+                                                                              ColorUtils.white,
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    Get.back();
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    height:
-                                                                        10.w,
-                                                                    width: 25.w,
-                                                                    decoration: const BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(
-                                                                                8.0)),
-                                                                        color: ColorUtils
-                                                                            .primaryColor),
-                                                                    child:
-                                                                        const Center(
-                                                                      child:
-                                                                          Text(
-                                                                        "Cancel",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                ColorUtils.white),
-                                                                      ),
+                                                                    const Spacer(),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      children: [
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            showDialog(
+                                                                                context: context,
+                                                                                builder: (context) {
+                                                                                  return AlertDialog(
+                                                                                    title: Column(
+                                                                                      children: [
+                                                                                        Image.asset(
+                                                                                          "assets/images/sessionEnd.gif",
+                                                                                          scale: 1.w,
+                                                                                        ),
+                                                                                        Text(
+                                                                                          'Complete !',
+                                                                                          style: FontTextStyle.Proxima16Medium.copyWith(color: ColorUtils.primaryColor, fontWeight: FontWeightClass.extraB, fontSize: 13.sp),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    content: Text('are you sure you had done this task ?', textAlign: TextAlign.center, style: FontTextStyle.Proxima16Medium.copyWith(color: ColorUtils.primaryColor)),
+                                                                                    actions: [
+                                                                                      InkWell(
+                                                                                        onTap: () async {
+                                                                                          final QuerySnapshot result = await FirebaseFirestore.instance.collection(id).doc(id).collection('user').get();
+                                                                                          final List<DocumentSnapshot> document1 = result.docs;
+                                                                                          for (var abc in document1) {
+                                                                                            if (_auth.currentUser!.uid == abc.get('Uid')) {
+                                                                                              Name = abc.get('Name');
+                                                                                              Email = abc.get('Email');
+                                                                                            }
+                                                                                          }
+
+                                                                                          FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('InChecking').doc().set({
+                                                                                            'Point': data['Point'],
+                                                                                            'AssignDate': data['AssignDate'],
+                                                                                            'task': data['Task'],
+                                                                                            'Image': data["Image"],
+                                                                                            'Name': Name,
+                                                                                            'Email': Email,
+                                                                                            'LastDate': data['LastDate'],
+                                                                                            'CheckRequestDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
+                                                                                            'StartingDate': data['StartingDate'],
+                                                                                            'Description': data['Description'],
+                                                                                          }).whenComplete(() => FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('Task').where(
+                                                                                                'Task',
+                                                                                                isEqualTo: data['Task'],
+                                                                                              ));
+
+                                                                                          // Get a reference to the 'task' subcollection
+                                                                                          FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('InChecking').doc().set({
+                                                                                            'AssignDate': data['AssignDate'],
+                                                                                            'task': data['Task'],
+                                                                                            'Image': data["Image"],
+                                                                                            'Name': Name,
+                                                                                            'Email': Email,
+                                                                                            'LastDate': data['LastDate'],
+                                                                                            'CheckRequestDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
+                                                                                            'StartingDate': data['StartingDate'],
+                                                                                          }).whenComplete(() => FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('Task').where(
+                                                                                                'Task',
+                                                                                                isEqualTo: data['Task'],
+                                                                                              ));
+                                                                                          try {
+                                                                                            // Get a reference to the 'task' subcollection
+                                                                                            CollectionReference taskCollection = FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('Process');
+
+                                                                                            // Query for the document with field name 'task' and value 'mk'
+                                                                                            QuerySnapshot querySnapshot = await taskCollection.where('task', isEqualTo: data['Task']).get();
+
+                                                                                            // Delete the document(s) found by the query
+                                                                                            querySnapshot.docs.forEach((doc) {
+                                                                                              doc.reference.delete();
+                                                                                            });
+                                                                                          } catch (e) {
+                                                                                            print('Error deleting document: $e');
+                                                                                          }
+                                                                                          FirebaseFirestore.instance.collection(id).doc(id).collection('user').doc(_auth.currentUser!.uid).collection('Current Project').doc(Project).collection('InChecking').doc().set({
+                                                                                            'Task': data['Task'],
+                                                                                            'Image': data['Image'],
+                                                                                            'AssignDate': data['AssignDate'],
+                                                                                            'LastDate': data['LastDate'],
+                                                                                            'CheckRequestDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
+                                                                                            'StartingDate': data['StartingDate'],
+                                                                                          }).whenComplete(() => {
+                                                                                                snapshot.data!.docs[i].reference.delete()
+                                                                                              });
+                                                                                          Get.back();
+                                                                                          Get.showSnackbar(
+                                                                                            GetSnackBar(
+                                                                                              message: "Start Task Succesfully",
+                                                                                              borderRadius: 10.0,
+                                                                                              margin: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
+                                                                                              snackPosition: SnackPosition.BOTTOM,
+                                                                                              backgroundColor: ColorUtils.primaryColor.withOpacity(0.9),
+                                                                                              duration: const Duration(seconds: 2),
+                                                                                            ),
+                                                                                          );
+
+                                                                                          FirebaseFirestore.instance.collection(id).doc(id).collection('user').doc(_auth.currentUser!.uid).collection('Current Project').doc(Project).collection('InChecking').doc().set({
+                                                                                            'Description': data['Description'],
+                                                                                            'Task': data['Task'],
+                                                                                            'Image': data['Image'],
+                                                                                            'AssignDate': data['AssignDate'],
+                                                                                            'LastDate': data['LastDate'],
+                                                                                            'CheckRequestDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
+                                                                                            'StartingDate': data['StartingDate'],
+                                                                                            'Point': data['Point'],
+                                                                                          }).whenComplete(() => {
+                                                                                                snapshot.data!.docs[i].reference.delete()
+                                                                                              });
+                                                                                          Get.back();
+                                                                                          Get.showSnackbar(
+                                                                                            GetSnackBar(
+                                                                                              message: "Start Task Succesfully",
+                                                                                              borderRadius: 10.0,
+                                                                                              margin: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
+                                                                                              snackPosition: SnackPosition.BOTTOM,
+                                                                                              backgroundColor: ColorUtils.primaryColor.withOpacity(0.9),
+                                                                                              duration: const Duration(seconds: 2),
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          height: 10.w,
+                                                                                          width: 25.w,
+                                                                                          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                                          child: Container(
+                                                                                            height: 10.w,
+                                                                                            width: 25.w,
+                                                                                            decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                                            child: const Center(
+                                                                                              child: Text(
+                                                                                                "Done",
+                                                                                                style: TextStyle(color: ColorUtils.white),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      InkWell(
+                                                                                        onTap: () {
+                                                                                          Get.back();
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          height: 10.w,
+                                                                                          width: 25.w,
+                                                                                          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                                          child: const Center(
+                                                                                            child: Text(
+                                                                                              "Cancel",
+                                                                                              style: TextStyle(color: ColorUtils.white),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  );
+                                                                                });
+                                                                          },
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.only(right: 4.w, bottom: 1.h),
+                                                                            child:
+                                                                                Container(
+                                                                              height: 4.h,
+                                                                              width: 20.w,
+                                                                              decoration: const BoxDecoration(color: ColorUtils.white, borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                                                                              child: Center(
+                                                                                child: Text(
+                                                                                  "Start",
+                                                                                  style: FontTextStyle.Proxima16Medium.copyWith(color: ColorUtils.purple, fontSize: 13.sp, fontWeight: FontWeightClass.semiB),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                                  ]),
                                                             );
                                                           });
                                                     },
                                                     child: Padding(
                                                       padding: EdgeInsets.only(
-                                                          right: 4.w,
-                                                          bottom: 1.h),
+                                                        right: 4.w,
+                                                      ),
                                                       child: Container(
                                                         height: 4.h,
                                                         width: 20.w,

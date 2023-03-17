@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:intl/intl.dart';
+
 import 'package:projecture/app_mode/model_theme.dart';
+import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';

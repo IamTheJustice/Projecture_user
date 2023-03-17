@@ -103,13 +103,13 @@ class _DownloadFileState extends State<DownloadFile> {
   }
 
   Future downloadFile(String downloadDirectory) async {
-    // Dio dio = Dio();
-    // String folderName = 'pp';
-    // String fileName = widget.fileNm;
+    Dio dio = Dio();
+    String folderName = 'pp';
+    String fileName = widget.fileNm;
     String url = widget.fileLink;
-    // final downloadedPath =
-    //     '$downloadDirectory/${DateTime.now().toString()}.jpg';
-    //final file = File(downloadedPath);
+    final downloadedPath =
+        '$downloadDirectory/${DateTime.now().toString()}.jpg';
+    final file = File(downloadedPath);
 
     // if (file.existsSync()) {
     //   print('File is already Exists we replace it ');
@@ -141,18 +141,18 @@ class _DownloadFileState extends State<DownloadFile> {
     // if (response.statusCode == 200) {
     //   var dir = await DownloadsPathProvider.downloadsDirectory;
     //
-    //   log('download URL -====== === $dir$url');
+    //   log('download === $dir     $url');
+    //   log('download === $downloadedPath');
     //
     //   String savePath = "${dir!.path}/${DateTime.now().microsecond}";
     //   // log("path $savePath");
     //
     //   var file = File("$savePath.png");
     //   await file.writeAsBytes(response.bodyBytes);
-    //   log("=======download path========>$savePath");
     //
     //   // showDownloadNotification(fileName, downloadedPath);
     //   await Future.delayed(const Duration(seconds: 2));
-    //   return savePath;
+    //   return downloadedPath;
     // }
   }
 

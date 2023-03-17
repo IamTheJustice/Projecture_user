@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:projecture/app_mode/model_theme.dart';
+import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

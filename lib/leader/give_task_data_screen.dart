@@ -215,17 +215,11 @@ class _TaskDataState extends State<TaskData> {
                               height: 5.h,
                               width: 35.w,
                               decoration: BoxDecoration(
-                                  color: themeNotifier.isDark
-                                      ? ColorUtils.black
-                                      : ColorUtils.primaryColor,
+                                  color: Colors.yellow,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0))),
                               child: Center(
-                                child: Text(
-                                  "Select Image",
-                                  style: FontTextStyle.Proxima16Medium.copyWith(
-                                      color: ColorUtils.white),
-                                ),
+                                child: Text("Choose Image"),
                               ),
                             ),
                           ),
@@ -252,9 +246,7 @@ class _TaskDataState extends State<TaskData> {
                                   hintText: "Description",
                                   hintStyle:
                                       FontTextStyle.Proxima14Regular.copyWith(
-                                          color: themeNotifier.isDark
-                                              ? Colors.white60
-                                              : ColorUtils.primaryColor),
+                                          color: ColorUtils.primaryColor),
                                   border: const OutlineInputBorder(
                                       borderSide: BorderSide.none,
                                       borderRadius: BorderRadius.all(
@@ -283,9 +275,7 @@ class _TaskDataState extends State<TaskData> {
                                   hintText: "${formattedDate}",
                                   hintStyle:
                                       FontTextStyle.Proxima14Regular.copyWith(
-                                          color: themeNotifier.isDark
-                                              ? Colors.white60
-                                              : ColorUtils.primaryColor),
+                                          color: ColorUtils.primaryColor),
                                   border: const OutlineInputBorder(
                                       borderSide: BorderSide.none,
                                       borderRadius: BorderRadius.all(
@@ -327,6 +317,7 @@ class _TaskDataState extends State<TaskData> {
                               cursorColor: ColorUtils.primaryColor,
                               keyboardType: TextInputType.number,
                               validator: (v) {
+                                // add your custom validation here.
                                 if (v!.isEmpty) {
                                   return "please task point required";
                                 } else if (!RegExp(r'(^(?:[+0]9)?[0-9]$)')
@@ -335,8 +326,6 @@ class _TaskDataState extends State<TaskData> {
                                 }
                                 return null;
                               },
-                              style: FontTextStyle.Proxima16Medium.copyWith(
-                                  color: ColorUtils.primaryColor),
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(4.w),
                                   filled: true,
@@ -344,9 +333,7 @@ class _TaskDataState extends State<TaskData> {
                                   hintText: "Task point",
                                   hintStyle:
                                       FontTextStyle.Proxima14Regular.copyWith(
-                                          color: themeNotifier.isDark
-                                              ? Colors.white60
-                                              : ColorUtils.primaryColor),
+                                          color: ColorUtils.grey),
                                   border: const OutlineInputBorder(
                                       borderSide: BorderSide.none,
                                       borderRadius: BorderRadius.all(
@@ -362,9 +349,7 @@ class _TaskDataState extends State<TaskData> {
                                   FontTextStyle.Proxima14Regular.copyWith(
                                       fontSize: 12.sp, color: ColorUtils.white),
                               borderRadius: 10.0,
-                              backgroundColor: themeNotifier.isDark
-                                  ? ColorUtils.black
-                                  : ColorUtils.primaryColor,
+                              backgroundColor: ColorUtils.primaryColor,
                               selectedBackgroundColor: ColorUtils.purple,
                               transitionType: TransitionType.CENTER_ROUNDER,
                               selectedTextColor: ColorUtils.white,
@@ -372,163 +357,152 @@ class _TaskDataState extends State<TaskData> {
                               onPress: () {
                                 FocusScope.of(context).requestFocus();
 
-                                if (formkey.currentState!.validate()) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Column(
-                                            children: [
-                                              Text(
-                                                'Upload',
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .primaryColor,
-                                                        fontWeight:
-                                                            FontWeightClass
-                                                                .extraB,
-                                                        fontSize: 13.sp),
-                                              ),
-                                              Lottie.asset(
-                                                  "assets/lotties/upload.json",
-                                                  height: 25.w)
-                                            ],
-                                          ),
-                                          content: Text(
-                                              'are you sure want to Upload?',
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Column(
+                                          children: [
+                                            Text(
+                                              'Upload',
                                               style:
                                                   FontTextStyle.Proxima16Medium
                                                       .copyWith(
                                                           color: ColorUtils
-                                                              .primaryColor)),
-                                          actions: [
-                                            InkWell(
-                                              onTap: () async {
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        new FocusNode());
-                                                FirebaseFirestore.instance
-                                                    .collection(id)
-                                                    .doc(id)
-                                                    .collection(Project)
-                                                    .doc(Project)
-                                                    .collection('task')
-                                                    .doc()
-                                                    .set({
-                                                  'task':
-                                                      TaskNameController.text,
-                                                  'Image': imageUrl,
-                                                  'Name': Name,
-                                                  'Email': Email,
-                                                  'LastDate':
-                                                      dateController.text,
-                                                  'AssignDate': DateFormat(
-                                                          'dd-MMM-yy')
-                                                      .format(DateTime.now()),
-                                                  'Point':
-                                                      addPointController.text,
-                                                });
-                                                FirebaseFirestore.instance
-                                                    .collection(id)
-                                                    .doc(id)
-                                                    .collection('user')
-                                                    .doc(uid)
-                                                    .collection(
-                                                        'Current Project')
-                                                    .doc(Project)
-                                                    .collection('Task')
-                                                    .doc()
-                                                    .set({
-                                                  'Task':
-                                                      TaskNameController.text,
-                                                  'Image': imageUrl,
-                                                  'LastDate':
-                                                      dateController.text,
-                                                  'AssignDate': DateFormat(
-                                                          'dd-MMM-yy')
-                                                      .format(DateTime.now()),
-                                                  'Point':
-                                                      addPointController.text,
-                                                });
-                                                Get.back();
-
-                                                Get.showSnackbar(
-                                                  GetSnackBar(
-                                                    message:
-                                                        "Upload Data Succesfully",
-                                                    borderRadius: 10.0,
-                                                    margin: EdgeInsets.only(
-                                                        left: 4.w,
-                                                        right: 4.w,
-                                                        bottom: 4.w),
-                                                    snackPosition:
-                                                        SnackPosition.BOTTOM,
-                                                    backgroundColor: ColorUtils
-                                                        .primaryColor
-                                                        .withOpacity(0.9),
-                                                    duration: const Duration(
-                                                        seconds: 2),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                height: 10.w,
-                                                width: 25.w,
-                                                decoration: const BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0)),
-                                                    color: ColorUtils
-                                                        .primaryColor),
-                                                child: const Center(
-                                                  child: Text(
-                                                    "Done",
-                                                    style: TextStyle(
-                                                        color:
-                                                            ColorUtils.white),
-                                                  ),
-                                                ),
-                                              ),
+                                                              .primaryColor,
+                                                          fontWeight:
+                                                              FontWeightClass
+                                                                  .extraB,
+                                                          fontSize: 13.sp),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                Get.back();
-                                              },
-                                              child: Container(
-                                                height: 10.w,
-                                                width: 25.w,
-                                                decoration: const BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0)),
-                                                    color: ColorUtils
-                                                        .primaryColor),
-                                                child: const Center(
-                                                  child: Text(
-                                                    "Cancel",
-                                                    style: TextStyle(
-                                                        color:
-                                                            ColorUtils.white),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            Lottie.asset(
+                                                "assets/lotties/upload.json",
+                                                height: 25.w)
                                           ],
-                                        );
-                                      });
-                                }
+                                        ),
+                                        content: Text(
+                                            'are you sure want to Upload?',
+                                            style: FontTextStyle.Proxima16Medium
+                                                .copyWith(
+                                                    color: ColorUtils
+                                                        .primaryColor)),
+                                        actions: [
+                                          InkWell(
+                                            onTap: () async {
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                              FirebaseFirestore.instance
+                                                  .collection(id)
+                                                  .doc(id)
+                                                  .collection(Project)
+                                                  .doc(Project)
+                                                  .collection('task')
+                                                  .doc()
+                                                  .set({
+                                                'task': TaskNameController.text,
+                                                'Image': imageUrl,
+                                                'Name': Name,
+                                                'Email': Email,
+                                                'LastDate': dateController.text,
+                                                'AssignDate':
+                                                    DateFormat('dd-MMM-yy')
+                                                        .format(DateTime.now()),
+                                                'Point':
+                                                    addPointController.text,
+                                              });
+                                              FirebaseFirestore.instance
+                                                  .collection(id)
+                                                  .doc(id)
+                                                  .collection('user')
+                                                  .doc(uid)
+                                                  .collection('Current Project')
+                                                  .doc(Project)
+                                                  .collection('Task')
+                                                  .doc()
+                                                  .set({
+                                                'Description':
+                                                    DescriptionController.text,
+                                                'Task': TaskNameController.text,
+                                                'Image': imageUrl,
+                                                'LastDate': dateController.text,
+                                                'AssignDate':
+                                                    DateFormat('dd-MMM-yy')
+                                                        .format(DateTime.now()),
+                                                'Point':
+                                                    addPointController.text,
+                                              });
+                                              Get.back();
+
+                                              Get.showSnackbar(
+                                                GetSnackBar(
+                                                  message:
+                                                      "Upload Data Succesfully",
+                                                  borderRadius: 10.0,
+                                                  margin: EdgeInsets.only(
+                                                      left: 4.w,
+                                                      right: 4.w,
+                                                      bottom: 4.w),
+                                                  snackPosition:
+                                                      SnackPosition.BOTTOM,
+                                                  backgroundColor: ColorUtils
+                                                      .primaryColor
+                                                      .withOpacity(0.9),
+                                                  duration: const Duration(
+                                                      seconds: 2),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              height: 10.w,
+                                              width: 25.w,
+                                              decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8.0)),
+                                                  color:
+                                                      ColorUtils.primaryColor),
+                                              child: const Center(
+                                                child: Text(
+                                                  "Done",
+                                                  style: TextStyle(
+                                                      color: ColorUtils.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Get.back();
+                                            },
+                                            child: Container(
+                                              height: 10.w,
+                                              width: 25.w,
+                                              decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8.0)),
+                                                  color:
+                                                      ColorUtils.primaryColor),
+                                              child: const Center(
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                      color: ColorUtils.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    });
                               }),
                         ],
                       ),
                     ],
                   ),
                   ScrollConfiguration(
-                    behavior:
-                        const ScrollBehavior().copyWith(overscroll: false),
+                    behavior: ScrollBehavior().copyWith(overscroll: false),
                     child: SingleChildScrollView(
                       child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
@@ -588,20 +562,13 @@ class _TaskDataState extends State<TaskData> {
                                             SizeConfig.sH1,
                                             data['Image'] == ""
                                                 ? Center(
-                                                    child: Column(
-                                                      children: [
-                                                        Lottie.asset(
-                                                            "assets/lotties/warning.json",
-                                                            height: 10.w),
-                                                        Text(
-                                                          " No Image",
-                                                          style: FontTextStyle
-                                                                  .Proxima16Medium
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .red),
-                                                        ),
-                                                      ],
+                                                    child: Text(
+                                                      " No Image",
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
+                                                              color: ColorUtils
+                                                                  .white),
                                                     ),
                                                   )
                                                 : Image.network(
@@ -690,56 +657,43 @@ class _TaskDataState extends State<TaskData> {
                                                         context: context,
                                                         builder: (context) {
                                                           return AlertBox(
-                                                              id: id,
-                                                              Uid: uid,
-                                                              Name: Name,
-                                                              Project: Project,
-                                                              Email: Email,
-                                                              task:
-                                                                  data['Task'],
-                                                              Assigndate: data[
-                                                                  'AssignDate'],
-                                                              Lastdate: data[
-                                                                  'LastDate'],
-                                                              Image:
-                                                                  data['Image'],
-                                                              Checkrequestdate:
-                                                                  data[
-                                                                      'CheckRequestDate'],
-                                                              Startingdate: data[
-                                                                  'StartingDate']);
+                                                            id: id,
+                                                            Uid: uid,
+                                                            Name: Name,
+                                                            Project: Project,
+                                                            Email: Email,
+                                                            task: data['Task'],
+                                                            Assigndate: data[
+                                                                'AssignDate'],
+                                                            Lastdate: data[
+                                                                'LastDate'],
+                                                            Image:
+                                                                data['Image'],
+                                                            Checkrequestdate: data[
+                                                                'CheckRequestDate'],
+                                                            Startingdate: data[
+                                                                'StartingDate'],
+                                                            Point:
+                                                                data['Point'],
+                                                            Description: data[
+                                                                'Description'],
+                                                          );
                                                         });
                                                   },
                                                   child: Padding(
                                                     padding: EdgeInsets.only(
-                                                        right: 2.w,
-                                                        bottom: 1.h),
-                                                    child: Container(
-                                                      height: 5.h,
-                                                      width: 29.w,
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              ColorUtils.white,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      10.0))),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Approved",
-                                                          style: FontTextStyle
-                                                                  .Proxima16Medium
-                                                              .copyWith(
-                                                                  color:
-                                                                      ColorUtils
-                                                                          .purple,
-                                                                  fontSize:
-                                                                      13.sp,
-                                                                  fontWeight:
-                                                                      FontWeightClass
-                                                                          .semiB),
-                                                        ),
-                                                      ),
+                                                        right: 2.w),
+                                                    child: Text(
+                                                      "Approved",
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
+                                                              color: ColorUtils
+                                                                  .white,
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeightClass
+                                                                      .semiB),
                                                     ),
                                                   ),
                                                 ),
@@ -751,13 +705,11 @@ class _TaskDataState extends State<TaskData> {
                                       ));
                                 },
                               );
-                            } else {
-                              return const Center(
+                            } else
+                              return Center(
                                   child: CircularProgressIndicator(
                                 strokeWidth: 1.1,
-                                color: ColorUtils.primaryColor,
                               ));
-                            }
                           }),
                     ),
                   ),
@@ -772,6 +724,7 @@ class _TaskDataState extends State<TaskData> {
 }
 
 class AlertBox extends StatefulWidget {
+  String Description;
   String id;
   String Name;
   String Project;
@@ -783,6 +736,7 @@ class AlertBox extends StatefulWidget {
   String Image;
   String Lastdate;
   String Assigndate;
+  String Point;
 
   AlertBox(
       {required this.id,
@@ -795,7 +749,9 @@ class AlertBox extends StatefulWidget {
       required this.Image,
       required this.Assigndate,
       required this.Checkrequestdate,
-      required this.Lastdate});
+      required this.Lastdate,
+      required this.Description,
+      required this.Point});
 
   @override
   State<AlertBox> createState() => _AlertBoxState();
@@ -808,6 +764,7 @@ class _AlertBoxState extends State<AlertBox> {
   final TextEditingController pointController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String Point = widget.Point;
     String Project = widget.Project;
     String Name = widget.Name;
     String id = widget.id;
@@ -819,6 +776,7 @@ class _AlertBoxState extends State<AlertBox> {
     String Lastdate = widget.Lastdate;
     String Assigndate = widget.Assigndate;
     String task = widget.task;
+    String Description = widget.Description;
 
     return AlertDialog(
       actions: [
@@ -910,6 +868,9 @@ class _AlertBoxState extends State<AlertBox> {
                           'StartingDate': Startingdate,
                           'ApprovedDate':
                               DateFormat('dd-MMM-yy').format(DateTime.now()),
+                          'Description': Description,
+                          'Point': Point,
+                          'Archives Point': pointController.text,
                         }).whenComplete(() => FirebaseFirestore.instance
                                 .collection(id)
                                 .doc(id)
@@ -952,6 +913,7 @@ class _AlertBoxState extends State<AlertBox> {
                             .collection('Done')
                             .doc()
                             .set({
+                          'Point': Point,
                           'Task': task,
                           'Image': image,
                           'AssignDate': Assigndate,
@@ -960,6 +922,27 @@ class _AlertBoxState extends State<AlertBox> {
                           'StartingDate': Startingdate,
                           'ApprovedDate':
                               DateFormat('dd-MMM-yy').format(DateTime.now()),
+                          'Description': Description,
+                          'Archives Point': pointController.text,
+                        });
+                        FirebaseFirestore.instance
+                            .collection(id)
+                            .doc(id)
+                            .collection('user')
+                            .doc(_auth.currentUser!.uid)
+                            .collection('Wallet')
+                            .add({
+                          'Point': Point,
+                          'Task': task,
+                          'Image': image,
+                          'AssignDate': Assigndate,
+                          'LastDate': Lastdate,
+                          'CheckRequestDate': Checkrequestdate,
+                          'StartingDate': Startingdate,
+                          'ApprovedDate':
+                              DateFormat('dd-MMM-yy').format(DateTime.now()),
+                          'Description': Description,
+                          'Archives Point': pointController.text,
                         });
                         try {
                           // Get a reference to the 'task' subcollection
@@ -986,6 +969,7 @@ class _AlertBoxState extends State<AlertBox> {
                           print('Error deleting document: $e');
                           // snapshot.data!.docs[i].reference.delete()
                         }
+
                         Get.back();
                         Get.showSnackbar(
                           GetSnackBar(
