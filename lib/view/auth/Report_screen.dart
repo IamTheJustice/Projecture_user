@@ -196,10 +196,9 @@ class _ReportState extends State<Report> {
                   isReverse: true,
                   onPress: () async {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    if (formkey.currentState!.validate()) {
-                      // setState(() {});
-                    }
+                    if (formkey.currentState!.validate()) {}
                     data1 = true;
+                    setState(() {});
                   }),
               data1 == true
                   ? id != null
@@ -298,7 +297,7 @@ class _ReportState extends State<Report> {
                                             ),
                                             children: <Widget>[
                                               SizedBox(
-                                                height: 260.0,
+                                                height: 290.0,
                                                 width: Get.width,
                                                 child: Padding(
                                                     padding: EdgeInsets.only(

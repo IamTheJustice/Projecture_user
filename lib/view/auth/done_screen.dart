@@ -264,9 +264,9 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                 ),
                                 children: <Widget>[
                                   SizedBox(
-                                      height: 260.0,
-                                      width: Get.width,
-                                      child: Padding(
+                                    height: 280.0,
+                                    width: Get.width,
+                                    child: Padding(
                                         padding: EdgeInsets.only(bottom: 3.h),
                                         child: Column(
                                           crossAxisAlignment:
@@ -387,8 +387,8 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                             ),
                                             const Spacer(),
                                           ],
-                                        ),
-                                      )),
+                                        )),
+                                  ),
                                 ],
                               ),
                             ),

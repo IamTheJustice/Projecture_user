@@ -12,6 +12,7 @@ import 'package:projecture/view/auth/Report_screen.dart';
 import 'package:projecture/view/auth/events/makarSankrantiEvent_screen.dart';
 
 import 'package:projecture/view/auth/events_screen.dart';
+import 'package:projecture/view/auth/history_screen.dart';
 import 'package:projecture/view/auth/issue_screen.dart';
 import 'package:projecture/view/auth/notice_list_screen.dart';
 import 'package:projecture/view/auth/todo_screen.dart';
@@ -106,7 +107,7 @@ class _HomescreenState extends State<Homescreen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            setData();
+                            // setData();
                             templist[index]['title'] == "Issue"
                                 ? Get.to(() => issue(id: id!))
                                 : const SizedBox();
@@ -119,9 +120,12 @@ class _HomescreenState extends State<Homescreen> {
                             templist[index]['title'] == "Events"
                                 ? Get.to(() => const EventScreen())
                                 : const SizedBox();
-                            // templist[index]['title'] == "History"
-                            //     ? Get.to(() => const HistoryScreen())
-                            //     : const SizedBox();
+                            templist[index]['title'] == "Report"
+                                ? Get.to(() => const ReportProject())
+                                : const SizedBox();
+                            templist[index]['title'] == "History"
+                                ? Get.to(() => const HistoryScreen())
+                                : const SizedBox();
                           },
                           child: Container(
                             height: 33.w,

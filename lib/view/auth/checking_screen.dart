@@ -199,111 +199,186 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                   if (snapshot.hasData) {
                     return ListView.builder(
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i) {
                         var data = snapshot.data!.docs[i];
                         return Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 3.h, horizontal: 7.w),
+                                vertical: 2.w, horizontal: 7.w),
                             child: Container(
-                              height: 36.h,
                               decoration: BoxDecoration(
                                   color: ColorUtils.purple,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20)),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: ColorUtils.black.withOpacity(0.2),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 0.9,
-                                    )
+                                      color: ColorUtils.black.withOpacity(0.1),
+                                      spreadRadius: 0.5,
+                                      blurRadius: 9.0,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
                                   ]),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 1.h),
-                                    child: Text(
-                                      data['Task'],
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
-                                              color: ColorUtils.white,
-                                              decoration:
-                                                  TextDecoration.underline),
-                                    ),
+                              child: Theme(
+                                data:
+                                    ThemeData(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  iconColor: ColorUtils.white,
+                                  collapsedIconColor: Colors.white,
+                                  title: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizeConfig.sH1,
+                                      Text(
+                                        "Task Name : ${data['Task']}",
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: ColorUtils.white),
+                                      ),
+                                      SizeConfig.sH1,
+                                      data['Image'] == ""
+                                          ? Center(
+                                              child: Column(
+                                                children: [
+                                                  Lottie.asset(
+                                                      "assets/lotties/warning.json",
+                                                      height: 10.w),
+                                                  Text(
+                                                    " No Image",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Center(
+                                              child: SizedBox(
+                                                height: 14.h,
+                                                width: 35.w,
+                                                child: Image.network(
+                                                  data['Image'],
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                      SizeConfig.sH1,
+                                    ],
                                   ),
-                                  SizeConfig.sH3,
-                                  data['Image'] == ""
-                                      ? Center(
-                                          child: Text(
-                                            " No Image",
-                                            style: FontTextStyle.Proxima16Medium
-                                                .copyWith(
-                                                    color: ColorUtils.white),
-                                          ),
-                                        )
-                                      : Image.network(
-                                          data['Image'],
-                                          height: 10.h,
-                                          width: 20.w,
-                                          fit: BoxFit.cover,
-                                        ),
-                                  SizeConfig.sH1,
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 1.h),
-                                    child: Text(
-                                      "Task Assign Date : ${data['AssignDate']} ",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
-                                              color: ColorUtils.white,
-                                              decoration:
-                                                  TextDecoration.underline),
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 230.0,
+                                      width: Get.width,
+                                      child: Padding(
+                                          padding: EdgeInsets.only(bottom: 3.h),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 3.w, right: 3.w),
+                                                child: const Divider(
+                                                  color: ColorUtils.greyCE,
+                                                  thickness: 1,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  'Description ' +
+                                                      data['Description'],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  "Assign Date : ${data['AssignDate']}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  "Due Data : ${data['LastDate']}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  "Starting Data : ${data['StartingDate']}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  "Approval Request Date: ${data['CheckRequestDate']}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 1.h, left: 5.w),
+                                                child: Text(
+                                                  "Task Point : ${data['Point']}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: FontTextStyle
+                                                      .Proxima16Medium.copyWith(
+                                                    color: ColorUtils.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                            ],
+                                          )),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 1.h),
-                                    child: Text(
-                                      "Due Date : ${data['LastDate']} ",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
-                                              color: ColorUtils.white,
-                                              decoration:
-                                                  TextDecoration.underline),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 1.h),
-                                    child: Text(
-                                      "Task Starting Date : ${data['StartingDate']} ",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
-                                              color: ColorUtils.white,
-                                              decoration:
-                                                  TextDecoration.underline),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 1.h),
-                                    child: Text(
-                                      "Checking Request Date : ${data['CheckRequestDate']} ",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
-                                              color: ColorUtils.white,
-                                              decoration:
-                                                  TextDecoration.underline),
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ));
                       },
