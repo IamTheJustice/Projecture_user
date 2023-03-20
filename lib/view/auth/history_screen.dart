@@ -57,7 +57,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   behavior: const ScrollBehavior().copyWith(overscroll: false),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 20,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
@@ -71,8 +71,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   height: 3.h,
                                   width: 6.w,
                                   decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(50)),
                                       border: Border.all(
                                           color: ColorUtils.primaryColor)),
                                   child: Center(

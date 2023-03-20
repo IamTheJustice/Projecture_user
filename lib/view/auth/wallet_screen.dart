@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -33,6 +35,7 @@ class _WalletScreenState extends State<WalletScreen> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
   }
 
   @override
@@ -59,70 +62,81 @@ class _WalletScreenState extends State<WalletScreen> {
                         fontWeight: FontWeightClass.extraB),
                   ),
                 ),
-                ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 6,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          SizeConfig.sH2,
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: Container(
-                              height: 10.h,
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 9.0,
-                                        spreadRadius: 0.5,
-                                        color:
-                                            ColorUtils.black.withOpacity(0.2))
-                                  ],
-                                  color: ColorUtils.purple,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20))),
-                              child: Row(
+                StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection(cid!)
+                        .doc(cid)
+                        .collection('user')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .collection('Wallet')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = snapshot.data!.docs[index];
+                              return Column(
                                 children: [
+                                  SizeConfig.sH2,
                                   Padding(
-                                    padding: EdgeInsets.only(left: 5.w),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "FIREBASE AUTHENTICATION",
-                                          style: FontTextStyle.Proxima14Regular
-                                              .copyWith(
-                                                  color: ColorUtils.white),
-                                        ),
-                                        Text(
-                                          "IN FLUTTER",
-                                          style: FontTextStyle.Proxima14Regular
-                                              .copyWith(
-                                                  color: ColorUtils.white),
-                                        )
-                                      ],
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: Container(
+                                      height: 10.h,
+                                      width: Get.width,
+                                      decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                blurRadius: 9.0,
+                                                spreadRadius: 0.5,
+                                                color: ColorUtils.black
+                                                    .withOpacity(0.2))
+                                          ],
+                                          color: ColorUtils.purple,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 5.w),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  data['Task'],
+                                                  style: FontTextStyle
+                                                          .Proxima14Regular
+                                                      .copyWith(
+                                                          color:
+                                                              ColorUtils.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            data['Archives Point'],
+                                            style: FontTextStyle.Proxima16Medium
+                                                .copyWith(
+                                                    color: ColorUtils.green40,
+                                                    fontSize: 13.sp),
+                                          ),
+                                          SizeConfig.sW3,
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "+ 30",
-                                    style:
-                                        FontTextStyle.Proxima16Medium.copyWith(
-                                            color: ColorUtils.green40,
-                                            fontSize: 13.sp),
-                                  ),
-                                  SizeConfig.sW3,
+                                  )
                                 ],
-                              ),
-                            ),
-                          )
-                        ],
-                      );
+                              );
+                            });
+                      } else
+                        return CircularProgressIndicator();
                     }),
               ],
             ),
