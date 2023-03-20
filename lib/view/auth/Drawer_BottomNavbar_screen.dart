@@ -17,7 +17,7 @@ import 'package:projecture/view/auth/inprocess_screen.dart';
 import 'package:projecture/view/auth/todo_screen.dart';
 import 'package:projecture/view/auth/home_screen.dart';
 import 'package:projecture/view/auth/profile_screen.dart';
-import 'package:projecture/view/auth/chat_screen.dart';
+import 'package:projecture/screens/chat/chat_screen.dart';
 import 'package:projecture/view/auth/checking_screen.dart';
 import 'package:projecture/view/auth/wallet_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,7 +81,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
   ];
   var pageAll = [
     const Homescreen(),
-    const ChatScreen(),
+     ChatScreen(),
     const MyProfile(),
   ];
 

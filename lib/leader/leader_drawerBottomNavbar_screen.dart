@@ -21,7 +21,7 @@ import 'package:projecture/view/auth/notice_list_screen.dart';
 import 'package:projecture/view/auth/todo_screen.dart';
 import 'package:projecture/view/auth/home_screen.dart';
 import 'package:projecture/view/auth/profile_screen.dart';
-import 'package:projecture/view/auth/chat_screen.dart';
+import 'package:projecture/screens/chat/chat_screen.dart';
 import 'package:projecture/view/auth/checking_screen.dart';
 import 'package:projecture/view/auth/wallet_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';

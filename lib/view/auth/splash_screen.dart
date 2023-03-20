@@ -1,10 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:projecture/service/animayted_text.dart';
 import 'package:projecture/service/wavy_text.dart';
 import 'package:projecture/utils/color_utils.dart';
+import 'package:projecture/utils/const/function/local_notification_services.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/view/auth/Drawer_BottomNavbar_screen.dart';
 import 'package:projecture/view/auth/events_screen.dart';
@@ -23,6 +23,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    LocalNotificationServices.requestPermission();
     setData();
     super.initState();
   }

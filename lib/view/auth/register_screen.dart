@@ -7,6 +7,7 @@ import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:projecture/utils/color_utils.dart';
+import 'package:projecture/utils/const/function/local_notification_services.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/Login_screen.dart';
@@ -364,7 +365,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             .createUserWithEmailAndPassword(
                                 email: emailController.text,
                                 password: passwordController.text)
-                            .then((value) {
+                            .then((value) async {
+                      String? fcmToken = await LocalNotificationServices.getFCMToken();
                           FirebaseFirestore.instance
                               .collection(id)
                               .doc(id)
@@ -378,6 +380,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             'Phone': PhoneController.text,
                             'Password': passwordController.text,
                             'Uid': _auth.currentUser!.uid,
+                            'fcmToken':fcmToken??''
                           });
                         });
 
