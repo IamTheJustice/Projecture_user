@@ -58,7 +58,7 @@ class _MyProfileState extends State<MyProfile> {
           body: Form(
             key: formkey,
             child: ScrollConfiguration(
-              behavior: ScrollBehavior().copyWith(overscroll: false),
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
               child: ListView(
                 padding: const EdgeInsets.all(0.0),
                 children: [
@@ -142,7 +142,9 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
                             validator: (v) {
                               if (v!.isEmpty) {
                                 return "please name required";
@@ -151,6 +153,10 @@ class _MyProfileState extends State<MyProfile> {
                               }
                               return null;
                             },
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -178,7 +184,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             validator: (v) {
                               if (v!.isEmpty) {
                                 return "please email required";
@@ -218,7 +230,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             validator: (v) {
                               if (v!.isEmpty) {
                                 return "please city required";
@@ -254,7 +272,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             validator: (v) {
                               if (v!.isEmpty) {
                                 return "please city required";
@@ -290,7 +314,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             maxLength: 10,
                             keyboardType: TextInputType.number,
                             validator: (v) {
@@ -355,7 +385,13 @@ class _MyProfileState extends State<MyProfile> {
                               ),
                             ),
                             child: TextFormField(
-                              cursorColor: ColorUtils.primaryColor,
+                              cursorColor: themeNotifier.isDark
+                                  ? ColorUtils.white
+                                  : ColorUtils.primaryColor,
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: themeNotifier.isDark
+                                      ? ColorUtils.white
+                                      : ColorUtils.primaryColor),
                               obscureText: isCheckPassword,
                               controller: passwordController,
                               validator: (v) {
@@ -405,7 +441,9 @@ class _MyProfileState extends State<MyProfile> {
                                   margin: EdgeInsets.only(
                                       left: 4.w, right: 4.w, bottom: 4.w),
                                   snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: ColorUtils.primaryColor,
+                                  backgroundColor: themeNotifier.isDark
+                                      ? ColorUtils.black
+                                      : ColorUtils.primaryColor,
                                   duration: const Duration(seconds: 3),
                                 ),
                               );
@@ -419,8 +457,8 @@ class _MyProfileState extends State<MyProfile> {
                                   color: themeNotifier.isDark
                                       ? Colors.black
                                       : ColorUtils.primaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8.0))),
                               child: Center(
                                 child: Text(
                                   "DONE",
@@ -508,6 +546,7 @@ class _MyProfileState extends State<MyProfile> {
                         InkWell(
                             onTap: () {
                               _getFromGallery();
+                              Get.back();
                             },
                             child: CircleAvatar(
                               backgroundColor: ColorUtils.primaryColor,
@@ -532,6 +571,7 @@ class _MyProfileState extends State<MyProfile> {
                         InkWell(
                             onTap: () {
                               _getFromCamera();
+                              Get.back();
                             },
                             child: CircleAvatar(
                               backgroundColor: ColorUtils.primaryColor,

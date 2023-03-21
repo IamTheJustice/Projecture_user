@@ -28,10 +28,9 @@ import 'package:projecture/view/auth/wallet_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:octo_image/octo_image.dart';
 
 class LeaderDrawerBottomNavbar extends StatefulWidget {
-  LeaderDrawerBottomNavbar({Key? key});
+  const LeaderDrawerBottomNavbar({super.key});
 
   @override
   State<LeaderDrawerBottomNavbar> createState() =>
@@ -96,7 +95,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
   String imageUrl = '';
   bool circular = false;
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.light,
         systemNavigationBarIconBrightness: Brightness.dark,
@@ -253,7 +252,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                                               icon: const Icon(Icons
                                                                   .camera_alt)),
                                                     )
-                                                  : Container(
+                                                  : SizedBox(
                                                       height: 25.w,
                                                       width: 25.w,
                                                       child: ClipRRect(
@@ -272,13 +271,13 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                                         !themeNotifier.isDark;
                                                   },
                                                   icon: themeNotifier.isDark
-                                                      ? Icon(
+                                                      ? const Icon(
                                                           Icons.nights_stay,
                                                           color:
                                                               ColorUtils.white,
                                                           size: 30.0,
                                                         )
-                                                      : Icon(
+                                                      : const Icon(
                                                           Icons.wb_sunny,
                                                           color:
                                                               ColorUtils.black,
@@ -506,12 +505,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                             actions: [
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            LoginScreen(id: id!)),
-                                  );
+                                  Get.to(()=> LoginScreen(id: id!));
                                 },
                                 child: Container(
                                   height: 10.w,
@@ -541,7 +535,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                       color: ColorUtils.primaryColor),
                                   child: const Center(
                                     child: Text(
-                                      "Cancle",
+                                      "Cancel",
                                       style: TextStyle(color: ColorUtils.white),
                                     ),
                                   ),
@@ -687,29 +681,16 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                     myIndex = 0;
                   });
                 },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 0.5.h,
-                        width: 10.w,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                          color: themeNotifier.isDark
-                              ? myIndex == 0
-                                  ? ColorUtils.purple
-                                  : ColorUtils.white
-                              : myIndex == 0
-                                  ? ColorUtils.purpleColor
-                                  : ColorUtils.primaryColor,
-                        ),
-                      ),
-                      SizeConfig.sH05,
-                      Icon(
-                        Icons.home,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 0.5.h,
+                      width: 10.w,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                         color: themeNotifier.isDark
                             ? myIndex == 0
                                 ? ColorUtils.purple
@@ -718,20 +699,31 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                 ? ColorUtils.purpleColor
                                 : ColorUtils.primaryColor,
                       ),
-                      Text(
-                        "Home",
-                        style: FontTextStyle.Proxima14Regular.copyWith(
-                          color: themeNotifier.isDark
-                              ? myIndex == 0
-                                  ? ColorUtils.purple
-                                  : ColorUtils.white
-                              : myIndex == 0
-                                  ? ColorUtils.purpleColor
-                                  : ColorUtils.primaryColor,
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizeConfig.sH05,
+                    Icon(
+                      Icons.home,
+                      color: themeNotifier.isDark
+                          ? myIndex == 0
+                              ? ColorUtils.purple
+                              : ColorUtils.white
+                          : myIndex == 0
+                              ? ColorUtils.purpleColor
+                              : ColorUtils.primaryColor,
+                    ),
+                    Text(
+                      "Home",
+                      style: FontTextStyle.Proxima14Regular.copyWith(
+                        color: themeNotifier.isDark
+                            ? myIndex == 0
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 0
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
+                      ),
+                    )
+                  ],
                 ),
               ),
               InkWell(
@@ -740,29 +732,16 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                     myIndex = 1;
                   });
                 },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 0.5.h,
-                        width: 10.w,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                          color: themeNotifier.isDark
-                              ? myIndex == 1
-                                  ? ColorUtils.purple
-                                  : ColorUtils.white
-                              : myIndex == 1
-                                  ? ColorUtils.purpleColor
-                                  : ColorUtils.primaryColor,
-                        ),
-                      ),
-                      SizeConfig.sH05,
-                      Icon(
-                        Icons.chat,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 0.5.h,
+                      width: 10.w,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                         color: themeNotifier.isDark
                             ? myIndex == 1
                                 ? ColorUtils.purple
@@ -771,20 +750,31 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                 ? ColorUtils.purpleColor
                                 : ColorUtils.primaryColor,
                       ),
-                      Text(
-                        "Chat",
-                        style: FontTextStyle.Proxima14Regular.copyWith(
-                          color: themeNotifier.isDark
-                              ? myIndex == 1
-                                  ? ColorUtils.purple
-                                  : ColorUtils.white
-                              : myIndex == 1
-                                  ? ColorUtils.purpleColor
-                                  : ColorUtils.primaryColor,
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizeConfig.sH05,
+                    Icon(
+                      Icons.chat,
+                      color: themeNotifier.isDark
+                          ? myIndex == 1
+                              ? ColorUtils.purple
+                              : ColorUtils.white
+                          : myIndex == 1
+                              ? ColorUtils.purpleColor
+                              : ColorUtils.primaryColor,
+                    ),
+                    Text(
+                      "Chat",
+                      style: FontTextStyle.Proxima14Regular.copyWith(
+                        color: themeNotifier.isDark
+                            ? myIndex == 1
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 1
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
+                      ),
+                    )
+                  ],
                 ),
               ),
               InkWell(
@@ -793,29 +783,16 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                     myIndex = 2;
                   });
                 },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 0.5.h,
-                        width: 10.w,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                          color: themeNotifier.isDark
-                              ? myIndex == 2
-                                  ? ColorUtils.purple
-                                  : ColorUtils.white
-                              : myIndex == 2
-                                  ? ColorUtils.purpleColor
-                                  : ColorUtils.primaryColor,
-                        ),
-                      ),
-                      SizeConfig.sH05,
-                      Icon(
-                        Icons.account_circle,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 0.5.h,
+                      width: 10.w,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                         color: themeNotifier.isDark
                             ? myIndex == 2
                                 ? ColorUtils.purple
@@ -824,20 +801,31 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                 ? ColorUtils.purpleColor
                                 : ColorUtils.primaryColor,
                       ),
-                      Text(
-                        "Profile",
-                        style: FontTextStyle.Proxima14Regular.copyWith(
-                          color: themeNotifier.isDark
-                              ? myIndex == 2
-                                  ? ColorUtils.purple
-                                  : ColorUtils.white
-                              : myIndex == 2
-                                  ? ColorUtils.purpleColor
-                                  : ColorUtils.primaryColor,
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizeConfig.sH05,
+                    Icon(
+                      Icons.account_circle,
+                      color: themeNotifier.isDark
+                          ? myIndex == 2
+                              ? ColorUtils.purple
+                              : ColorUtils.white
+                          : myIndex == 2
+                              ? ColorUtils.purpleColor
+                              : ColorUtils.primaryColor,
+                    ),
+                    Text(
+                      "Profile",
+                      style: FontTextStyle.Proxima14Regular.copyWith(
+                        color: themeNotifier.isDark
+                            ? myIndex == 2
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 2
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
+                      ),
+                    )
+                  ],
                 ),
               )
             ],

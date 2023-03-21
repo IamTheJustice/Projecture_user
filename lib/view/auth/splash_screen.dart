@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:projecture/service/animayted_text.dart';
@@ -27,14 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     setData();
     super.initState();
-    // FirebaseMessaging.instance.getInitialMessage();
-    //
-    // FirebaseMessaging.onMessage.listen((message) {
-    //   if (message.notification != null) {
-    //     log("${message.notification!.body}");
-    //     log("${message.notification!.title}");
-    //   }
-    // });
   }
 
   String? cid;
@@ -54,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   final _auth = FirebaseAuth.instance;
-  // late String leader;
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +77,10 @@ class _SplashScreenState extends State<SplashScreen> {
           splashTransition: SplashTransition.sizeTransition,
           backgroundColor: ColorUtils.white,
           nextScreen: uid == null
-              ? OnBoardingScreen()
+              ? const OnBoardingScreen()
               : leader == uid
-                  ? LeaderDrawerBottomNavbar()
-                  : DrawerBottomNavbar()),
+                  ? const LeaderDrawerBottomNavbar()
+                  : const DrawerBottomNavbar()),
     );
   }
 }

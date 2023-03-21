@@ -157,7 +157,7 @@ class _ProcessState extends State<Process> {
 class ShowTaskProcess extends StatefulWidget {
   String id;
   String Project;
-  ShowTaskProcess({required this.id, required this.Project});
+  ShowTaskProcess({super.key, required this.id, required this.Project});
 
   @override
   State<ShowTaskProcess> createState() => _ShowTaskProcessState();
@@ -297,8 +297,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  'Description ' +
-                                                      data['Description'],
+                                                  'Description : ${data['Description']}',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -375,6 +374,9 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                           context: context,
                                                           builder: (context) {
                                                             return AlertDialog(
+                                                              backgroundColor:
+                                                                  ColorUtils
+                                                                      .white,
                                                               title: Column(
                                                                 children: [
                                                                   Image.asset(
@@ -576,9 +578,9 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                                             bottom: 4.w),
                                                                         snackPosition:
                                                                             SnackPosition.BOTTOM,
-                                                                        backgroundColor: ColorUtils
-                                                                            .primaryColor
-                                                                            .withOpacity(0.9),
+                                                                        backgroundColor: themeNotifier.isDark
+                                                                            ? ColorUtils.black
+                                                                            : ColorUtils.primaryColor.withOpacity(0.9),
                                                                         duration:
                                                                             const Duration(seconds: 2),
                                                                       ),

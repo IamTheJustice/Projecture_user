@@ -378,7 +378,8 @@ class _issueState extends State<issue> {
                       ),
                     ),
                     ScrollConfiguration(
-                      behavior: ScrollBehavior().copyWith(overscroll: false),
+                      behavior:
+                          const ScrollBehavior().copyWith(overscroll: false),
                       child: ListView(
                         padding: const EdgeInsets.all(0.0),
                         children: [
@@ -395,10 +396,10 @@ class _issueState extends State<issue> {
                                       color: ColorUtils.primaryColor),
                                   validator: (v) {
                                     if (v!.isEmpty) {
-                                      return "please name required";
+                                      return "Please Name required";
                                     } else if (!RegExp(r'^[a-zA-Z0-9]+$')
                                         .hasMatch(v)) {
-                                      return "please valid name ";
+                                      return "Please valid name ";
                                     }
                                     return null;
                                   },
@@ -424,7 +425,9 @@ class _issueState extends State<issue> {
                                     horizontal: 5.w, vertical: 2.h),
                                 child: DottedBorder(
                                   dashPattern: const [6, 3, 2, 3],
-                                  color: ColorUtils.greyBB,
+                                  color: themeNotifier.isDark
+                                      ? ColorUtils.white
+                                      : ColorUtils.greyBB,
                                   strokeWidth: 1,
                                   strokeCap: StrokeCap.square,
                                   padding:
@@ -444,12 +447,12 @@ class _issueState extends State<issue> {
                                                     fit: BoxFit.cover,
                                                   )),
                                             )
-                                          : Container(
+                                          : SizedBox(
+                                              height: 30.w,
+                                              width: 30.w,
                                               child: Lottie.asset(
                                                   "assets/lotties/chooseImage.json",
                                                   height: 20.w),
-                                              height: 30.w,
-                                              width: 30.w,
                                             ),
                                     ),
                                   ),
@@ -491,7 +494,7 @@ class _issueState extends State<issue> {
                                       color: themeNotifier.isDark
                                           ? Colors.black
                                           : ColorUtils.primaryColor,
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0))),
                                   child: Center(
                                     child: Text(
@@ -504,7 +507,7 @@ class _issueState extends State<issue> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    left: 5.w, right: 5.w, top: 2.w),
+                                    left: 5.w, right: 5.w, top: 2.h),
                                 child: TextFormField(
                                   cursorColor: ColorUtils.primaryColor,
                                   style: FontTextStyle.Proxima16Medium.copyWith(
@@ -513,7 +516,7 @@ class _issueState extends State<issue> {
                                   maxLines: 3,
                                   validator: (v) {
                                     if (v!.isEmpty) {
-                                      return "please description required";
+                                      return "Please Description required";
                                     }
                                     return null;
                                   },
@@ -738,8 +741,6 @@ class _issueState extends State<issue> {
 
   Future chooseImageBottomSheet() {
     return Get.bottomSheet(
-        //isScrollControlled: true,
-        //isDismissible: true,
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

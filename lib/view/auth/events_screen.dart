@@ -1,17 +1,19 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projecture/app_mode/model_theme.dart';
+import 'package:projecture/events/christmasEvent_screen.dart';
+import 'package:projecture/events/deepavaliEvent_screen.dart';
+import 'package:projecture/events/ganeshChaturthiEvent_screen.dart';
+import 'package:projecture/events/holiEvents_screen.dart';
+import 'package:projecture/events/independenceEvent_screen.dart';
+import 'package:projecture/events/janmashtamiEvent_screen.dart';
+import 'package:projecture/events/makarSankrantiEvent_screen.dart';
+import 'package:projecture/events/navratriEvent_screen.dart';
+import 'package:projecture/events/sportEvent_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
-import 'package:projecture/view/auth/events/christmasEvent_screen.dart';
-import 'package:projecture/view/auth/events/deepavaliEvent_screen.dart';
-import 'package:projecture/view/auth/events/ganeshChaturthiEvent_screen.dart';
-import 'package:projecture/view/auth/events/holiEvents_screen.dart';
-import 'package:projecture/view/auth/events/independenceEvent_screen.dart';
-import 'package:projecture/view/auth/events/janmashtamiEvent_screen.dart';
-import 'package:projecture/view/auth/events/makarSankrantiEvent_screen.dart';
-import 'package:projecture/view/auth/events/navratriEvent_screen.dart';
-import 'package:projecture/view/auth/events/sportEvent_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -91,103 +93,105 @@ class _EventScreenState extends State<EventScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: ColorUtils.white),
-        elevation: 0.0,
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          "Events",
-          style: FontTextStyle.Proxima16Medium.copyWith(
-              fontSize: 17.sp, color: ColorUtils.white),
+    return Consumer<ModelTheme>(
+        builder: (context, ModelTheme themeNotifier, child) {
+      return Scaffold(
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: ColorUtils.white),
+          elevation: 0.0,
+          backgroundColor:
+              themeNotifier.isDark ? ColorUtils.black : ColorUtils.primaryColor,
+          title: Text(
+            "Events",
+            style: FontTextStyle.Proxima16Medium.copyWith(
+                fontSize: 17.sp, color: ColorUtils.white),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 6.w),
-        child: GridView.builder(
-            padding: EdgeInsets.symmetric(vertical: 4.w),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: eventList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                // crossAxisCount: 2,
-                // mainAxisSpacing: 8.0,
-                // crossAxisSpacing: 12.0,
-                mainAxisExtent: 200,
-                crossAxisCount: 2,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () {
-                  eventList[index]['title'] == "NAVRATRI"
-                      ? Get.to(() => const NavratriScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "HOLI"
-                      ? Get.to(() => const HoliScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "DEEPAVALI"
-                      ? Get.to(() => const DeepavaliScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "INDEPENDENCE"
-                      ? Get.to(() => const IndependenceScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "CHRISTMAS"
-                      ? Get.to(() => const ChristmasScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "MAKAR SANKRANTI"
-                      ? Get.to(() => const MakarSnakrantiScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "GANESH CHATURTHI"
-                      ? Get.to(() => const GaneshChturthiScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "SPORTS"
-                      ? Get.to(() => const SportScreen())
-                      : const SizedBox();
-                  eventList[index]['title'] == "JANMASHTAMI"
-                      ? Get.to(() => const JanmashtamiScreen())
-                      : const SizedBox();
-                },
-                child: Container(
-                  width: 40.w,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      image: DecorationImage(
-                          image: NetworkImage(eventList[index]['imagepath']),
-                          fit: BoxFit.cover)),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 6.w),
+          child: GridView.builder(
+              padding: EdgeInsets.symmetric(vertical: 4.w),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: eventList.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisExtent: 200,
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    eventList[index]['title'] == "NAVRATRI"
+                        ? Get.to(() => const NavratriScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "HOLI"
+                        ? Get.to(() => const HoliScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "DEEPAVALI"
+                        ? Get.to(() => const DeepavaliScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "INDEPENDENCE"
+                        ? Get.to(() => const IndependenceScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "CHRISTMAS"
+                        ? Get.to(() => const ChristmasScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "MAKAR SANKRANTI"
+                        ? Get.to(() => const MakarSnakrantiScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "GANESH CHATURTHI"
+                        ? Get.to(() => const GaneshChturthiScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "SPORTS"
+                        ? Get.to(() => const SportScreen())
+                        : const SizedBox();
+                    eventList[index]['title'] == "JANMASHTAMI"
+                        ? Get.to(() => const JanmashtamiScreen())
+                        : const SizedBox();
+                  },
                   child: Container(
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        gradient: LinearGradient(
-                            colors: [
-                              Colors.black12,
-                              Colors.black45,
-                              Colors.black87,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter)),
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 4.w),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            eventList[index]['title'],
-                            textAlign: TextAlign.center,
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                color: ColorUtils.white,
-                                fontWeight: FontWeightClass.extraB),
-                          ),
-                        ],
+                    width: 40.w,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        image: DecorationImage(
+                            image: NetworkImage(eventList[index]['imagepath']),
+                            fit: BoxFit.cover)),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          gradient: LinearGradient(
+                              colors: [
+                                Colors.black12,
+                                Colors.black45,
+                                Colors.black87,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter)),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 4.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              eventList[index]['title'],
+                              textAlign: TextAlign.center,
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.white,
+                                  fontWeight: FontWeightClass.extraB),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }),
-      ),
-    );
+                );
+              }),
+        ),
+      );
+    });
   }
 }

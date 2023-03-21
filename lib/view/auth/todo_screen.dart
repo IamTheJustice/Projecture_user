@@ -1,12 +1,9 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:intl/intl.dart';
-
 import 'package:projecture/app_mode/model_theme.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -69,7 +66,7 @@ class _ToDoState extends State<ToDo> {
         print("skip");
       },
     );
-    Future.delayed(Duration(milliseconds: 500), showTutorial);
+    Future.delayed(const Duration(milliseconds: 500), showTutorial);
   }
 
   List<TargetFocus> _createTargets() {
@@ -213,7 +210,8 @@ class _ToDoState extends State<ToDo> {
                                   maxLines: 2,
                                   style: FontTextStyle.Proxima16Medium.copyWith(
                                       color: ColorUtils.white,
-                                      decoration: TextDecoration.underline),
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeightClass.extraB),
                                 ),
                               ),
                             ),
@@ -369,8 +367,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  'Description ' +
-                                                      data['Description'],
+                                                  'Description : ${data['Description']} ',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -433,6 +430,9 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                           context: context,
                                                           builder: (context) {
                                                             return AlertDialog(
+                                                              backgroundColor:
+                                                                  ColorUtils
+                                                                      .white,
                                                               title: Column(
                                                                 children: [
                                                                   Image.asset(
@@ -628,9 +628,9 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                                             bottom: 4.w),
                                                                         snackPosition:
                                                                             SnackPosition.BOTTOM,
-                                                                        backgroundColor: ColorUtils
-                                                                            .primaryColor
-                                                                            .withOpacity(0.9),
+                                                                        backgroundColor: themeNotifier.isDark
+                                                                            ? ColorUtils.black
+                                                                            : ColorUtils.primaryColor.withOpacity(0.9),
                                                                         duration:
                                                                             const Duration(seconds: 2),
                                                                       ),

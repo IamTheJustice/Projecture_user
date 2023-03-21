@@ -17,7 +17,7 @@ import 'package:sizer/sizer.dart';
 class LoginScreen extends StatefulWidget {
   String id;
 
-  LoginScreen({required this.id});
+  LoginScreen({super.key, required this.id});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -121,13 +121,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailController,
                     validator: (v) {
                       if (v!.isEmpty) {
-                        return "please email required";
+                        return "Please Email required";
                       } else if (!RegExp(
                               r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                               r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                               r"{0,253}[a-zA-Z0-9])?)*$")
                           .hasMatch(v)) {
-                        return "please enter valid email ";
+                        return "Please enter valid email ";
                       }
                       return null;
                     },
@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (v) {
                       // add your custom validation here.
                       if (v!.isEmpty) {
-                        return 'Please enter password';
+                        return 'Please Enter Password';
                       }
                       if (v.length <= 8) {
                         return 'Password must be at least 8 characters long';
@@ -270,10 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (_auth.currentUser!.uid == leader) {
                             print("Leader are " + leader);
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return LeaderDrawerBottomNavbar();
-                            }));
+                            Get.to(()=>LeaderDrawerBottomNavbar());
                           } else {
                             Get.showSnackbar(
                               GetSnackBar(
@@ -287,10 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                             Future.delayed(const Duration(seconds: 1), () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return DrawerBottomNavbar();
-                              }));
+                              Get.to(()=>DrawerBottomNavbar());
                             });
                           }
                         } else {
@@ -317,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 height: 12.w,
                 width: 60.w,
-                text: 'Log In',
+                text: 'Sign In',
                 textStyle: FontTextStyle.Proxima16Medium.copyWith(
                     color: ColorUtils.white,
                     fontSize: 13.sp,
@@ -341,12 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        // Get.to(() => RegisterScreen());
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterScreen(id: id)),
-                        );
+                        Get.to(() => RegisterScreen(id: id));
                       },
                       child: Text(
                         "Sign Up",

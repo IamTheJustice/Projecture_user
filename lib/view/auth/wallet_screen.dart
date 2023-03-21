@@ -73,7 +73,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -135,8 +135,14 @@ class _WalletScreenState extends State<WalletScreen> {
                                 ],
                               );
                             });
-                      } else
-                        return CircularProgressIndicator();
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: ColorUtils.primaryColor,
+                            strokeWidth: 1.1,
+                          ),
+                        );
+                      }
                     }),
               ],
             ),

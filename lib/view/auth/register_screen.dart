@@ -15,7 +15,7 @@ import 'package:sizer/sizer.dart';
 
 class RegisterScreen extends StatefulWidget {
   String id;
-  RegisterScreen({required this.id});
+  RegisterScreen({super.key, required this.id});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.white,
         body: ScrollConfiguration(
-          behavior: ScrollBehavior().copyWith(overscroll: false),
+          behavior: const ScrollBehavior().copyWith(overscroll: false),
           child: SingleChildScrollView(
             child: Form(
               key: formkey,
@@ -204,7 +204,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           contentPadding: EdgeInsets.all(4.w),
                           filled: true,
                           fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                          hintText: "${formattedDate}",
+                          hintText: formattedDate,
                           hintStyle: FontTextStyle.Proxima14Regular.copyWith(
                               color: ColorUtils.primaryColor),
                           border: const OutlineInputBorder(
@@ -412,11 +412,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Future.delayed(
                             const Duration(seconds: 2),
                             () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen(id: id)),
-                              );
+                              Get.to(() => LoginScreen(id: id));
                             },
                           );
                         }
@@ -433,14 +429,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen(id: id)),
-                            );
+                            Get.to(() => LoginScreen(id: id));
                           },
                           child: Text(
-                            "Sign In",
+                            "Log In",
                             style: FontTextStyle.Proxima14Regular.copyWith(
                                 color: ColorUtils.primaryColor,
                                 fontWeight: FontWeightClass.semiB),

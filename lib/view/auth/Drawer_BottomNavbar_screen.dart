@@ -27,7 +27,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerBottomNavbar extends StatefulWidget {
-  DrawerBottomNavbar({Key? key});
+  const DrawerBottomNavbar({super.key});
 
   @override
   State<DrawerBottomNavbar> createState() => _DrawerBottomNavbarState();
@@ -293,10 +293,6 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
               ListTile(
                 onTap: () {
                   Get.to(() => Process(id: id!));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Process(id: id)),
-                  // );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                 leading: Icon(
@@ -312,10 +308,6 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
               ListTile(
                 onTap: () {
                   Get.to(() => issue(id: id!));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => issue(id: id)),
-                  // );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                 leading:
@@ -328,11 +320,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
               ),
               ListTile(
                 onTap: () {
-                  Get.to(() => WalletScreen());
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const WalletScreen()),
-                  // );
+                  Get.to(() => const WalletScreen());
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                 leading:
@@ -346,11 +334,6 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
               ListTile(
                 onTap: () {
                   Get.to(() => CheckingScreen(id: id!));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => CheckingScreen(id: id)),
-                  // );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                 leading:
@@ -364,10 +347,6 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
               ListTile(
                 onTap: () {
                   Get.to(() => DoneScreen(id: id!));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => DoneScreen(id: id)),
-                  // );
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                 leading:
@@ -405,11 +384,6 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                             InkWell(
                               onTap: () {
                                 Get.to(() => LoginScreen(id: id!));
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => LoginScreen(id: id)),
-                                // );
                               },
                               child: Container(
                                 height: 10.w,
@@ -594,36 +568,33 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                   myIndex = 0;
                 });
               },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 0.5.h,
-                      width: 10.w,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color:
-                            myIndex == 0 ? Colors.red : ColorUtils.primaryColor,
-                      ),
-                    ),
-                    SizeConfig.sH05,
-                    Icon(
-                      Icons.home,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 0.5.h,
+                    width: 10.w,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
                       color:
                           myIndex == 0 ? Colors.red : ColorUtils.primaryColor,
                     ),
-                    Text(
-                      "Home",
-                      style: FontTextStyle.Proxima14Regular.copyWith(
-                        color:
-                            myIndex == 0 ? Colors.red : ColorUtils.primaryColor,
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  SizeConfig.sH05,
+                  Icon(
+                    Icons.home,
+                    color: myIndex == 0 ? Colors.red : ColorUtils.primaryColor,
+                  ),
+                  Text(
+                    "Home",
+                    style: FontTextStyle.Proxima14Regular.copyWith(
+                      color:
+                          myIndex == 0 ? Colors.red : ColorUtils.primaryColor,
+                    ),
+                  )
+                ],
               ),
             ),
             InkWell(
@@ -632,36 +603,33 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                   myIndex = 1;
                 });
               },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 0.5.h,
-                      width: 10.w,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color:
-                            myIndex == 1 ? Colors.red : ColorUtils.primaryColor,
-                      ),
-                    ),
-                    SizeConfig.sH05,
-                    Icon(
-                      Icons.chat,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 0.5.h,
+                    width: 10.w,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
                       color:
                           myIndex == 1 ? Colors.red : ColorUtils.primaryColor,
                     ),
-                    Text(
-                      "Chat",
-                      style: FontTextStyle.Proxima14Regular.copyWith(
-                        color:
-                            myIndex == 1 ? Colors.red : ColorUtils.primaryColor,
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  SizeConfig.sH05,
+                  Icon(
+                    Icons.chat,
+                    color: myIndex == 1 ? Colors.red : ColorUtils.primaryColor,
+                  ),
+                  Text(
+                    "Chat",
+                    style: FontTextStyle.Proxima14Regular.copyWith(
+                      color:
+                          myIndex == 1 ? Colors.red : ColorUtils.primaryColor,
+                    ),
+                  )
+                ],
               ),
             ),
             InkWell(
@@ -670,36 +638,33 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                   myIndex = 2;
                 });
               },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 0.5.h,
-                      width: 10.w,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color:
-                            myIndex == 2 ? Colors.red : ColorUtils.primaryColor,
-                      ),
-                    ),
-                    SizeConfig.sH05,
-                    Icon(
-                      Icons.account_circle,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 0.5.h,
+                    width: 10.w,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
                       color:
                           myIndex == 2 ? Colors.red : ColorUtils.primaryColor,
                     ),
-                    Text(
-                      "Profile",
-                      style: FontTextStyle.Proxima14Regular.copyWith(
-                        color:
-                            myIndex == 2 ? Colors.red : ColorUtils.primaryColor,
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  SizeConfig.sH05,
+                  Icon(
+                    Icons.account_circle,
+                    color: myIndex == 2 ? Colors.red : ColorUtils.primaryColor,
+                  ),
+                  Text(
+                    "Profile",
+                    style: FontTextStyle.Proxima14Regular.copyWith(
+                      color:
+                          myIndex == 2 ? Colors.red : ColorUtils.primaryColor,
+                    ),
+                  )
+                ],
               ),
             )
           ],

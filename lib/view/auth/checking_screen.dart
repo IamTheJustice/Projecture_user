@@ -17,7 +17,7 @@ import '../../utils/size_config_utils.dart';
 
 class CheckingScreen extends StatefulWidget {
   String id;
-  CheckingScreen({required this.id});
+  CheckingScreen({super.key, required this.id});
 
   @override
   State<CheckingScreen> createState() => _CheckingScreenState();
@@ -132,7 +132,8 @@ class _CheckingScreenState extends State<CheckingScreen> {
                                   maxLines: 2,
                                   style: FontTextStyle.Proxima16Medium.copyWith(
                                       color: ColorUtils.white,
-                                      decoration: TextDecoration.underline),
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeightClass.extraB),
                                 ),
                               ),
                             ),
@@ -157,7 +158,7 @@ class _CheckingScreenState extends State<CheckingScreen> {
 class ShowTaskChecking extends StatefulWidget {
   String id;
   String Project;
-  ShowTaskChecking({required this.id, required this.Project});
+  ShowTaskChecking({super.key, required this.id, required this.Project});
 
   @override
   State<ShowTaskChecking> createState() => _ShowTaskCheckingState();
@@ -292,8 +293,7 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  'Description ' +
-                                                      data['Description'],
+                                                  'Description : ${data['Description']}',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
