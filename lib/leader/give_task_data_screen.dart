@@ -358,9 +358,6 @@ class _TaskDataState extends State<TaskData> {
                                   // add your custom validation here.
                                   if (v!.isEmpty) {
                                     return "Please Task Point required";
-                                  } else if (!RegExp(r'(^(?:[+0]9)?[0-9]$)')
-                                      .hasMatch(v)) {
-                                    return "Please Enter Digits ";
                                   }
                                   return null;
                                 },
@@ -1004,7 +1001,8 @@ class _AlertBoxState extends State<AlertBox> {
                       fillColor: ColorUtils.greyE7.withOpacity(0.5),
                       hintText: "Task point",
                       hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                          color: ColorUtils.grey),
+                        color: ColorUtils.grey,
+                      ),
                       border: const OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius:
@@ -1103,13 +1101,13 @@ class _AlertBoxState extends State<AlertBox> {
                           'ApprovedDate':
                               DateFormat('dd-MMM-yy').format(DateTime.now()),
                           'Description': Description,
-                          'Archives Point': pointController.text,
+                          'Archives Point': pointController.hashCode,
                         });
                         FirebaseFirestore.instance
                             .collection(id)
                             .doc(id)
                             .collection('user')
-                            .doc(_auth.currentUser!.uid)
+                            .doc(uid)
                             .collection('Wallet')
                             .add({
                           'Point': Point,
@@ -1122,7 +1120,7 @@ class _AlertBoxState extends State<AlertBox> {
                           'ApprovedDate':
                               DateFormat('dd-MMM-yy').format(DateTime.now()),
                           'Description': Description,
-                          'Archives Point': pointController.text,
+                          'Archives Point': int.parse(pointController.text),
                         });
                         try {
                           // Get a reference to the 'task' subcollection
@@ -1148,6 +1146,7 @@ class _AlertBoxState extends State<AlertBox> {
                         }
 
                         Get.back();
+                        log('================${pointController}');
                         Get.showSnackbar(
                           GetSnackBar(
                             message: "Start Task Successfully",
