@@ -57,8 +57,8 @@ class _WalletScreenState extends State<WalletScreen> {
             child: Column(
               children: [
                 SizeConfig.sH2,
-                TextButton(
-                    onPressed: () async {
+                GestureDetector(
+                    onTap: () async {
                       int totalPoint = 0;
                       final querySnapshot = await FirebaseFirestore.instance
                           .collection(cid!)
@@ -74,7 +74,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           final point = data['Archives Point'] as int;
                           totalPoint += point;
 
-                          log('==============${totalPoints}');
+                          log('==============$totalPoints');
                         }
                       }
 
@@ -83,7 +83,36 @@ class _WalletScreenState extends State<WalletScreen> {
                         totalPoints = totalPoint;
                       });
                     },
-                    child: Text("Show Point")),
+                    child: Container(
+                      height: 5.h,
+                      width: 30.w,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                                ColorUtils.primaryColor,
+                                ColorUtils.primaryColor.withOpacity(0.5),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(
+                                  5,
+                                  5,
+                                ),
+                                blurRadius: 10)
+                          ]),
+                      child: Center(
+                          child: Text(
+                        "Show Point",
+                        style: FontTextStyle.Proxima16Medium.copyWith(
+                            color: ColorUtils.white),
+                      )),
+                    )),
                 wallet != false
                     ? Center(
                         child: Text(
@@ -94,7 +123,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               fontWeight: FontWeightClass.extraB),
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 cid != null
                     ? StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
@@ -183,7 +212,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             );
                           }
                         })
-                    : SizedBox(),
+                    : const SizedBox(),
               ],
             ),
           ),

@@ -428,7 +428,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                 ),
                 ListTile(
                   onTap: () {
-                    Get.to(() => WalletScreen());
+                    Get.to(() => const WalletScreen());
                   },
                   contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                   leading: SvgPicture.asset(
@@ -450,7 +450,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                   },
                   contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                   leading: Icon(
-                    Icons.check_circle_outline,
+                    Icons.add_task,
                     color: themeNotifier.isDark ? ColorUtils.white : null,
                   ),
                   title: Text(
@@ -505,7 +505,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                             actions: [
                               InkWell(
                                 onTap: () {
-                                  Get.to(()=> LoginScreen(id: id!));
+                                  Get.to(() => LoginScreen(id: id!));
                                 },
                                 child: Container(
                                   height: 10.w,

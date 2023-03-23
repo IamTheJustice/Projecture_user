@@ -61,7 +61,6 @@ class _ProcessState extends State<Process> {
           behavior: const ScrollBehavior().copyWith(overscroll: false),
           child: Column(
             children: [
-             
               StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection(id)
@@ -89,7 +88,8 @@ class _ProcessState extends State<Process> {
                                 motion: GestureDetector(
                                     onTap: () {
                                       Get.to(() => ShowTaskProcess(
-                                          id: id, Project: data['Project Name']));
+                                          id: id,
+                                          Project: data['Project Name']));
                                     },
                                     child: Container(
                                       height: 18.w,
@@ -97,7 +97,8 @@ class _ProcessState extends State<Process> {
                                       decoration: BoxDecoration(
                                         color: themeNotifier.isDark
                                             ? ColorUtils.blueF0
-                                            : ColorUtils.purple.withOpacity(0.7),
+                                            : ColorUtils.purple
+                                                .withOpacity(0.7),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Center(
@@ -131,10 +132,11 @@ class _ProcessState extends State<Process> {
                                     data['Project Name'],
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: FontTextStyle.Proxima16Medium.copyWith(
-                                        color: ColorUtils.white,
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeightClass.extraB),
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white,
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeightClass.extraB),
                                   ),
                                 ),
                               ),
@@ -330,7 +332,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Data : ${data['LastDate']}",
+                                                  "Due Date : ${data['LastDate']}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -344,7 +346,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Starting Data : ${data['StartingDate']}",
+                                                  "Starting Date : ${data['StartingDate']}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,

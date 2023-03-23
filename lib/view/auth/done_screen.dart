@@ -318,7 +318,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Data : ${data['LastDate']}",
+                                                  "Due Date : ${data['LastDate']}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -332,7 +332,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Starting Data : ${data['StartingDate']}",
+                                                  "Starting Date : ${data['StartingDate']}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,

@@ -25,6 +25,12 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context, Orientation orientation,
               DeviceType deviceType) {
             return GetMaterialApp(
+              builder: (context, child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+                  child: child!,
+                );
+              },
               title: 'Projecture',
               theme: themeNotifier.isDark
                   ? ThemeData(brightness: Brightness.dark)

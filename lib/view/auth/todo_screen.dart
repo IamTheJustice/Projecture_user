@@ -395,7 +395,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Data : ${data['LastDate']}",
+                                                  "Due Date : ${data['LastDate']}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,

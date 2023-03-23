@@ -354,6 +354,10 @@ class _TaskDataState extends State<TaskData> {
                                     ? ColorUtils.white
                                     : ColorUtils.primaryColor,
                                 keyboardType: TextInputType.number,
+                                style: FontTextStyle.Proxima16Medium.copyWith(
+                                    color: themeNotifier.isDark
+                                        ? ColorUtils.white
+                                        : ColorUtils.primaryColor),
                                 validator: (v) {
                                   // add your custom validation here.
                                   if (v!.isEmpty) {
@@ -379,23 +383,40 @@ class _TaskDataState extends State<TaskData> {
                               ),
                             ),
                             SizeConfig.sH4,
-                            AnimatedButton(
-                                height: 12.w,
-                                width: 60.w,
-                                text: "UPLOAD",
-                                textStyle:
-                                    FontTextStyle.Proxima14Regular.copyWith(
-                                        fontSize: 12.sp,
-                                        color: ColorUtils.white),
-                                borderRadius: 10.0,
-                                backgroundColor: themeNotifier.isDark
-                                    ? ColorUtils.black
-                                    : ColorUtils.primaryColor,
-                                selectedBackgroundColor: ColorUtils.purple,
-                                transitionType: TransitionType.CENTER_ROUNDER,
-                                selectedTextColor: ColorUtils.white,
-                                isReverse: true,
-                                onPress: () {
+                            GestureDetector(
+                                child: Container(
+                                  height: 6.h,
+                                  width: 60.w,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            ColorUtils.primaryColor,
+                                            ColorUtils.primaryColor
+                                                .withOpacity(0.5),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(
+                                              5,
+                                              5,
+                                            ),
+                                            blurRadius: 10)
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                    "UPLOAD",
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white),
+                                  )),
+                                ),
+                                onTap: () {
                                   FocusScope.of(context).requestFocus();
 
                                   if (formkey.currentState!.validate()) {

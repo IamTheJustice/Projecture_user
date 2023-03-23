@@ -352,15 +352,29 @@ class _issueState extends State<issue> {
                                                           );
                                                         });
                                                   },
-                                                  child: Center(
-                                                    child: SizedBox(
-                                                      height: 12.h,
-                                                      width: 30.w,
-                                                      child: Image.network(
-                                                        data['Image'],
-                                                        fit: BoxFit.fill,
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 12.h,
+                                                        width: 30.w,
+                                                        child: Image.network(
+                                                          data['Image'],
+                                                          fit: BoxFit.fill,
+                                                        ),
                                                       ),
-                                                    ),
+                                                      SizeConfig.sW2,
+                                                      const Icon(
+                                                        Icons
+                                                            .download_for_offline_outlined,
+                                                        color: ColorUtils.white,
+                                                      ),
+                                                    ],
                                                   ),
                                                 )
                                             ],
@@ -537,24 +551,40 @@ class _issueState extends State<issue> {
                                               Radius.circular(10.0)))),
                                 ),
                               ),
-                              SizeConfig.sH2,
-                              AnimatedButton(
-                                  height: 12.w,
-                                  width: 60.w,
-                                  text: "UPLOAD",
-                                  textStyle:
-                                      FontTextStyle.Proxima14Regular.copyWith(
-                                          fontSize: 12.sp,
-                                          color: ColorUtils.white),
-                                  borderRadius: 10.0,
-                                  backgroundColor: themeNotifier.isDark
-                                      ? Colors.black
-                                      : ColorUtils.primaryColor,
-                                  selectedBackgroundColor: ColorUtils.purple,
-                                  transitionType: TransitionType.CENTER_ROUNDER,
-                                  selectedTextColor: ColorUtils.white,
-                                  isReverse: true,
-                                  onPress: () {
+                              SizeConfig.sH3,
+                              GestureDetector(
+                                  child: Container(
+                                    height: 5.5.h,
+                                    width: 53.w,
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              ColorUtils.primaryColor,
+                                              ColorUtils.primaryColor
+                                                  .withOpacity(0.5),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0),
+                                        ),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.black12,
+                                              offset: Offset(
+                                                5,
+                                                5,
+                                              ),
+                                              blurRadius: 10)
+                                        ]),
+                                    child: Center(
+                                        child: Text(
+                                      "UPLOAD",
+                                      style: FontTextStyle.Proxima16Medium
+                                          .copyWith(color: ColorUtils.white),
+                                    )),
+                                  ),
+                                  onTap: () {
                                     FocusScope.of(context)
                                         .requestFocus(FocusNode());
                                     if (formkey.currentState!.validate()) {

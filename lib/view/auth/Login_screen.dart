@@ -82,14 +82,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: ColorUtils.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(90.0))),
-                      child: Center(
-                        child: Text(
-                          "Welcome Back",
-                          style: FontTextStyle.Proxima16Medium.copyWith(
-                              fontSize: 18.sp,
-                              color: ColorUtils.primaryColor,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Welcome",
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                fontSize: 18.sp,
+                                color: ColorUtils.primaryColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizeConfig.sH05,
+                          Text(
+                            "Login to your existent account",
+                            style: FontTextStyle.Proxima14Regular.copyWith(
+                                color: ColorUtils.primaryColor,
+                                fontWeight: FontWeightClass.semiB),
+                          ),
+                        ],
                       ),
                     ),
                   )
@@ -222,8 +233,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     )),
               ),
               SizeConfig.sH3,
-              AnimatedButton(
-                onPress: () async {
+              GestureDetector(
+                onTap: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
                   if (formkey.currentState!.validate()) {
                     try {
@@ -270,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (_auth.currentUser!.uid == leader) {
                             print("Leader are " + leader);
-                            Get.to(()=>LeaderDrawerBottomNavbar());
+                            Get.to(() => LeaderDrawerBottomNavbar());
                           } else {
                             Get.showSnackbar(
                               GetSnackBar(
@@ -284,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                             Future.delayed(const Duration(seconds: 1), () {
-                              Get.to(()=>DrawerBottomNavbar());
+                              Get.to(() => DrawerBottomNavbar());
                             });
                           }
                         } else {
@@ -309,19 +320,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     print(_auth.currentUser!.uid);
                   }
                 },
-                height: 12.w,
-                width: 60.w,
-                text: 'Sign In',
-                textStyle: FontTextStyle.Proxima16Medium.copyWith(
-                    color: ColorUtils.white,
-                    fontSize: 13.sp,
-                    fontWeight: FontWeightClass.extraB),
-                borderRadius: 10.0,
-                backgroundColor: ColorUtils.primaryColor,
-                selectedBackgroundColor: ColorUtils.purple,
-                transitionType: TransitionType.CENTER_ROUNDER,
-                selectedTextColor: ColorUtils.white,
-                isReverse: true,
+                child: Container(
+                  height: 6.5.h,
+                  width: 60.w,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        ColorUtils.primaryColor,
+                        ColorUtils.primaryColor.withOpacity(0.5),
+                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(
+                              5,
+                              5,
+                            ),
+                            blurRadius: 10)
+                      ]),
+                  child: Center(
+                      child: Text(
+                    "Sign In",
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.white),
+                  )),
+                ),
               ),
               SizeConfig.sH2,
               Row(
