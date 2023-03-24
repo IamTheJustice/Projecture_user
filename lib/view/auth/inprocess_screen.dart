@@ -278,7 +278,11 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                               ),
                                             )
                                           : Center(
-                                              child: SizedBox(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: ColorUtils.white,
+                                                        width: 2)),
                                                 height: 14.h,
                                                 width: 35.w,
                                                 child: Image.network(

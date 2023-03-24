@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -348,9 +349,13 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                               ),
                                             )
                                           : Center(
-                                              child: SizedBox(
+                                              child: Container(
                                                 height: 14.h,
                                                 width: 35.w,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: ColorUtils.white,
+                                                        width: 2)),
                                                 child: Image.network(
                                                   data['Image'],
                                                   fit: BoxFit.fill,
@@ -362,7 +367,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                   ),
                                   children: <Widget>[
                                     SizedBox(
-                                      height: 230.0,
+                                      height: 250.0,
                                       width: Get.width,
                                       child: Padding(
                                           padding: EdgeInsets.only(bottom: 3.h),

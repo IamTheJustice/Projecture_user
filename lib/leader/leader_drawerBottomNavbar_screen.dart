@@ -485,6 +485,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
+                            backgroundColor: ColorUtils.white,
                             title: Column(
                               children: [
                                 Text(

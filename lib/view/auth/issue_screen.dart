@@ -556,27 +556,35 @@ class _issueState extends State<issue> {
                                   child: Container(
                                     height: 5.5.h,
                                     width: 53.w,
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            colors: [
-                                              ColorUtils.primaryColor,
-                                              ColorUtils.primaryColor
-                                                  .withOpacity(0.5),
-                                            ],
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              color: Colors.black12,
-                                              offset: Offset(
-                                                5,
-                                                5,
-                                              ),
-                                              blurRadius: 10)
-                                        ]),
+                                    decoration: themeNotifier.isDark
+                                        ? BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                            color: ColorUtils.black)
+                                        : BoxDecoration(
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  ColorUtils.primaryColor,
+                                                  ColorUtils.primaryColor
+                                                      .withOpacity(0.5),
+                                                ],
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                            boxShadow: const [
+                                                BoxShadow(
+                                                    color: Colors.black12,
+                                                    offset: Offset(
+                                                      5,
+                                                      5,
+                                                    ),
+                                                    blurRadius: 10)
+                                              ]),
                                     child: Center(
                                         child: Text(
                                       "UPLOAD",

@@ -5,7 +5,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +24,8 @@ class TaskData extends StatefulWidget {
   String Email;
   String Uid;
   TaskData(
-      {required this.id,
+      {super.key,
+      required this.id,
       required this.Name,
       required this.Project,
       required this.Email,
@@ -393,27 +393,33 @@ class _TaskDataState extends State<TaskData> {
                                 child: Container(
                                   height: 6.h,
                                   width: 60.w,
-                                  decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            ColorUtils.primaryColor,
-                                            ColorUtils.primaryColor
-                                                .withOpacity(0.5),
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0),
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            offset: Offset(
-                                              5,
-                                              5,
-                                            ),
-                                            blurRadius: 10)
-                                      ]),
+                                  decoration: themeNotifier.isDark
+                                      ? const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                          color: ColorUtils.black)
+                                      : BoxDecoration(
+                                          gradient: LinearGradient(
+                                              colors: [
+                                                ColorUtils.primaryColor,
+                                                ColorUtils.primaryColor
+                                                    .withOpacity(0.5),
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                          boxShadow: const [
+                                              BoxShadow(
+                                                  color: Colors.black12,
+                                                  offset: Offset(
+                                                    5,
+                                                    5,
+                                                  ),
+                                                  blurRadius: 10)
+                                            ]),
                                   child: Center(
                                       child: Text(
                                     "UPLOAD",
@@ -1182,7 +1188,7 @@ class _AlertBoxState extends State<AlertBox> {
                         }
 
                         Get.back();
-                        log('================${pointController}');
+                        log('================$pointController');
                         Get.showSnackbar(
                           GetSnackBar(
                             message: "Start Task Successfully",

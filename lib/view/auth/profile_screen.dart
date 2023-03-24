@@ -145,14 +145,6 @@ class _MyProfileState extends State<MyProfile> {
                             cursorColor: themeNotifier.isDark
                                 ? ColorUtils.white
                                 : ColorUtils.primaryColor,
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please name required";
-                              } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                                return "please valid name ";
-                              }
-                              return null;
-                            },
                             style: FontTextStyle.Proxima16Medium.copyWith(
                                 color: themeNotifier.isDark
                                     ? ColorUtils.white
@@ -191,18 +183,6 @@ class _MyProfileState extends State<MyProfile> {
                                 color: themeNotifier.isDark
                                     ? ColorUtils.white
                                     : ColorUtils.primaryColor),
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please email required";
-                              } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?)*$")
-                                  .hasMatch(v)) {
-                                return "please enter valid email ";
-                              }
-                              return null;
-                            },
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -237,14 +217,6 @@ class _MyProfileState extends State<MyProfile> {
                                 color: themeNotifier.isDark
                                     ? ColorUtils.white
                                     : ColorUtils.primaryColor),
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please city required";
-                              } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                                return "please valid cityname ";
-                              }
-                              return null;
-                            },
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -279,14 +251,6 @@ class _MyProfileState extends State<MyProfile> {
                                 color: themeNotifier.isDark
                                     ? ColorUtils.white
                                     : ColorUtils.primaryColor),
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please city required";
-                              } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                                return "please valid companyname ";
-                              }
-                              return null;
-                            },
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -323,16 +287,6 @@ class _MyProfileState extends State<MyProfile> {
                                     : ColorUtils.primaryColor),
                             maxLength: 10,
                             keyboardType: TextInputType.number,
-                            validator: (v) {
-                              // add your custom validation here.
-                              if (v!.isEmpty) {
-                                return "please mobile number required";
-                              } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                                  .hasMatch(v)) {
-                                return "please enter 10 digits ";
-                              }
-                              return null;
-                            },
                             decoration: InputDecoration(
                                 counterStyle: TextStyle(
                                     color: themeNotifier.isDark
@@ -394,15 +348,6 @@ class _MyProfileState extends State<MyProfile> {
                                       : ColorUtils.primaryColor),
                               obscureText: isCheckPassword,
                               controller: passwordController,
-                              validator: (v) {
-                                // add your custom validation here.
-                                if (v!.isEmpty) {
-                                  return 'Please enter password';
-                                }
-                                if (v.length <= 8) {
-                                  return 'Password must be atleast 8 characters long';
-                                }
-                              },
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(4.w),
                                   filled: true,
@@ -433,21 +378,19 @@ class _MyProfileState extends State<MyProfile> {
                         InkWell(
                           onTap: () {
                             FocusScope.of(context).requestFocus();
-                            if (formkey.currentState!.validate()) {
-                              Get.showSnackbar(
-                                GetSnackBar(
-                                  message: "Profile Updated Succesfully",
-                                  borderRadius: 10.0,
-                                  margin: EdgeInsets.only(
-                                      left: 4.w, right: 4.w, bottom: 4.w),
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: themeNotifier.isDark
-                                      ? ColorUtils.black
-                                      : ColorUtils.primaryColor,
-                                  duration: const Duration(seconds: 3),
-                                ),
-                              );
-                            }
+                            Get.showSnackbar(
+                              GetSnackBar(
+                                message: "Profile Updated Succesfully",
+                                borderRadius: 10.0,
+                                margin: EdgeInsets.only(
+                                    left: 4.w, right: 4.w, bottom: 4.w),
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: themeNotifier.isDark
+                                    ? ColorUtils.black
+                                    : ColorUtils.primaryColor,
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
                           },
                           child: Center(
                               child: Container(
