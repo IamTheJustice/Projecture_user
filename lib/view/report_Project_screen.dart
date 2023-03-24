@@ -7,6 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:projecture/utils/shimmer_effect.dart';
 import 'package:projecture/view/auth/Report_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -20,6 +21,7 @@ class ReportProject extends StatefulWidget {
 
 class _ReportProjectState extends State<ReportProject> {
   final _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     setData();

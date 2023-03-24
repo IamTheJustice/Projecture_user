@@ -6,6 +6,7 @@ import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/report/report_Project_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:projecture/utils/shimmer_effect.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/events_screen.dart';
 import 'package:projecture/view/auth/history_screen.dart';
@@ -113,7 +114,8 @@ class _HomescreenState extends State<Homescreen> {
                                   ? Get.to(() => const ReportProject())
                                   : const SizedBox();
                               templist[index]['title'] == "History"
-                                  ? Get.to(() => const HistoryScreen())
+                                  ? Get.to(() => const ShimmerEffect())
+                                  // ? Get.to(() => const HistoryScreen())
                                   : const SizedBox();
                             },
                             child: Container(

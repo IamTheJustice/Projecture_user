@@ -129,7 +129,7 @@ class _issueState extends State<issue> {
                                         padding: EdgeInsets.symmetric(
                                             vertical: 2.w, horizontal: 7.w),
                                         child: Container(
-                                          height: 32.h,
+                                          height: 40.h,
                                           decoration: BoxDecoration(
                                               color: ColorUtils.purple,
                                               borderRadius:
@@ -360,9 +360,15 @@ class _issueState extends State<issue> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      SizedBox(
-                                                        height: 12.h,
-                                                        width: 30.w,
+                                                      Container(
+                                                        height: 20.h,
+                                                        width: 46.w,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color:
+                                                                    ColorUtils
+                                                                        .white,
+                                                                width: 2)),
                                                         child: Image.network(
                                                           data['Image'],
                                                           fit: BoxFit.fill,

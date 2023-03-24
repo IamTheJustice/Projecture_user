@@ -16,6 +16,8 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import '../../utils/shimmer_effect.dart';
+
 class ToDo extends StatefulWidget {
   String id;
 
@@ -28,11 +30,24 @@ class ToDo extends StatefulWidget {
 class _ToDoState extends State<ToDo> {
   @override
   late TutorialCoachMark tutorialCoachMark;
+  bool isShimmer = true;
+  Future durationShimmer() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    isShimmer = false;
+    setState(() {});
+  }
+
+  Future patiyu() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    setState(() {});
+  }
 
   GlobalKey keyBottomNavigation1 = GlobalKey();
 
   @override
   void initState() {
+    durationShimmer();
+    patiyu();
     createTutorial();
     super.initState();
   }
@@ -131,99 +146,106 @@ class _ToDoState extends State<ToDo> {
                 : ColorUtils.primaryColor,
             iconTheme: const IconThemeData(color: ColorUtils.white),
           ),
-          body: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection(id)
-                  .doc(id)
-                  .collection('user')
-                  .doc(_auth.currentUser!.uid)
-                  .collection('Current Project')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    padding: EdgeInsets.only(top: 2.h),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, i) {
-                      var data = snapshot.data!.docs[i];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0.8.h, horizontal: 5.w),
-                        child: Slidable(
-                          key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: GestureDetector(
+          body: isShimmer == true
+              ? projectList()
+              : StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection(id)
+                      .doc(id)
+                      .collection('user')
+                      .doc(_auth.currentUser!.uid)
+                      .collection('Current Project')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        padding: EdgeInsets.only(top: 2.h),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (BuildContext context, i) {
+                          var data = snapshot.data!.docs[i];
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0.8.h, horizontal: 5.w),
+                            child: Slidable(
+                              key: const ValueKey(0),
+                              endActionPane: ActionPane(
+                                motion: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ShowTaskToDo(
+                                                      id: id,
+                                                      Project: data[
+                                                          'Project Name'])));
+                                    },
+                                    child: Container(
+                                      height: 18.w,
+                                      margin: EdgeInsets.only(left: 3.sp),
+                                      decoration: BoxDecoration(
+                                        color: themeNotifier.isDark
+                                            ? ColorUtils.blueF0
+                                            : ColorUtils.purple
+                                                .withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Show \nTask",
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: themeNotifier.isDark
+                                                      ? ColorUtils.black
+                                                      : ColorUtils.white,
+                                                  fontWeight:
+                                                      FontWeightClass.semiB),
+                                        ),
+                                      ),
+                                    )),
+                                extentRatio: .3,
+                                dragDismissible: false,
+                                children: const [],
+                              ),
+                              child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ShowTaskToDo(
-                                              id: id,
-                                              Project: data['Project Name'])));
+                                  showTutorial();
                                 },
                                 child: Container(
+                                  key: i == 0 ? keyBottomNavigation1 : null,
                                   height: 18.w,
-                                  margin: EdgeInsets.only(left: 3.sp),
-                                  decoration: BoxDecoration(
-                                    color: themeNotifier.isDark
-                                        ? ColorUtils.blueF0
-                                        : ColorUtils.purple.withOpacity(0.7),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
+                                  width: Get.width,
+                                  decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      color: ColorUtils.purple),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 5.w, vertical: 3.w),
                                     child: Text(
-                                      "Show \nTask",
+                                      data['Project Name'],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                       style: FontTextStyle.Proxima16Medium
                                           .copyWith(
-                                              color: themeNotifier.isDark
-                                                  ? ColorUtils.black
-                                                  : ColorUtils.white,
+                                              color: ColorUtils.white,
+                                              fontSize: 13.sp,
                                               fontWeight:
-                                                  FontWeightClass.semiB),
+                                                  FontWeightClass.extraB),
                                     ),
                                   ),
-                                )),
-                            extentRatio: .3,
-                            dragDismissible: false,
-                            children: const [],
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              showTutorial();
-                            },
-                            child: Container(
-                              key: i == 0 ? keyBottomNavigation1 : null,
-                              height: 18.w,
-                              width: Get.width,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                  color: ColorUtils.purple),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 3.w),
-                                child: Text(
-                                  data['Project Name'],
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: FontTextStyle.Proxima16Medium.copyWith(
-                                      color: ColorUtils.white,
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeightClass.extraB),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
-                    },
-                  );
-                } else
-                  return CircularProgressIndicator();
-              }));
+                    } else
+                      return CircularProgressIndicator();
+                  }));
     });
   }
 }
