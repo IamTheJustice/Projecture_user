@@ -329,7 +329,7 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Data : ${data['LastDate']}",
+                                                  "Due Date : ${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,

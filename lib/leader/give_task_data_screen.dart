@@ -41,9 +41,11 @@ class _TaskDataState extends State<TaskData> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController pointController = TextEditingController();
   final TextEditingController addPointController = TextEditingController();
+  final TextEditingController dateshowController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   DateTime date = DateTime.now();
   late var formattedDate = "Date of Last";
+  late var formatted = "Date of Last";
   File? imageFile;
   String imageUrl = '';
   final formkey = GlobalKey<FormState>();
@@ -281,7 +283,7 @@ class _TaskDataState extends State<TaskData> {
                               padding: EdgeInsets.only(
                                   left: 5.w, right: 5.w, top: 2.w),
                               child: TextFormField(
-                                controller: dateController,
+                                controller: dateshowController,
                                 cursorColor: ColorUtils.primaryColor,
                                 readOnly: true,
                                 validator: (v) {
@@ -299,7 +301,7 @@ class _TaskDataState extends State<TaskData> {
                                     filled: true,
                                     fillColor:
                                         ColorUtils.greyE7.withOpacity(0.5),
-                                    hintText: formattedDate,
+                                    hintText: formatted,
                                     hintStyle:
                                         FontTextStyle.Proxima14Regular.copyWith(
                                             color: themeNotifier.isDark
@@ -335,8 +337,11 @@ class _TaskDataState extends State<TaskData> {
                                     lastDate: DateTime(2030),
                                   ).then((selectedDate) {
                                     if (selectedDate != null) {
+                                      formatted = DateFormat('dd-MMM-yy')
+                                          .format(selectedDate);
                                       formattedDate = selectedDate.toString();
                                       setState(() {
+                                        dateshowController.text = formatted;
                                         dateController.text = formattedDate;
                                         // dateController.text = formattedDate;
                                         // dateController.text = formattedDate;
@@ -758,7 +763,7 @@ class _TaskDataState extends State<TaskData> {
                                                                   top: 1.h,
                                                                   left: 5.w),
                                                           child: Text(
-                                                            "Due Data : ${data['LastDate']}",
+                                                            "Due Date : ${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
@@ -1082,7 +1087,7 @@ class _AlertBoxState extends State<AlertBox> {
                               DateFormat('dd-MMM-yy').format(DateTime.now()),
                           'Description': Description,
                           'Point': Point,
-                          'Archives Point': pointController.text,
+                          'Archives Point': int.parse(pointController.text),
                         }).whenComplete(() => FirebaseFirestore.instance
                                 .collection(id)
                                 .doc(id)
@@ -1132,7 +1137,7 @@ class _AlertBoxState extends State<AlertBox> {
                           'ApprovedDate':
                               DateFormat('dd-MMM-yy').format(DateTime.now()),
                           'Description': Description,
-                          'Archives Point': pointController.hashCode,
+                          'Archives Point': int.parse(pointController.text),
                         });
                         FirebaseFirestore.instance
                             .collection(id)

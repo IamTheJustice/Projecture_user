@@ -294,14 +294,14 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
 
                         return Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 2.w, horizontal: 7.w),
+                                vertical: 3.w, horizontal: 7.w),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: difference <= 0
                                       ? ColorUtils.purple
                                       : Colors.red,
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
+                                      Radius.circular(5)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: ColorUtils.black.withOpacity(0.1),
@@ -410,11 +410,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-<<<<<<< Updated upstream
-                                                  "Due Date : ${data['LastDate']}",
-=======
-                                                  "Due Data : ${LastDate.year} ${LastDate.month} ${LastDate.day}",
->>>>>>> Stashed changes
+                                                  "Due Date : ${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,

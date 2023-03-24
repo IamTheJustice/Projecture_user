@@ -202,6 +202,11 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i) {
                         var data = snapshot.data!.docs[i];
+                        DateTime LastDate = DateTime.parse(data['LastDate']);
+                        final Today = DateTime.now();
+                        int difference = Today.difference(LastDate).inDays;
+                        print(difference);
+
                         return Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2.w, horizontal: 7.w),
@@ -318,7 +323,7 @@ class _ShowTaskDoneState extends State<ShowTaskDone> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Date : ${data['LastDate']}",
+                                                  "Due Date : ${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
