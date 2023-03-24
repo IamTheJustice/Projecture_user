@@ -79,6 +79,7 @@ class _ProcessState extends State<Process> {
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (BuildContext context, i) {
                           var data = snapshot.data!.docs[i];
+
                           return Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 0.8.h, horizontal: 5.w),
@@ -216,12 +217,19 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i) {
                         var data = snapshot.data!.docs[i];
+                        DateTime LastDate = DateTime.parse(data['LastDate']);
+                        final Today = DateTime.now();
+                        int difference = Today.difference(LastDate).inDays;
+                        print(difference);
+
                         return Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2.w, horizontal: 7.w),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: ColorUtils.purple,
+                                  color: difference <= 0
+                                      ? ColorUtils.purple
+                                      : Colors.red,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20)),
                                   boxShadow: [

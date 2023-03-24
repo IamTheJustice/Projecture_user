@@ -335,10 +335,11 @@ class _TaskDataState extends State<TaskData> {
                                     lastDate: DateTime(2030),
                                   ).then((selectedDate) {
                                     if (selectedDate != null) {
-                                      formattedDate = DateFormat('dd-MMM-yy')
-                                          .format(selectedDate);
+                                      formattedDate = selectedDate.toString();
                                       setState(() {
                                         dateController.text = formattedDate;
+                                        // dateController.text = formattedDate;
+                                        // dateController.text = formattedDate;
                                       });
                                     }
                                   });
@@ -473,8 +474,8 @@ class _TaskDataState extends State<TaskData> {
                                                     'Image': imageUrl,
                                                     'Name': Name,
                                                     'Email': Email,
-                                                    'LastDate':
-                                                        dateController.text,
+                                                    'LastDate': formattedDate
+                                                        .toString(),
                                                     'AssignDate': DateFormat(
                                                             'dd-MMM-yy')
                                                         .format(DateTime.now()),
@@ -611,12 +612,21 @@ class _TaskDataState extends State<TaskData> {
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, i) {
                                   var data = snapshot.data!.docs[i];
+                                  DateTime LastDate =
+                                      DateTime.parse(data['LastDate']);
+                                  final Today = DateTime.now();
+                                  int difference =
+                                      Today.difference(LastDate).inDays;
+                                  print(difference);
+
                                   return Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 2.w, horizontal: 7.w),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            color: ColorUtils.purple,
+                                            color: difference <= 0
+                                                ? ColorUtils.purple
+                                                : Colors.red,
                                             borderRadius:
                                                 const BorderRadius.all(
                                                     Radius.circular(20)),

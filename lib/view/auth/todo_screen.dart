@@ -279,12 +279,27 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i) {
                         var data = snapshot.data!.docs[i];
+                        DateTime LastDate = DateTime.parse(data['LastDate']);
+                        // int year = int.parse(
+                        //     data['LastDate'].toString().split("-").first);
+                        // int month = int.parse(
+                        //     data['LastDate'].toString().split("-")[1]);
+                        // int day = int.parse(
+                        //     data['LastDate'].toString().split("-").);
+                        // print("$year $month $day");
+                        // final Lastdate = data['LastDate'];
+                        final Today = DateTime.now();
+                        int difference = Today.difference(LastDate).inDays;
+                        print(difference);
+
                         return Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2.w, horizontal: 7.w),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: ColorUtils.purple,
+                                  color: difference <= 0
+                                      ? ColorUtils.purple
+                                      : Colors.red,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20)),
                                   boxShadow: [
@@ -395,7 +410,11 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
+<<<<<<< Updated upstream
                                                   "Due Date : ${data['LastDate']}",
+=======
+                                                  "Due Data : ${LastDate.year} ${LastDate.month} ${LastDate.day}",
+>>>>>>> Stashed changes
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
