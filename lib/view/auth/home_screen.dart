@@ -114,8 +114,8 @@ class _HomescreenState extends State<Homescreen> {
                                   ? Get.to(() => const ReportProject())
                                   : const SizedBox();
                               templist[index]['title'] == "History"
-                                  ? Get.to(() => const ShimmerEffect())
-                                  // ? Get.to(() => const HistoryScreen())
+                                  //? Get.to(() => const ShimmerEffect())
+                                  ? Get.to(() => const HistoryScreen())
                                   : const SizedBox();
                             },
                             child: Container(
