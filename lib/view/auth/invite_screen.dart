@@ -14,7 +14,7 @@ import 'package:sizer/sizer.dart';
 
 class InviteScreen extends StatefulWidget {
   String id;
-  InviteScreen({required this.id});
+  InviteScreen({super.key, required this.id});
 
   @override
   State<InviteScreen> createState() => _InviteScreenState();

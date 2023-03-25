@@ -129,7 +129,7 @@ class _issueState extends State<issue> {
                                         padding: EdgeInsets.symmetric(
                                             vertical: 2.w, horizontal: 7.w),
                                         child: Container(
-                                          height: 32.h,
+                                          height: 40.h,
                                           decoration: BoxDecoration(
                                               color: ColorUtils.purple,
                                               borderRadius:
@@ -352,15 +352,35 @@ class _issueState extends State<issue> {
                                                           );
                                                         });
                                                   },
-                                                  child: Center(
-                                                    child: SizedBox(
-                                                      height: 12.h,
-                                                      width: 30.w,
-                                                      child: Image.network(
-                                                        data['Image'],
-                                                        fit: BoxFit.fill,
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        height: 20.h,
+                                                        width: 46.w,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color:
+                                                                    ColorUtils
+                                                                        .white,
+                                                                width: 2)),
+                                                        child: Image.network(
+                                                          data['Image'],
+                                                          fit: BoxFit.fill,
+                                                        ),
                                                       ),
-                                                    ),
+                                                      SizeConfig.sW2,
+                                                      const Icon(
+                                                        Icons
+                                                            .download_for_offline_outlined,
+                                                        color: ColorUtils.white,
+                                                      ),
+                                                    ],
                                                   ),
                                                 )
                                             ],
@@ -378,7 +398,8 @@ class _issueState extends State<issue> {
                       ),
                     ),
                     ScrollConfiguration(
-                      behavior: ScrollBehavior().copyWith(overscroll: false),
+                      behavior:
+                          const ScrollBehavior().copyWith(overscroll: false),
                       child: ListView(
                         padding: const EdgeInsets.all(0.0),
                         children: [
@@ -395,10 +416,10 @@ class _issueState extends State<issue> {
                                       color: ColorUtils.primaryColor),
                                   validator: (v) {
                                     if (v!.isEmpty) {
-                                      return "please name required";
+                                      return "Please Name required";
                                     } else if (!RegExp(r'^[a-zA-Z0-9]+$')
                                         .hasMatch(v)) {
-                                      return "please valid name ";
+                                      return "Please valid name ";
                                     }
                                     return null;
                                   },
@@ -424,7 +445,9 @@ class _issueState extends State<issue> {
                                     horizontal: 5.w, vertical: 2.h),
                                 child: DottedBorder(
                                   dashPattern: const [6, 3, 2, 3],
-                                  color: ColorUtils.greyBB,
+                                  color: themeNotifier.isDark
+                                      ? ColorUtils.white
+                                      : ColorUtils.greyBB,
                                   strokeWidth: 1,
                                   strokeCap: StrokeCap.square,
                                   padding:
@@ -444,12 +467,12 @@ class _issueState extends State<issue> {
                                                     fit: BoxFit.cover,
                                                   )),
                                             )
-                                          : Container(
+                                          : SizedBox(
+                                              height: 30.w,
+                                              width: 30.w,
                                               child: Lottie.asset(
                                                   "assets/lotties/chooseImage.json",
                                                   height: 20.w),
-                                              height: 30.w,
-                                              width: 30.w,
                                             ),
                                     ),
                                   ),
@@ -491,7 +514,7 @@ class _issueState extends State<issue> {
                                       color: themeNotifier.isDark
                                           ? Colors.black
                                           : ColorUtils.primaryColor,
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0))),
                                   child: Center(
                                     child: Text(
@@ -504,7 +527,7 @@ class _issueState extends State<issue> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    left: 5.w, right: 5.w, top: 2.w),
+                                    left: 5.w, right: 5.w, top: 2.h),
                                 child: TextFormField(
                                   cursorColor: ColorUtils.primaryColor,
                                   style: FontTextStyle.Proxima16Medium.copyWith(
@@ -513,7 +536,7 @@ class _issueState extends State<issue> {
                                   maxLines: 3,
                                   validator: (v) {
                                     if (v!.isEmpty) {
-                                      return "please description required";
+                                      return "Please Description required";
                                     }
                                     return null;
                                   },
@@ -534,24 +557,48 @@ class _issueState extends State<issue> {
                                               Radius.circular(10.0)))),
                                 ),
                               ),
-                              SizeConfig.sH2,
-                              AnimatedButton(
-                                  height: 12.w,
-                                  width: 60.w,
-                                  text: "UPLOAD",
-                                  textStyle:
-                                      FontTextStyle.Proxima14Regular.copyWith(
-                                          fontSize: 12.sp,
-                                          color: ColorUtils.white),
-                                  borderRadius: 10.0,
-                                  backgroundColor: themeNotifier.isDark
-                                      ? Colors.black
-                                      : ColorUtils.primaryColor,
-                                  selectedBackgroundColor: ColorUtils.purple,
-                                  transitionType: TransitionType.CENTER_ROUNDER,
-                                  selectedTextColor: ColorUtils.white,
-                                  isReverse: true,
-                                  onPress: () {
+                              SizeConfig.sH3,
+                              GestureDetector(
+                                  child: Container(
+                                    height: 5.5.h,
+                                    width: 53.w,
+                                    decoration: themeNotifier.isDark
+                                        ? BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                            color: ColorUtils.black)
+                                        : BoxDecoration(
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  ColorUtils.primaryColor,
+                                                  ColorUtils.primaryColor
+                                                      .withOpacity(0.5),
+                                                ],
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                            boxShadow: const [
+                                                BoxShadow(
+                                                    color: Colors.black12,
+                                                    offset: Offset(
+                                                      5,
+                                                      5,
+                                                    ),
+                                                    blurRadius: 10)
+                                              ]),
+                                    child: Center(
+                                        child: Text(
+                                      "UPLOAD",
+                                      style: FontTextStyle.Proxima16Medium
+                                          .copyWith(color: ColorUtils.white),
+                                    )),
+                                  ),
+                                  onTap: () {
                                     FocusScope.of(context)
                                         .requestFocus(FocusNode());
                                     if (formkey.currentState!.validate()) {
@@ -738,8 +785,6 @@ class _issueState extends State<issue> {
 
   Future chooseImageBottomSheet() {
     return Get.bottomSheet(
-        //isScrollControlled: true,
-        //isDismissible: true,
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

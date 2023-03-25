@@ -58,7 +58,7 @@ class _MyProfileState extends State<MyProfile> {
           body: Form(
             key: formkey,
             child: ScrollConfiguration(
-              behavior: ScrollBehavior().copyWith(overscroll: false),
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
               child: ListView(
                 padding: const EdgeInsets.all(0.0),
                 children: [
@@ -142,15 +142,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please name required";
-                              } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                                return "please valid name ";
-                              }
-                              return null;
-                            },
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -178,19 +176,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please email required";
-                              } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?)*$")
-                                  .hasMatch(v)) {
-                                return "please enter valid email ";
-                              }
-                              return null;
-                            },
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -218,15 +210,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please city required";
-                              } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                                return "please valid cityname ";
-                              }
-                              return null;
-                            },
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -254,15 +244,13 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "please city required";
-                              } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                                return "please valid companyname ";
-                              }
-                              return null;
-                            },
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(4.w),
                                 filled: true,
@@ -290,19 +278,15 @@ class _MyProfileState extends State<MyProfile> {
                         Padding(
                           padding: EdgeInsets.only(top: 2.w),
                           child: TextFormField(
-                            cursorColor: ColorUtils.primaryColor,
+                            cursorColor: themeNotifier.isDark
+                                ? ColorUtils.white
+                                : ColorUtils.primaryColor,
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: themeNotifier.isDark
+                                    ? ColorUtils.white
+                                    : ColorUtils.primaryColor),
                             maxLength: 10,
                             keyboardType: TextInputType.number,
-                            validator: (v) {
-                              // add your custom validation here.
-                              if (v!.isEmpty) {
-                                return "please mobile number required";
-                              } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                                  .hasMatch(v)) {
-                                return "please enter 10 digits ";
-                              }
-                              return null;
-                            },
                             decoration: InputDecoration(
                                 counterStyle: TextStyle(
                                     color: themeNotifier.isDark
@@ -355,18 +339,15 @@ class _MyProfileState extends State<MyProfile> {
                               ),
                             ),
                             child: TextFormField(
-                              cursorColor: ColorUtils.primaryColor,
+                              cursorColor: themeNotifier.isDark
+                                  ? ColorUtils.white
+                                  : ColorUtils.primaryColor,
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: themeNotifier.isDark
+                                      ? ColorUtils.white
+                                      : ColorUtils.primaryColor),
                               obscureText: isCheckPassword,
                               controller: passwordController,
-                              validator: (v) {
-                                // add your custom validation here.
-                                if (v!.isEmpty) {
-                                  return 'Please enter password';
-                                }
-                                if (v.length <= 8) {
-                                  return 'Password must be atleast 8 characters long';
-                                }
-                              },
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(4.w),
                                   filled: true,
@@ -397,42 +378,51 @@ class _MyProfileState extends State<MyProfile> {
                         InkWell(
                           onTap: () {
                             FocusScope.of(context).requestFocus();
-                            if (formkey.currentState!.validate()) {
-                              Get.showSnackbar(
-                                GetSnackBar(
-                                  message: "Profile Updated Succesfully",
-                                  borderRadius: 10.0,
-                                  margin: EdgeInsets.only(
-                                      left: 4.w, right: 4.w, bottom: 4.w),
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: ColorUtils.primaryColor,
-                                  duration: const Duration(seconds: 3),
-                                ),
-                              );
-                            }
+                            Get.showSnackbar(
+                              GetSnackBar(
+                                message: "Profile Updated Succesfully",
+                                borderRadius: 10.0,
+                                margin: EdgeInsets.only(
+                                    left: 4.w, right: 4.w, bottom: 4.w),
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: themeNotifier.isDark
+                                    ? ColorUtils.black
+                                    : ColorUtils.primaryColor,
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
                           },
                           child: Center(
-                            child: Container(
-                              height: 12.w,
-                              width: 60.w,
-                              decoration: BoxDecoration(
-                                  color: themeNotifier.isDark
-                                      ? Colors.black
-                                      : ColorUtils.primaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0))),
-                              child: Center(
-                                child: Text(
-                                  "DONE",
-                                  style: FontTextStyle.Proxima16Medium.copyWith(
-                                      color: themeNotifier.isDark
-                                          ? ColorUtils.white
-                                          : ColorUtils.white,
-                                      fontWeight: FontWeightClass.semiB),
+                              child: Container(
+                            height: 6.h,
+                            width: 55.w,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      ColorUtils.primaryColor,
+                                      ColorUtils.primaryColor.withOpacity(0.5),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0),
                                 ),
-                              ),
-                            ),
-                          ),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(
+                                        5,
+                                        5,
+                                      ),
+                                      blurRadius: 10)
+                                ]),
+                            child: Center(
+                                child: Text(
+                              "DONE",
+                              style: FontTextStyle.Proxima16Medium.copyWith(
+                                  color: ColorUtils.white),
+                            )),
+                          )),
                         ),
                         SizeConfig.sH2,
                       ],
@@ -508,6 +498,7 @@ class _MyProfileState extends State<MyProfile> {
                         InkWell(
                             onTap: () {
                               _getFromGallery();
+                              Get.back();
                             },
                             child: CircleAvatar(
                               backgroundColor: ColorUtils.primaryColor,
@@ -532,6 +523,7 @@ class _MyProfileState extends State<MyProfile> {
                         InkWell(
                             onTap: () {
                               _getFromCamera();
+                              Get.back();
                             },
                             child: CircleAvatar(
                               backgroundColor: ColorUtils.primaryColor,

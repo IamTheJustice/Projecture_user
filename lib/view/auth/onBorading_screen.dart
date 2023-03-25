@@ -8,7 +8,7 @@ import 'package:projecture/view/auth/company_list_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  OnBoardingScreen({Key? key}) : super(key: key);
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
@@ -84,7 +84,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         pageChange < 2
                             ? InkWell(
                                 onTap: () {
-                                  Get.off((CompanyListScreen()));
+                                  Get.off((const CompanyListScreen()));
                                 },
                                 child: Text("Skip",
                                     style: TextStyle(fontSize: 13.sp)),
@@ -125,46 +125,48 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
               ),
             ),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 5.w),
               child: InkWell(
-                onTap: () {
-                  pageChange < 2
-                      ? pageController.nextPage(
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.easeInOut)
-                      : Get.off((CompanyListScreen()));
-                },
-                child: Container(
-                  height: 13.w,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: ColorUtils.primaryColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text('Next',
-                      style: TextStyle(fontSize: 15.sp, color: Colors.white)),
-                ),
-              ),
+                  onTap: () {
+                    pageChange < 2
+                        ? pageController.nextPage(
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut)
+                        : Get.off((const CompanyListScreen()));
+                  },
+                  child: Container(
+                    height: 6.5.h,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              ColorUtils.primaryColor,
+                              ColorUtils.primaryColor.withOpacity(0.5),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(
+                                5,
+                                5,
+                              ),
+                              blurRadius: 10)
+                        ]),
+                    child: Center(
+                        child: Text(
+                      "Next",
+                      style: FontTextStyle.Proxima16Medium.copyWith(
+                          color: ColorUtils.white),
+                    )),
+                  )),
             ),
             SizeConfig.sH2,
-            // Padding(
-            //   padding: EdgeInsets.only(right: 2.w),
-            //   child: Align(
-            //     alignment: Alignment.bottomRight,
-            //     child: Container(
-            //       height: 5.h,
-            //       width: 35.w,
-            //       decoration: BoxDecoration(
-            //           color: ColorUtils.primaryColor,
-            //           borderRadius: BorderRadius.only(
-            //               topLeft: Radius.circular(40),
-            //               bottomRight: Radius.circular(40))),
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),

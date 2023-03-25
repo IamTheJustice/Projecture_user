@@ -7,8 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projecture/app_mode/model_theme.dart';
-import 'package:projecture/provider/user_contact_provider.dart';
-import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/const/function/local_notification_services.dart';
 import 'package:projecture/view/auth/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +55,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +67,12 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context, Orientation orientation,
               DeviceType deviceType) {
             return GetMaterialApp(
+              builder: (context, child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+                  child: child!,
+                );
+              },
               title: 'Projecture',
               theme: themeNotifier.isDark
                   ? ThemeData(brightness: Brightness.dark)

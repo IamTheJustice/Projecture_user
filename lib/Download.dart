@@ -1,10 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,6 +16,7 @@ class DownloadFile extends StatefulWidget {
   var fileNm;
 
   DownloadFile({
+    super.key,
     required this.fileNm,
     required this.fileLink,
   });
@@ -206,7 +204,7 @@ class _DownloadFileState extends State<DownloadFile> {
               child: Container(
                 height: 4.h,
                 width: 30.w,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: ColorUtils.primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: Center(

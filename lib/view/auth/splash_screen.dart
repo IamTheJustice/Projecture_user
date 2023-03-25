@@ -27,14 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
     LocalNotificationServices.requestPermission();
     setData();
     super.initState();
-    // FirebaseMessaging.instance.getInitialMessage();
-    //
-    // FirebaseMessaging.onMessage.listen((message) {
-    //   if (message.notification != null) {
-    //     log("${message.notification!.body}");
-    //     log("${message.notification!.title}");
-    //   }
-    // });
   }
 
   String? cid;
@@ -54,7 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   final _auth = FirebaseAuth.instance;
-  // late String leader;
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +79,10 @@ class _SplashScreenState extends State<SplashScreen> {
           splashTransition: SplashTransition.sizeTransition,
           backgroundColor: ColorUtils.white,
           nextScreen: uid == null
-              ? OnBoardingScreen()
+              ? const OnBoardingScreen()
               : leader == uid
-                  ? LeaderDrawerBottomNavbar()
-                  : DrawerBottomNavbar()),
+                  ? const LeaderDrawerBottomNavbar()
+                  : const DrawerBottomNavbar()),
     );
   }
 }

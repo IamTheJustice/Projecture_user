@@ -97,43 +97,54 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
           SizeConfig.sH3,
           GestureDetector(
-            onTap: () {
-              setState(() async {
-                try {
-                  await _auth.sendPasswordResetEmail(
-                      email: emailController.text);
-                  Get.showSnackbar(
-                    GetSnackBar(
-                      message: "Email send Successfully",
-                      borderRadius: 10.0,
-                      margin:
-                          EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: ColorUtils.primaryColor,
-                      duration: const Duration(seconds: 1),
+              onTap: () {
+                setState(() async {
+                  try {
+                    await _auth.sendPasswordResetEmail(
+                        email: emailController.text);
+                    Get.showSnackbar(
+                      GetSnackBar(
+                        message: "Email send Successfully",
+                        borderRadius: 10.0,
+                        margin:
+                            EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: ColorUtils.primaryColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
+                  } catch (e) {
+                    print(e);
+                  }
+                });
+              },
+              child: Container(
+                height: 6.5.h,
+                width: 60.w,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      ColorUtils.primaryColor,
+                      ColorUtils.primaryColor.withOpacity(0.5),
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10.0),
                     ),
-                  );
-                } catch (e) {
-                  print(e);
-                }
-              });
-            },
-            child: Container(
-              height: 12.w,
-              width: 60.w,
-              decoration: const BoxDecoration(
-                  color: ColorUtils.primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
-              child: Center(
-                child: Text(
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(
+                            5,
+                            5,
+                          ),
+                          blurRadius: 10)
+                    ]),
+                child: Center(
+                    child: Text(
                   "Send Email",
                   style: FontTextStyle.Proxima16Medium.copyWith(
-                      color: ColorUtils.white,
-                      fontWeight: FontWeightClass.semiB),
-                ),
-              ),
-            ),
-          ),
+                      color: ColorUtils.white),
+                )),
+              )),
         ],
       ),
     );

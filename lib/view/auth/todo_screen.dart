@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:intl/intl.dart';
-
 import 'package:projecture/app_mode/model_theme.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -17,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
+import '../../utils/shimmer_effect.dart';
 
 class ToDo extends StatefulWidget {
   String id;
@@ -30,11 +30,24 @@ class ToDo extends StatefulWidget {
 class _ToDoState extends State<ToDo> {
   @override
   late TutorialCoachMark tutorialCoachMark;
+  bool isShimmer = true;
+  Future durationShimmer() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    isShimmer = false;
+    setState(() {});
+  }
+
+  Future patiyu() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    setState(() {});
+  }
 
   GlobalKey keyBottomNavigation1 = GlobalKey();
 
   @override
   void initState() {
+    durationShimmer();
+    patiyu();
     createTutorial();
     super.initState();
   }
@@ -69,7 +82,7 @@ class _ToDoState extends State<ToDo> {
         print("skip");
       },
     );
-    Future.delayed(Duration(milliseconds: 500), showTutorial);
+    Future.delayed(const Duration(milliseconds: 500), showTutorial);
   }
 
   List<TargetFocus> _createTargets() {
@@ -133,98 +146,106 @@ class _ToDoState extends State<ToDo> {
                 : ColorUtils.primaryColor,
             iconTheme: const IconThemeData(color: ColorUtils.white),
           ),
-          body: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection(id)
-                  .doc(id)
-                  .collection('user')
-                  .doc(_auth.currentUser!.uid)
-                  .collection('Current Project')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    padding: EdgeInsets.only(top: 2.h),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, i) {
-                      var data = snapshot.data!.docs[i];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0.8.h, horizontal: 5.w),
-                        child: Slidable(
-                          key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: GestureDetector(
+          body: isShimmer == true
+              ? projectList()
+              : StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection(id)
+                      .doc(id)
+                      .collection('user')
+                      .doc(_auth.currentUser!.uid)
+                      .collection('Current Project')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        padding: EdgeInsets.only(top: 2.h),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (BuildContext context, i) {
+                          var data = snapshot.data!.docs[i];
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0.8.h, horizontal: 5.w),
+                            child: Slidable(
+                              key: const ValueKey(0),
+                              endActionPane: ActionPane(
+                                motion: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ShowTaskToDo(
+                                                      id: id,
+                                                      Project: data[
+                                                          'Project Name'])));
+                                    },
+                                    child: Container(
+                                      height: 18.w,
+                                      margin: EdgeInsets.only(left: 3.sp),
+                                      decoration: BoxDecoration(
+                                        color: themeNotifier.isDark
+                                            ? ColorUtils.blueF0
+                                            : ColorUtils.purple
+                                                .withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Show \nTask",
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: themeNotifier.isDark
+                                                      ? ColorUtils.black
+                                                      : ColorUtils.white,
+                                                  fontWeight:
+                                                      FontWeightClass.semiB),
+                                        ),
+                                      ),
+                                    )),
+                                extentRatio: .3,
+                                dragDismissible: false,
+                                children: const [],
+                              ),
+                              child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ShowTaskToDo(
-                                              id: id,
-                                              Project: data['Project Name'])));
+                                  showTutorial();
                                 },
                                 child: Container(
+                                  key: i == 0 ? keyBottomNavigation1 : null,
                                   height: 18.w,
-                                  margin: EdgeInsets.only(left: 3.sp),
-                                  decoration: BoxDecoration(
-                                    color: themeNotifier.isDark
-                                        ? ColorUtils.blueF0
-                                        : ColorUtils.purple.withOpacity(0.7),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
+                                  width: Get.width,
+                                  decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      color: ColorUtils.purple),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 5.w, vertical: 3.w),
                                     child: Text(
-                                      "Show \nTask",
+                                      data['Project Name'],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                       style: FontTextStyle.Proxima16Medium
                                           .copyWith(
-                                              color: themeNotifier.isDark
-                                                  ? ColorUtils.black
-                                                  : ColorUtils.white,
+                                              color: ColorUtils.white,
+                                              fontSize: 13.sp,
                                               fontWeight:
-                                                  FontWeightClass.semiB),
+                                                  FontWeightClass.extraB),
                                     ),
                                   ),
-                                )),
-                            extentRatio: .3,
-                            dragDismissible: false,
-                            children: const [],
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              showTutorial();
-                            },
-                            child: Container(
-                              key: i == 0 ? keyBottomNavigation1 : null,
-                              height: 18.w,
-                              width: Get.width,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                  color: ColorUtils.purple),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 3.w),
-                                child: Text(
-                                  data['Project Name'],
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: FontTextStyle.Proxima16Medium.copyWith(
-                                      color: ColorUtils.white,
-                                      decoration: TextDecoration.underline),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
-                    },
-                  );
-                } else
-                  return CircularProgressIndicator();
-              }));
+                    } else
+                      return CircularProgressIndicator();
+                  }));
     });
   }
 }
@@ -281,14 +302,29 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i) {
                         var data = snapshot.data!.docs[i];
+                        DateTime LastDate = DateTime.parse(data['LastDate']);
+                        // int year = int.parse(
+                        //     data['LastDate'].toString().split("-").first);
+                        // int month = int.parse(
+                        //     data['LastDate'].toString().split("-")[1]);
+                        // int day = int.parse(
+                        //     data['LastDate'].toString().split("-").);
+                        // print("$year $month $day");
+                        // final Lastdate = data['LastDate'];
+                        final Today = DateTime.now();
+                        int difference = Today.difference(LastDate).inDays;
+                        print(difference);
+
                         return Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 2.w, horizontal: 7.w),
+                                vertical: 3.w, horizontal: 7.w),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: ColorUtils.purple,
+                                  color: difference <= 0
+                                      ? ColorUtils.purple
+                                      : Colors.red,
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
+                                      Radius.circular(5)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: ColorUtils.black.withOpacity(0.1),
@@ -335,9 +371,13 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                               ),
                                             )
                                           : Center(
-                                              child: SizedBox(
+                                              child: Container(
                                                 height: 14.h,
                                                 width: 35.w,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: ColorUtils.white,
+                                                        width: 2)),
                                                 child: Image.network(
                                                   data['Image'],
                                                   fit: BoxFit.fill,
@@ -349,7 +389,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                   ),
                                   children: <Widget>[
                                     SizedBox(
-                                      height: 230.0,
+                                      height: 250.0,
                                       width: Get.width,
                                       child: Padding(
                                           padding: EdgeInsets.only(bottom: 3.h),
@@ -369,8 +409,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  'Description ' +
-                                                      data['Description'],
+                                                  'Description : ${data['Description']} ',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -398,7 +437,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Data : ${data['LastDate']}",
+                                                  "Due Date : ${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -433,6 +472,9 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                           context: context,
                                                           builder: (context) {
                                                             return AlertDialog(
+                                                              backgroundColor:
+                                                                  ColorUtils
+                                                                      .white,
                                                               title: Column(
                                                                 children: [
                                                                   Image.asset(
@@ -628,9 +670,9 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                                                             bottom: 4.w),
                                                                         snackPosition:
                                                                             SnackPosition.BOTTOM,
-                                                                        backgroundColor: ColorUtils
-                                                                            .primaryColor
-                                                                            .withOpacity(0.9),
+                                                                        backgroundColor: themeNotifier.isDark
+                                                                            ? ColorUtils.black
+                                                                            : ColorUtils.primaryColor.withOpacity(0.9),
                                                                         duration:
                                                                             const Duration(seconds: 2),
                                                                       ),

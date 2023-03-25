@@ -43,7 +43,6 @@ class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
     String id = widget.id;
     String imageUrl = '';
     String Project = widget.Project;
-    print(Project);
     final task = TextEditingController();
     final fromKey = GlobalKey<FormState>();
     return Consumer<ModelTheme>(
@@ -65,59 +64,62 @@ class _ProjectMemberScreenState extends State<ProjectMemberScreen> {
           ),
           body: Form(
             key: fromKey,
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection(id)
-                    .doc(id)
-                    .collection(Project)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        padding: EdgeInsets.only(top: 2.h),
-                        scrollDirection: Axis.vertical,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, i) {
-                          var data = snapshot.data!.docs[i];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return TaskData(
-                                    id: id,
-                                    Uid: data['Uid'],
-                                    Name: data['Name'],
-                                    Project: Project,
-                                    Email: data['Email']);
-                              }));
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 3.w, right: 3.w, top: 1.h),
-                              child: Card(
-                                elevation: 4,
-                                child: ListTile(
-                                    title: Text(data['Name']),
-                                    subtitle: Text(data['Email']),
-                                    trailing: CircleAvatar(
-                                      backgroundColor: ColorUtils.purple,
-                                      child: Icon(
-                                        size: 5.w,
-                                        Icons.send_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    )),
+            child: ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection(id)
+                      .doc(id)
+                      .collection(Project)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          padding: EdgeInsets.only(top: 2.h),
+                          scrollDirection: Axis.vertical,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, i) {
+                            var data = snapshot.data!.docs[i];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return TaskData(
+                                      id: id,
+                                      Uid: data['Uid'],
+                                      Name: data['Name'],
+                                      Project: Project,
+                                      Email: data['Email']);
+                                }));
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 3.w, right: 3.w, top: 1.h),
+                                child: Card(
+                                  elevation: 4,
+                                  child: ListTile(
+                                      title: Text(data['Name']),
+                                      subtitle: Text(data['Email']),
+                                      trailing: CircleAvatar(
+                                        backgroundColor: ColorUtils.purple,
+                                        child: Icon(
+                                          size: 5.w,
+                                          Icons.send_rounded,
+                                          color: Colors.white,
+                                        ),
+                                      )),
+                                ),
                               ),
-                            ),
-                          );
-                        });
-                  } else {
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      strokeWidth: 1.1,
-                    ));
-                  }
-                }),
+                            );
+                          });
+                    } else {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        strokeWidth: 1.1,
+                      ));
+                    }
+                  }),
+            ),
           ),
         ),
       );

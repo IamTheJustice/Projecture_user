@@ -16,7 +16,7 @@ import 'package:sizer/sizer.dart';
 
 class RegisterScreen extends StatefulWidget {
   String id;
-  RegisterScreen({required this.id});
+  RegisterScreen({super.key, required this.id});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.white,
         body: ScrollConfiguration(
-          behavior: ScrollBehavior().copyWith(overscroll: false),
+          behavior: const ScrollBehavior().copyWith(overscroll: false),
           child: SingleChildScrollView(
             child: Form(
               key: formkey,
@@ -205,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           contentPadding: EdgeInsets.all(4.w),
                           filled: true,
                           fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                          hintText: "${formattedDate}",
+                          hintText: formattedDate,
                           hintStyle: FontTextStyle.Proxima14Regular.copyWith(
                               color: ColorUtils.primaryColor),
                           border: const OutlineInputBorder(
@@ -360,70 +360,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizeConfig.sH3,
-                  AnimatedButton(
-                      height: 12.w,
-                      width: 60.w,
-                      text: "Sign Up",
-                      textStyle: FontTextStyle.Proxima16Medium.copyWith(
-                          color: ColorUtils.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeightClass.extraB),
-                      borderRadius: 10.0,
-                      backgroundColor: ColorUtils.primaryColor,
-                      selectedBackgroundColor: ColorUtils.purple,
-                      transitionType: TransitionType.CENTER_ROUNDER,
-                      selectedTextColor: ColorUtils.white,
-                      isReverse: true,
-                      onPress: () async {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        if (formkey.currentState!.validate()) {
-                          final newuser = await _auth
-                              .createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text)
-                              .then((value) async {
-                                String? fcmToken = await LocalNotificationServices.getFCMToken();
-                            FirebaseFirestore.instance
-                                .collection(id)
-                                .doc(id)
-                                .collection('user')
-                                .doc(_auth.currentUser!.uid)
-                                .set({
-                              'Name': fullnameController.text,
-                              'City': cityController.text,
-                              'DOB': dateController.text,
-                              'Email': emailController.text,
-                              'Phone': PhoneController.text,
-                              'Password': passwordController.text,
-                              'Uid': _auth.currentUser!.uid,
-                              'fcmToken':fcmToken??'',
-                              'ProfileImage': "",
-                            });
+                  GestureDetector(
+                    onTap: () async {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      if (formkey.currentState!.validate()) {
+                        final newuser = await _auth
+                            .createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((value) async {
+                          String? fcmToken =
+                              await LocalNotificationServices.getFCMToken();
+                          FirebaseFirestore.instance
+                              .collection(id)
+                              .doc(id)
+                              .collection('user')
+                              .doc(_auth.currentUser!.uid)
+                              .set({
+                            'Name': fullnameController.text,
+                            'City': cityController.text,
+                            'DOB': dateController.text,
+                            'Email': emailController.text,
+                            'Phone': PhoneController.text,
+                            'Password': passwordController.text,
+                            'Uid': _auth.currentUser!.uid,
+                            'ProfileImage': "",
+                            'fcmToken': fcmToken ?? '',
                           });
+                        });
 
-                          Get.showSnackbar(
-                            GetSnackBar(
-                              message: "Register Succesfully",
-                              borderRadius: 10.0,
-                              margin: EdgeInsets.only(
-                                  left: 4.w, right: 4.w, bottom: 4.w),
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: ColorUtils.primaryColor,
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
-                          Future.delayed(
-                            const Duration(seconds: 2),
-                            () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen(id: id)),
-                              );
-                            },
-                          );
-                        }
-                      }),
+                        Get.showSnackbar(
+                          GetSnackBar(
+                            message: "Register Succesfully",
+                            borderRadius: 10.0,
+                            margin: EdgeInsets.only(
+                                left: 4.w, right: 4.w, bottom: 4.w),
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: ColorUtils.primaryColor,
+                            duration: const Duration(seconds: 1),
+                          ),
+                        );
+                        Future.delayed(
+                          const Duration(seconds: 2),
+                          () {
+                            Get.to(() => LoginScreen(id: id));
+                          },
+                        );
+                      }
+                    },
+                    child: Container(
+                      height: 6.5.h,
+                      width: 60.w,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                                ColorUtils.primaryColor,
+                                ColorUtils.primaryColor.withOpacity(0.5),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(
+                                  5,
+                                  5,
+                                ),
+                                blurRadius: 10)
+                          ]),
+                      child: Center(
+                          child: Text(
+                        "Sign Up",
+                        style: FontTextStyle.Proxima16Medium.copyWith(
+                            color: ColorUtils.white),
+                      )),
+                    ),
+                  ),
                   SizeConfig.sH1,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -436,14 +451,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen(id: id)),
-                            );
+                            Get.to(() => LoginScreen(id: id));
                           },
                           child: Text(
-                            "Sign In",
+                            "Log In",
                             style: FontTextStyle.Proxima14Regular.copyWith(
                                 color: ColorUtils.primaryColor,
                                 fontWeight: FontWeightClass.semiB),

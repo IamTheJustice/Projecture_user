@@ -10,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:projecture/utils/shimmer_effect.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,9 +25,17 @@ class Process extends StatefulWidget {
 }
 
 class _ProcessState extends State<Process> {
+  bool isShimmer = true;
+  Future durationShimmer() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    isShimmer = false;
+    setState(() {});
+  }
+
   @override
   void initState() {
     setData();
+    durationShimmer();
     super.initState();
   }
 
@@ -57,97 +66,114 @@ class _ProcessState extends State<Process> {
               themeNotifier.isDark ? ColorUtils.black : ColorUtils.primaryColor,
           iconTheme: const IconThemeData(color: ColorUtils.white),
         ),
-        body: ScrollConfiguration(
-          behavior: const ScrollBehavior().copyWith(overscroll: false),
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection(id)
-                  .doc(id)
-                  .collection('user')
-                  .doc(_auth.currentUser!.uid)
-                  .collection('Current Project')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    padding: EdgeInsets.only(top: 2.h),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, i) {
-                      var data = snapshot.data!.docs[i];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0.8.h, horizontal: 5.w),
-                        child: Slidable(
-                          key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => ShowTaskProcess(
-                                      id: id, Project: data['Project Name']));
-                                },
-                                child: Container(
-                                  height: 18.w,
-                                  margin: EdgeInsets.only(left: 3.sp),
-                                  decoration: BoxDecoration(
-                                    color: themeNotifier.isDark
-                                        ? ColorUtils.blueF0
-                                        : ColorUtils.purple.withOpacity(0.7),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Show \nTask",
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
+        body: SingleChildScrollView(
+          child: ScrollConfiguration(
+            behavior: const ScrollBehavior().copyWith(overscroll: false),
+            child: Column(
+              children: [
+                isShimmer == true
+                    ? projectList()
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection(id)
+                            .doc(id)
+                            .collection('user')
+                            .doc(_auth.currentUser!.uid)
+                            .collection('Current Project')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              padding: EdgeInsets.only(top: 2.h),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (BuildContext context, i) {
+                                var data = snapshot.data!.docs[i];
+
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 0.8.h, horizontal: 5.w),
+                                  child: Slidable(
+                                    key: const ValueKey(0),
+                                    endActionPane: ActionPane(
+                                      motion: GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => ShowTaskProcess(
+                                                id: id,
+                                                Project: data['Project Name']));
+                                          },
+                                          child: Container(
+                                            height: 18.w,
+                                            margin: EdgeInsets.only(left: 3.sp),
+                                            decoration: BoxDecoration(
                                               color: themeNotifier.isDark
-                                                  ? ColorUtils.black
-                                                  : ColorUtils.white,
-                                              fontWeight:
-                                                  FontWeightClass.semiB),
+                                                  ? ColorUtils.blueF0
+                                                  : ColorUtils.purple
+                                                      .withOpacity(0.7),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "Show \nTask",
+                                                style: FontTextStyle
+                                                        .Proxima16Medium
+                                                    .copyWith(
+                                                        color: themeNotifier
+                                                                .isDark
+                                                            ? ColorUtils.black
+                                                            : ColorUtils.white,
+                                                        fontWeight:
+                                                            FontWeightClass
+                                                                .semiB),
+                                              ),
+                                            ),
+                                          )),
+                                      extentRatio: .3,
+                                      dragDismissible: false,
+                                      children: const [],
+                                    ),
+                                    child: Container(
+                                      height: 18.w,
+                                      width: Get.width,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0)),
+                                          color: ColorUtils.purple),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 5.w, vertical: 3.w),
+                                        child: Text(
+                                          data['Project Name'],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: FontTextStyle.Proxima16Medium
+                                              .copyWith(
+                                                  color: ColorUtils.white,
+                                                  fontSize: 13.sp,
+                                                  fontWeight:
+                                                      FontWeightClass.extraB),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )),
-                            extentRatio: .3,
-                            dragDismissible: false,
-                            children: const [],
-                          ),
-                          child: Container(
-                            height: 18.w,
-                            width: Get.width,
-                            decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                color: ColorUtils.purple),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5.w, vertical: 3.w),
-                              child: Text(
-                                data['Project Name'],
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: FontTextStyle.Proxima16Medium.copyWith(
-                                    color: ColorUtils.white,
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeightClass.extraB),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorUtils.primaryColor,
+                                strokeWidth: 1.1,
                               ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: ColorUtils.primaryColor,
-                      strokeWidth: 1.1,
-                    ),
-                  );
-                }
-              }),
+                            );
+                          }
+                        }),
+              ],
+            ),
+          ),
         ),
       );
     });
@@ -157,7 +183,7 @@ class _ProcessState extends State<Process> {
 class ShowTaskProcess extends StatefulWidget {
   String id;
   String Project;
-  ShowTaskProcess({required this.id, required this.Project});
+  ShowTaskProcess({super.key, required this.id, required this.Project});
 
   @override
   State<ShowTaskProcess> createState() => _ShowTaskProcessState();
@@ -209,12 +235,19 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i) {
                         var data = snapshot.data!.docs[i];
+                        DateTime LastDate = DateTime.parse(data['LastDate']);
+                        final Today = DateTime.now();
+                        int difference = Today.difference(LastDate).inDays;
+                        print(difference);
+
                         return Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2.w, horizontal: 7.w),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: ColorUtils.purple,
+                                  color: difference <= 0
+                                      ? ColorUtils.purple
+                                      : Colors.red,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20)),
                                   boxShadow: [
@@ -263,7 +296,11 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                               ),
                                             )
                                           : Center(
-                                              child: SizedBox(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: ColorUtils.white,
+                                                        width: 2)),
                                                 height: 14.h,
                                                 width: 35.w,
                                                 child: Image.network(
@@ -297,8 +334,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  'Description ' +
-                                                      data['Description'],
+                                                  'Description : ${data['Description']}',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -326,7 +362,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Due Data : ${data['LastDate']}",
+                                                  "Due Date : ${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -340,7 +376,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                 padding: EdgeInsets.only(
                                                     top: 1.h, left: 5.w),
                                                 child: Text(
-                                                  "Starting Data : ${data['StartingDate']}",
+                                                  "Starting Date : ${data['StartingDate']}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
@@ -375,6 +411,9 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                           context: context,
                                                           builder: (context) {
                                                             return AlertDialog(
+                                                              backgroundColor:
+                                                                  ColorUtils
+                                                                      .white,
                                                               title: Column(
                                                                 children: [
                                                                   Image.asset(
@@ -576,9 +615,9 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                                                             bottom: 4.w),
                                                                         snackPosition:
                                                                             SnackPosition.BOTTOM,
-                                                                        backgroundColor: ColorUtils
-                                                                            .primaryColor
-                                                                            .withOpacity(0.9),
+                                                                        backgroundColor: themeNotifier.isDark
+                                                                            ? ColorUtils.black
+                                                                            : ColorUtils.primaryColor.withOpacity(0.9),
                                                                         duration:
                                                                             const Duration(seconds: 2),
                                                                       ),
