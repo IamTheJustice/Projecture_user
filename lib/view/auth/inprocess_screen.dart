@@ -101,8 +101,9 @@ class _ProcessState extends State<Process> {
                                       motion: GestureDetector(
                                           onTap: () {
                                             Get.to(() => ShowTaskProcess(
-                                                id: id,
-                                                Project: data['Project Name']));
+                                                  id: id,
+                                                  Project: data['PROJECT NAME'],
+                                                ));
                                           },
                                           child: Container(
                                             height: 18.w,
@@ -146,7 +147,7 @@ class _ProcessState extends State<Process> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 5.w, vertical: 3.w),
                                         child: Text(
-                                          data['Project Name'],
+                                          data['PROJECT NAME'],
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                           style: FontTextStyle.Proxima16Medium

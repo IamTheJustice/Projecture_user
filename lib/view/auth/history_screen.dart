@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture/app_mode/model_theme.dart';
@@ -19,22 +21,25 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
-  void initState() {
-    setData();
-    super.initState();
-  }
-
-  String? cid;
+  String? id;
   String? uid;
   setData() async {
     final pref = await SharedPreferences.getInstance();
-    cid = pref.getString("companyId");
+    id = pref.getString("companyId");
     uid = pref.getString("userId");
     log("""
     
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
+  }
+
+  final _auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    setData();
+    super.initState();
   }
 
   @override
@@ -62,65 +67,60 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   ScrollConfiguration(
                     behavior:
                         const ScrollBehavior().copyWith(overscroll: false),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 20,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 1.w, horizontal: 5.w),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 3.h,
-                                    width: 6.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(50)),
-                                        border: Border.all(
-                                            color: themeNotifier.isDark
-                                                ? ColorUtils.white
-                                                : ColorUtils.primaryColor)),
-                                    child: Center(
-                                      child: Text(
-                                        "${1}",
-                                        style: FontTextStyle.Proxima14Regular
-                                            .copyWith(
-                                                fontWeight:
-                                                    FontWeightClass.extraB,
-                                                color: themeNotifier.isDark
-                                                    ? ColorUtils.white
-                                                    : ColorUtils.primaryColor),
-                                      ),
+                    child: id != null
+                        ? StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection(id!)
+                                .doc(id)
+                                .collection('user')
+                                .doc(_auth.currentUser!.uid)
+                                .collection('Current Project')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var data = snapshot.data!.docs[index];
+
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 1.w, horizontal: 5.w),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizeConfig.sW3,
+                                            Center(
+                                              child: Text(
+                                                data['PROJECT NAME'],
+                                                style: FontTextStyle
+                                                        .Proxima16Medium
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeightClass
+                                                                .extraB,
+                                                        fontSize: 13.sp,
+                                                        color: themeNotifier
+                                                                .isDark
+                                                            ? ColorUtils.white
+                                                            : ColorUtils
+                                                                .primaryColor),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const Divider(
+                                          color: ColorUtils.greyCE,
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  SizeConfig.sW3,
-                                  Center(
-                                    child: Text(
-                                      "Project Name",
-                                      style: FontTextStyle.Proxima16Medium
-                                          .copyWith(
-                                              fontWeight:
-                                                  FontWeightClass.extraB,
-                                              fontSize: 13.sp,
-                                              color: themeNotifier.isDark
-                                                  ? ColorUtils.white
-                                                  : ColorUtils.primaryColor),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Divider(
-                                color: ColorUtils.greyCE,
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                                  );
+                                },
+                              );
+                            })
+                        : SizedBox(),
                   ),
                 ],
               ),

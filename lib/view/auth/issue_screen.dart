@@ -15,6 +15,7 @@ import 'package:projecture/Download.dart';
 import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:projecture/utils/shimmer_effect.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +44,7 @@ class _issueState extends State<issue> {
   @override
   void initState() {
     setData();
+    durationShimmer();
     super.initState();
   }
 
@@ -57,6 +59,13 @@ class _issueState extends State<issue> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
+  }
+
+  bool isShimmer = true;
+  Future durationShimmer() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    isShimmer = false;
     setState(() {});
   }
 
@@ -110,291 +119,292 @@ class _issueState extends State<issue> {
                       behavior:
                           const ScrollBehavior().copyWith(overscroll: false),
                       child: SingleChildScrollView(
-                        child: StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection(id)
-                                .doc(id)
-                                .collection('Issue')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: snapshot.data!.docs.length,
-                                  itemBuilder: (BuildContext context, i) {
-                                    var data = snapshot.data!.docs[i];
-                                    return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 2.w, horizontal: 7.w),
-                                        child: Container(
-                                          height: 40.h,
-                                          decoration: BoxDecoration(
-                                              color: ColorUtils.purple,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20)),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: ColorUtils.black
-                                                      .withOpacity(0.2),
-                                                  blurRadius: 5.0,
-                                                  spreadRadius: 0.9,
-                                                )
-                                              ]),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 2.h, left: 4.w),
-                                                child: Text(
-                                                  "Uploader Name : ${data['Name']}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: FontTextStyle
-                                                      .Proxima16Medium.copyWith(
-                                                    color: ColorUtils.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 1.h, left: 4.w),
-                                                child: Text(
-                                                  "Email : ${data['Email']}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: FontTextStyle
-                                                      .Proxima16Medium.copyWith(
-                                                    color: ColorUtils.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 1.h, left: 4.w),
-                                                child: Text(
-                                                  "Issue Name : ${data['Issue Name']}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: FontTextStyle
-                                                      .Proxima16Medium.copyWith(
-                                                    color: ColorUtils.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 1.h, left: 4.w),
-                                                child: Text(
-                                                  "Description : ${data['Description']}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: FontTextStyle
-                                                      .Proxima16Medium.copyWith(
-                                                    color: ColorUtils.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizeConfig.sH1,
-                                              if (data['Image'] == "")
-                                                Center(
-                                                  child: Column(
-                                                    children: [
-                                                      Lottie.asset(
-                                                          "assets/lotties/warning.json",
-                                                          height: 10.w),
-                                                      Text(
-                                                        " No Image",
-                                                        style: FontTextStyle
-                                                                .Proxima16Medium
-                                                            .copyWith(
-                                                                color:
-                                                                    Colors.red),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              else
-                                                GestureDetector(
-                                                  onTap: () async {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return AlertDialog(
-                                                            title: Column(
-                                                              children: [
-                                                                Image.asset(
-                                                                  "assets/images/sessionEnd.gif",
-                                                                  scale: 1.w,
-                                                                ),
-                                                                Text(
-                                                                  'Download',
-                                                                  style: FontTextStyle.Proxima16Medium.copyWith(
-                                                                      color: ColorUtils
-                                                                          .primaryColor,
-                                                                      fontWeight:
-                                                                          FontWeightClass
-                                                                              .extraB,
-                                                                      fontSize:
-                                                                          13.sp),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            content: Text(
-                                                                'Are You Want To Download Image ?',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: FontTextStyle
-                                                                        .Proxima16Medium
-                                                                    .copyWith(
-                                                                        color: ColorUtils
-                                                                            .primaryColor)),
-                                                            actions: [
-                                                              InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  print(
-                                                                      'click');
-                                                                  try {
-                                                                    PermissionStatus
-                                                                        pdf =
-                                                                        await Permission
-                                                                            .storage
-                                                                            .request();
-                                                                    if (pdf ==
-                                                                        PermissionStatus
-                                                                            .granted) {
-                                                                      Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(builder:
-                                                                              (context) {
-                                                                        return DownloadFile(
-                                                                          fileNm:
-                                                                              data['Name'],
-                                                                          fileLink:
-                                                                              data['Image'],
-                                                                        );
-                                                                      }));
-                                                                    }
-                                                                    if (pdf ==
-                                                                        PermissionStatus
-                                                                            .denied) {
-                                                                      // Get.back();
-                                                                    }
-                                                                    if (pdf ==
-                                                                        PermissionStatus
-                                                                            .permanentlyDenied) {
-                                                                      openAppSettings();
-                                                                    }
-
-//
-                                                                  } catch (error) {
-                                                                    print(
-                                                                        error);
-                                                                  }
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 10.w,
-                                                                  width: 25.w,
-                                                                  decoration: const BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              8.0)),
-                                                                      color: ColorUtils
-                                                                          .primaryColor),
-                                                                  child:
-                                                                      const Center(
-                                                                    child: Text(
-                                                                      "Yes",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              ColorUtils.white),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  Get.back();
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 10.w,
-                                                                  width: 25.w,
-                                                                  decoration: const BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(
-                                                                              8.0)),
-                                                                      color: ColorUtils
-                                                                          .primaryColor),
-                                                                  child:
-                                                                      const Center(
-                                                                    child: Text(
-                                                                      "Cancel",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              ColorUtils.white),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        });
-                                                  },
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Container(
-                                                        height: 20.h,
-                                                        width: 46.w,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color:
-                                                                    ColorUtils
-                                                                        .white,
-                                                                width: 2)),
-                                                        child: Image.network(
-                                                          data['Image'],
-                                                          fit: BoxFit.fill,
-                                                        ),
-                                                      ),
-                                                      SizeConfig.sW2,
-                                                      const Icon(
-                                                        Icons
-                                                            .download_for_offline_outlined,
+                        child: isShimmer == true
+                            ? issueList()
+                            : StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection(id)
+                                    .doc(id)
+                                    .collection('Issue')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: snapshot.data!.docs.length,
+                                      itemBuilder: (BuildContext context, i) {
+                                        var data = snapshot.data!.docs[i];
+                                        return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2.w, horizontal: 7.w),
+                                            child: Container(
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                  color: ColorUtils.purple,
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: ColorUtils.black
+                                                          .withOpacity(0.2),
+                                                      blurRadius: 5.0,
+                                                      spreadRadius: 0.9,
+                                                    )
+                                                  ]),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 2.h, left: 4.w),
+                                                    child: Text(
+                                                      "Uploader Name : ${data['Name']}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
                                                         color: ColorUtils.white,
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
-                                                )
-                                            ],
-                                          ),
-                                        ));
-                                  },
-                                );
-                              } else {
-                                return const Center(
-                                    child: CircularProgressIndicator(
-                                  strokeWidth: 1.1,
-                                ));
-                              }
-                            }),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 1.h, left: 4.w),
+                                                    child: Text(
+                                                      "Email : ${data['Email']}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
+                                                        color: ColorUtils.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 1.h, left: 4.w),
+                                                    child: Text(
+                                                      "Issue Name : ${data['Issue Name']}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
+                                                        color: ColorUtils.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 1.h, left: 4.w),
+                                                    child: Text(
+                                                      "Description : ${data['Description']}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: FontTextStyle
+                                                              .Proxima16Medium
+                                                          .copyWith(
+                                                        color: ColorUtils.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizeConfig.sH1,
+                                                  if (data['Image'] == "")
+                                                    Center(
+                                                      child: Column(
+                                                        children: [
+                                                          Lottie.asset(
+                                                              "assets/lotties/warning.json",
+                                                              height: 10.w),
+                                                          Text(
+                                                            " No Image",
+                                                            style: FontTextStyle
+                                                                    .Proxima16Medium
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .red),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  else
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                title: Column(
+                                                                  children: [
+                                                                    Image.asset(
+                                                                      "assets/images/sessionEnd.gif",
+                                                                      scale:
+                                                                          1.w,
+                                                                    ),
+                                                                    Text(
+                                                                      'Download',
+                                                                      style: FontTextStyle.Proxima16Medium.copyWith(
+                                                                          color: ColorUtils
+                                                                              .primaryColor,
+                                                                          fontWeight: FontWeightClass
+                                                                              .extraB,
+                                                                          fontSize:
+                                                                              13.sp),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                content: Text(
+                                                                    'Are You Want To Download Image ?',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: FontTextStyle
+                                                                            .Proxima16Medium
+                                                                        .copyWith(
+                                                                            color:
+                                                                                ColorUtils.primaryColor)),
+                                                                actions: [
+                                                                  InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      print(
+                                                                          'click');
+                                                                      try {
+                                                                        PermissionStatus
+                                                                            pdf =
+                                                                            await Permission.storage.request();
+                                                                        if (pdf ==
+                                                                            PermissionStatus.granted) {
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(builder: (context) {
+                                                                            return DownloadFile(
+                                                                              fileNm: data['Name'],
+                                                                              fileLink: data['Image'],
+                                                                            );
+                                                                          }));
+                                                                        }
+                                                                        if (pdf ==
+                                                                            PermissionStatus.denied) {
+                                                                          // Get.back();
+                                                                        }
+                                                                        if (pdf ==
+                                                                            PermissionStatus.permanentlyDenied) {
+                                                                          openAppSettings();
+                                                                        }
+
+//
+                                                                      } catch (error) {
+                                                                        print(
+                                                                            error);
+                                                                      }
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          10.w,
+                                                                      width:
+                                                                          25.w,
+                                                                      decoration: const BoxDecoration(
+                                                                          borderRadius: BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                          color:
+                                                                              ColorUtils.primaryColor),
+                                                                      child:
+                                                                          const Center(
+                                                                        child:
+                                                                            Text(
+                                                                          "Yes",
+                                                                          style:
+                                                                              TextStyle(color: ColorUtils.white),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          10.w,
+                                                                      width:
+                                                                          25.w,
+                                                                      decoration: const BoxDecoration(
+                                                                          borderRadius: BorderRadius.all(Radius.circular(
+                                                                              8.0)),
+                                                                          color:
+                                                                              ColorUtils.primaryColor),
+                                                                      child:
+                                                                          const Center(
+                                                                        child:
+                                                                            Text(
+                                                                          "Cancel",
+                                                                          style:
+                                                                              TextStyle(color: ColorUtils.white),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            });
+                                                      },
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            height: 20.h,
+                                                            width: 46.w,
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: ColorUtils
+                                                                        .white,
+                                                                    width: 2)),
+                                                            child:
+                                                                Image.network(
+                                                              data['Image'],
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          ),
+                                                          SizeConfig.sW2,
+                                                          const Icon(
+                                                            Icons
+                                                                .download_for_offline_outlined,
+                                                            color: ColorUtils
+                                                                .white,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                ],
+                                              ),
+                                            ));
+                                      },
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: CircularProgressIndicator(
+                                      strokeWidth: 1.1,
+                                    ));
+                                  }
+                                }),
                       ),
                     ),
                     ScrollConfiguration(

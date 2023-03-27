@@ -394,7 +394,11 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
+<<<<<<< Updated upstream
       sha256: "293995f94e120c8afce768981bd1fa9c5d6de67c547568e3b42ae2defdcbb4a0"
+=======
+      sha256: "57d0012730780fe137260dd180e072c18a73fbeeb924cdc029c18aaa0f338d64"
+>>>>>>> Stashed changes
       url: "https://pub.dev"
     source: hosted
     version: "13.0.0"
@@ -402,7 +406,11 @@ packages:
     dependency: transitive
     description:
       name: flutter_local_notifications_linux
+<<<<<<< Updated upstream
       sha256: ccb08b93703aeedb58856e5637450bf3ffec899adb66dc325630b68994734b89
+=======
+      sha256: b472bfc173791b59ede323661eae20f7fff0b6908fea33dd720a6ef5d576bae8
+>>>>>>> Stashed changes
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0+1"
@@ -410,7 +418,11 @@ packages:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
+<<<<<<< Updated upstream
       sha256: "5ec1feac5f7f7d9266759488bc5f76416152baba9aa1b26fe572246caa00d1ab"
+=======
+      sha256: "21bceee103a66a53b30ea9daf677f990e5b9e89b62f222e60dd241cd08d63d3a"
+>>>>>>> Stashed changes
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
@@ -917,6 +929,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+<<<<<<< Updated upstream
   swipe_to:
     dependency: "direct main"
     description:
@@ -925,6 +938,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+=======
+>>>>>>> Stashed changes
   term_glyph:
     dependency: transitive
     description:
@@ -945,7 +960,11 @@ packages:
     dependency: transitive
     description:
       name: timezone
+<<<<<<< Updated upstream
       sha256: "24c8fcdd49a805d95777a39064862133ff816ebfffe0ceff110fb5960e557964"
+=======
+      sha256: "57b35f6e8ef731f18529695bffc62f92c6189fac2e52c12d478dec1931afb66e"
+>>>>>>> Stashed changes
       url: "https://pub.dev"
     source: hosted
     version: "0.9.1"
@@ -989,6 +1008,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+<<<<<<< Updated upstream
   video_player:
     dependency: "direct main"
     description:
@@ -1077,6 +1097,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1"
+=======
+>>>>>>> Stashed changes
   win32:
     dependency: transitive
     description:

@@ -96,8 +96,9 @@ class _DoneScreenState extends State<DoneScreen> {
                                 motion: GestureDetector(
                                     onTap: () {
                                       Get.to(() => ShowTaskDone(
-                                          id: id,
-                                          Project: data['Project Name']));
+                                            id: id,
+                                            Project: data['PROJECT NAME'],
+                                          ));
                                     },
                                     child: Container(
                                       height: 18.w,
@@ -137,7 +138,7 @@ class _DoneScreenState extends State<DoneScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 5.w, vertical: 3.w),
                                   child: Text(
-                                    data['Project Name'],
+                                    data['PROJECT NAME'],
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:

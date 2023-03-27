@@ -1060,19 +1060,6 @@ class _AlertBoxState extends State<AlertBox> {
                     onTap: () async {
                       FocusScope.of(context).requestFocus();
                       if (formkey.currentState!.validate()) {
-                        final QuerySnapshot result = await FirebaseFirestore
-                            .instance
-                            .collection(id)
-                            .doc(id)
-                            .collection('user')
-                            .get();
-                        final List<DocumentSnapshot> document1 = result.docs;
-                        for (var abc in document1) {
-                          if (_auth.currentUser!.uid == abc.get('Uid')) {
-                            Name = abc.get('Name');
-                            Email = abc.get('Email');
-                          }
-                        }
                         FirebaseFirestore.instance
                             .collection(id)
                             .doc(id)

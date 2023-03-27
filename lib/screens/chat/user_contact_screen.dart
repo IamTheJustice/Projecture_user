@@ -26,7 +26,7 @@ class _UserContactScreenState extends State<UserContactScreen> {
                 .doc(widget.companyId)
                 .collection('user')
                 .get();
-                Provider.of<UserContactProvider>(context,listen: false).setUserContactData(res.docs);
+                // Provider.of<UserContactProvider>(context,listen: false).setUserContactData(res.docs);
                 return res;
   }
   // List<Contact>? contacts;

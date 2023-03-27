@@ -79,7 +79,7 @@ class _ReportProjectState extends State<ReportProject> {
                                     //             id: id,
                                     //             Project: data['Project Name'])));
                                     Get.to(() =>
-                                        Report(Project: data['Project Name']));
+                                        Report(Project: data['PROJECT NAME']));
                                   },
                                   child: Container(
                                     height: 18.w,
@@ -115,7 +115,7 @@ class _ReportProjectState extends State<ReportProject> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 5.w, vertical: 3.w),
                                 child: Text(
-                                  data['Project Name'],
+                                  data['PROJECT NAME'],
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: FontTextStyle.Proxima16Medium.copyWith(

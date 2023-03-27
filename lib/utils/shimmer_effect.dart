@@ -18,7 +18,7 @@ class _ShimmerEffectState extends State<ShimmerEffect> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: projectList(),
+      body: issueList(),
     );
   }
 }
@@ -27,7 +27,7 @@ Widget noticeShimmer() {
   return Consumer<ModelTheme>(
       builder: (context, ModelTheme themeNotifier, child) {
     return Shimmer.fromColors(
-      baseColor: themeNotifier.isDark ? Colors.grey : ColorUtils.primaryColor,
+      baseColor: themeNotifier.isDark ? Colors.grey : ColorUtils.purple,
       highlightColor: ColorUtils.white,
       child: SingleChildScrollView(
         child: Column(
@@ -45,13 +45,13 @@ Widget noticeShimmer() {
                     color: Colors.black,
                   ),
                   margin: const EdgeInsets.only(top: 20),
-                  height: 50.w,
-                  width: Get.width / 2,
+                  height: 40.w,
+                  width: 40.w,
                 ),
               ],
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: 4.h,
             ),
             Container(
               margin: const EdgeInsets.only(left: 0),
@@ -356,6 +356,59 @@ Widget companyChooseList() {
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     color: ColorUtils.purple),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  });
+}
+
+Widget issueList() {
+  return Consumer<ModelTheme>(
+      builder: (context, ModelTheme themeNotifier, child) {
+    return Shimmer.fromColors(
+      baseColor: themeNotifier.isDark ? Colors.grey : ColorUtils.purple,
+      highlightColor: ColorUtils.white,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 2.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 7.w),
+              child: Container(
+                height: 40.h,
+                decoration: BoxDecoration(
+                    color: ColorUtils.purple,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorUtils.black.withOpacity(0.2),
+                        blurRadius: 5.0,
+                        spreadRadius: 0.9,
+                      )
+                    ]),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 7.w),
+              child: Container(
+                height: 40.h,
+                decoration: BoxDecoration(
+                    color: ColorUtils.purple,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorUtils.black.withOpacity(0.2),
+                        blurRadius: 5.0,
+                        spreadRadius: 0.9,
+                      )
+                    ]),
               ),
             ),
           ],
