@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:projecture/app_mode/model_theme.dart';
@@ -370,16 +371,22 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                               ),
                                             )
                                           : Center(
-                                              child: Container(
-                                                height: 14.h,
-                                                width: 35.w,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: ColorUtils.white,
-                                                        width: 2)),
-                                                child: Image.network(
-                                                  data['Image'],
-                                                  fit: BoxFit.fill,
+                                              child: FullScreenWidget(
+                                                disposeLevel:
+                                                    DisposeLevel.Medium,
+                                                backgroundIsTransparent: true,
+                                                child: Container(
+                                                  height: 14.h,
+                                                  width: 35.w,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color:
+                                                              ColorUtils.white,
+                                                          width: 2)),
+                                                  child: Image.network(
+                                                    data['Image'],
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 ),
                                               ),
                                             ),

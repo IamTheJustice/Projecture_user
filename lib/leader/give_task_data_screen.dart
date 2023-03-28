@@ -485,8 +485,8 @@ class _TaskDataState extends State<TaskData> {
                                                     'Image': imageUrl,
                                                     'Name': Name,
                                                     'Email': Email,
-                                                    'LastDate': formattedDate
-                                                        .toString(),
+                                                    'LastDate':
+                                                        dateController.text,
                                                     'AssignDate': DateFormat(
                                                             'dd-MMM-yy')
                                                         .format(DateTime.now()),

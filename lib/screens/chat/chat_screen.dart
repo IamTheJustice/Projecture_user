@@ -58,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => UserContactScreen(companyId: cid ?? '')));
+                    builder: (_) => UserContactScreen(companyId: cid!)));
           },
           backgroundColor: ColorUtils.primaryColor,
           child: const Icon(
@@ -135,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     baseColor: Colors.red,
                     highlightColor: Colors.amber,
                     child: ListView.builder(
-                        itemCount: 5,
+                        itemCount: 10,
                         itemBuilder: (context, i) {
                           return ListTile(
                             leading: Container(

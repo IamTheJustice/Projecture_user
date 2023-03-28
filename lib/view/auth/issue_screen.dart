@@ -772,7 +772,6 @@ class _issueState extends State<issue> {
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
-        print(imageFile);
       });
     }
   }
