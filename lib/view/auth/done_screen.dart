@@ -33,7 +33,7 @@ class _DoneScreenState extends State<DoneScreen> {
 
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     isShimmer = false;
     setState(() {});
   }

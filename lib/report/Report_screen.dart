@@ -537,14 +537,11 @@ class _ReportState extends State<Report> {
                           : const SizedBox()
                       : Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            'No Data Found',
-                            style: FontTextStyle.Proxima16Medium.copyWith(
-                                color: themeNotifier.isDark
-                                    ? ColorUtils.white
-                                    : ColorUtils.primaryColor),
+                          child: Center(
+                            child: Lottie.asset("assets/lotties/noData.json",
+                                height: 50.w),
                           ),
-                        )
+                        ),
                 ],
               ),
             ),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,8 @@ class _WalletScreenState extends State<WalletScreen> {
                       height: 15.h,
                       width: Get.width,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10.0)),
                           color: ColorUtils.purple.withOpacity(0.2),
                           border: Border.all(color: ColorUtils.purple)),
                       child: Row(
@@ -195,76 +195,83 @@ class _WalletScreenState extends State<WalletScreen> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return ListView.builder(
+                            return GridView.builder(
+                                padding: EdgeInsets.only(
+                                    top: 2.h, left: 6.w, right: 6.w),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 0.0,
+                                        childAspectRatio: 3 / 2,
+                                        mainAxisExtent: 100,
+                                        crossAxisSpacing: 5.0),
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   var data = snapshot.data!.docs[index];
-                                  return Column(
-                                    children: [
-                                      SizeConfig.sH2,
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 5.w),
-                                        child: Container(
-                                          height: 6.h,
-                                          width: Get.width,
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    blurRadius: 9.0,
-                                                    spreadRadius: 0.5,
-                                                    color: ColorUtils.black
-                                                        .withOpacity(0.2))
-                                              ],
-                                              color: ColorUtils.purple,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20))),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 5.w),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      data['Task'],
-                                                      style: FontTextStyle
-                                                              .Proxima14Regular
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeightClass
-                                                                      .extraB,
-                                                              fontSize: 13.sp,
-                                                              color: ColorUtils
-                                                                  .white),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const Spacer(),
-                                              Text(
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 6.h,
+                                      decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                blurRadius: 9.0,
+                                                spreadRadius: 0.5,
+                                                color: ColorUtils.black
+                                                    .withOpacity(0.2))
+                                          ],
+                                          color: ColorUtils.purple,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              data['Task'],
+                                              softWrap: true,
+                                              style: FontTextStyle
+                                                      .Proxima14Regular
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeightClass
+                                                              .extraB,
+                                                      fontSize: 14.sp,
+                                                      color: ColorUtils.white),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 5.h,
+                                            width: 10.w,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color: ColorUtils.yellow)),
+                                            child: Center(
+                                              child: Text(
                                                 data['Archives Point']
                                                     .toString(),
                                                 style: FontTextStyle
                                                         .Proxima16Medium
                                                     .copyWith(
+                                                        fontWeight:
+                                                            FontWeightClass
+                                                                .semiB,
                                                         color:
-                                                            ColorUtils.green40,
-                                                        fontSize: 13.sp),
+                                                            ColorUtils.yellow,
+                                                        fontSize: 16.sp),
                                               ),
-                                              SizeConfig.sW3,
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                          SizeConfig.sW3,
+                                        ],
+                                      ),
+                                    ),
                                   );
                                 });
                           } else {

@@ -17,7 +17,7 @@ class CompanyListScreen extends StatefulWidget {
 class _CompanyListScreenState extends State<CompanyListScreen> {
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 700));
+    await Future.delayed(const Duration(milliseconds: 700));
     isShimmer = false;
     setState(() {});
   }

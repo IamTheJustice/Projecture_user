@@ -417,3 +417,215 @@ Widget issueList() {
     );
   });
 }
+
+Widget giveTaskList() {
+  return Consumer<ModelTheme>(
+      builder: (context, ModelTheme themeNotifier, child) {
+    return Shimmer.fromColors(
+      baseColor: themeNotifier.isDark ? Colors.grey : ColorUtils.purple,
+      highlightColor: ColorUtils.white,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 2.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  });
+}
+
+Widget giveTaskDataList() {
+  return Consumer<ModelTheme>(
+      builder: (context, ModelTheme themeNotifier, child) {
+    return Shimmer.fromColors(
+      baseColor: themeNotifier.isDark ? Colors.grey : Colors.grey,
+      highlightColor: ColorUtils.white,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 2.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.8.h, horizontal: 5.w),
+              child: Container(
+                height: 10.h,
+                width: Get.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: ColorUtils.purple),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  });
+}

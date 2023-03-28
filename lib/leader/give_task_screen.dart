@@ -7,6 +7,7 @@ import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/leader/project_member_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:projecture/utils/shimmer_effect.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -24,6 +25,7 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
   void initState() {
     setData();
     super.initState();
+    durationShimmer();
   }
 
   String? cid;
@@ -41,6 +43,13 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
   }
 
   final _auth = FirebaseAuth.instance;
+  bool isShimmer = true;
+  Future durationShimmer() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    isShimmer = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     String id = widget.id;
@@ -54,98 +63,105 @@ class _LeaderGiveTaskScreenState extends State<LeaderGiveTaskScreen> {
               themeNotifier.isDark ? ColorUtils.black : ColorUtils.primaryColor,
           iconTheme: const IconThemeData(color: ColorUtils.white),
         ),
-        body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection(id)
-                .doc(id)
-                .collection('Leader')
-                .doc(_auth.currentUser!.uid)
-                .collection("LEADING PROJECTS")
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  padding: EdgeInsets.only(top: 2.h),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (BuildContext context, i) {
-                    var data = snapshot.data!.docs[i];
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 0.8.h, horizontal: 5.w),
-                      child: Container(
-                        height: 24.w,
-                        width: Get.width,
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            color: ColorUtils.purple),
-                        child: Padding(
+        body: isShimmer == true
+            ? giveTaskList()
+            : StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection(id)
+                    .doc(id)
+                    .collection('Leader')
+                    .doc(_auth.currentUser!.uid)
+                    .collection("LEADING PROJECTS")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      padding: EdgeInsets.only(top: 2.h),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (BuildContext context, i) {
+                        var data = snapshot.data!.docs[i];
+                        return Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 5.w, vertical: 3.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                data['Project name'],
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: FontTextStyle.Proxima16Medium.copyWith(
-                                  color: ColorUtils.white,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeightClass.extraB,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              vertical: 0.8.h, horizontal: 5.w),
+                          child: Container(
+                            height: 24.w,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                color: ColorUtils.purple),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 3.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return ProjectMemberScreen(
-                                            id: id,
-                                            Project: data['Project name']);
-                                      }));
-                                    },
-                                    child: Container(
-                                      height: 4.5.h,
-                                      width: 29.w,
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12.0))),
-                                      child: Center(
-                                        child: Text(
-                                          "Give Task",
-                                          style: FontTextStyle.Proxima16Medium
-                                              .copyWith(
-                                                  color: ColorUtils.purple,
-                                                  fontSize: 13.sp,
-                                                  fontWeight:
-                                                      FontWeightClass.semiB),
+                                  Text(
+                                    data['Project name'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                      color: ColorUtils.white,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeightClass.extraB,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return ProjectMemberScreen(
+                                                id: id,
+                                                Project: data['Project name']);
+                                          }));
+                                        },
+                                        child: Container(
+                                          height: 4.5.h,
+                                          width: 29.w,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(12.0))),
+                                          child: Center(
+                                            child: Text(
+                                              "Give Task",
+                                              style: FontTextStyle
+                                                      .Proxima16Medium
+                                                  .copyWith(
+                                                      color: ColorUtils.purple,
+                                                      fontSize: 13.sp,
+                                                      fontWeight:
+                                                          FontWeightClass
+                                                              .semiB),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     );
-                  },
-                );
-              } else {
-                return const Center(
-                    child: CircularProgressIndicator(
-                  strokeWidth: 1.1,
-                ));
-              }
-            }),
+                  } else {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      strokeWidth: 1.1,
+                    ));
+                  }
+                }),
       );
     });
   }

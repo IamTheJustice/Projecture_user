@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/utils/const/function/local_notification_services.dart';
@@ -22,6 +23,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   LocalNotificationServices.initialize();
@@ -29,9 +32,10 @@ Future<void> main() async {
     print('on refresh token');
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
-    FirebaseFirestore.instance.collection('user').doc(currentUser.uid).update({
-      'fcmToken': fcmToken
-    });
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(currentUser.uid)
+        .update({'fcmToken': fcmToken});
     // TODO: If necessary send token to application server.
 
     // Note: This callback is fired at each app startup and whenever a new
@@ -42,7 +46,8 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   print("token:::::: ${await FirebaseMessaging.instance.getToken()}");
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("onMessageOpenedApp:onmessage $message ${message.data['phoneNumber']}");
+    print(
+        "onMessageOpenedApp:onmessage $message ${message.data['phoneNumber']}");
 
     log("111111111::::: ${message}${message.data}");
     if (message.notification != null) {

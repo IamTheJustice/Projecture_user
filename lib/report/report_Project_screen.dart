@@ -83,7 +83,7 @@ class _ReportProjectState extends State<ReportProject> {
                                 motion: GestureDetector(
                                     onTap: () {
                                       Get.to(() => Report(
-                                          Project: data['Project Name']));
+                                          Project: data['PROJECT NAME']));
                                     },
                                     child: Container(
                                       height: 18.w,
@@ -123,7 +123,7 @@ class _ReportProjectState extends State<ReportProject> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 5.w, vertical: 3.w),
                                   child: Text(
-                                    data['Project Name'],
+                                    data['PROJECT NAME'],
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:

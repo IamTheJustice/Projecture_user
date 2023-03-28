@@ -6,7 +6,6 @@ import 'package:projecture/app_mode/model_theme.dart';
 import 'package:projecture/report/report_Project_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
-import 'package:projecture/utils/shimmer_effect.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/events_screen.dart';
 import 'package:projecture/view/auth/history_screen.dart';
@@ -83,7 +82,7 @@ class _HomescreenState extends State<Homescreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: templist.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12.0,
                 crossAxisSpacing: 0.0),
@@ -105,7 +104,7 @@ class _HomescreenState extends State<Homescreen> {
                                   ? Get.to(() => ToDo(id: id!))
                                   : const SizedBox();
                               templist[index]['title'] == "Notice"
-                                  ? Get.to(() => NoticeListScreen())
+                                  ? Get.to(() => const NoticeListScreen())
                                   : const SizedBox();
                               templist[index]['title'] == "Events"
                                   ? Get.to(() => const EventScreen())

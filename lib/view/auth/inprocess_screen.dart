@@ -18,7 +18,7 @@ import 'package:sizer/sizer.dart';
 
 class Process extends StatefulWidget {
   String id;
-  Process({required this.id});
+  Process({super.key, required this.id});
 
   @override
   State<Process> createState() => _ProcessState();
@@ -27,7 +27,7 @@ class Process extends StatefulWidget {
 class _ProcessState extends State<Process> {
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     isShimmer = false;
     setState(() {});
   }

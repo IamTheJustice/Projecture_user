@@ -20,7 +20,6 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  @override
   String? id;
   String? uid;
   setData() async {
@@ -77,50 +76,59 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 .collection('Current Project')
                                 .snapshots(),
                             builder: (context, snapshot) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  var data = snapshot.data!.docs[index];
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    var data = snapshot.data!.docs[index];
 
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 1.w, horizontal: 5.w),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizeConfig.sW3,
-                                            Center(
-                                              child: Text(
-                                                data['PROJECT NAME'],
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeightClass
-                                                                .extraB,
-                                                        fontSize: 13.sp,
-                                                        color: themeNotifier
-                                                                .isDark
-                                                            ? ColorUtils.white
-                                                            : ColorUtils
-                                                                .primaryColor),
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 1.w, horizontal: 5.w),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SizeConfig.sW3,
+                                              Center(
+                                                child: Text(
+                                                  data['PROJECT NAME'],
+                                                  style: FontTextStyle
+                                                          .Proxima16Medium
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeightClass
+                                                                  .extraB,
+                                                          fontSize: 13.sp,
+                                                          color: themeNotifier
+                                                                  .isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(
-                                          color: ColorUtils.greyCE,
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
+                                            ],
+                                          ),
+                                          const Divider(
+                                            color: ColorUtils.greyCE,
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return const Center(
+                                    child: CircularProgressIndicator(
+                                  strokeWidth: 1.1,
+                                  color: ColorUtils.primaryColor,
+                                ));
+                              }
                             })
-                        : SizedBox(),
+                        : const SizedBox(),
                   ),
                 ],
               ),

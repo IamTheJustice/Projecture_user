@@ -34,7 +34,7 @@ class _CheckingScreenState extends State<CheckingScreen> {
 
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     isShimmer = false;
     setState(() {});
   }

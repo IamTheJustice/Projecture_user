@@ -32,14 +32,14 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
     company id -- ${pref.getString("companyId")};
     """);
 
-    log("cid   ${cid}");
+    log("cid   $cid");
     setState(() {});
     // String? cid = pref.getString("companyId");
   }
 
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     isShimmer = false;
     setState(() {});
   }
@@ -227,6 +227,7 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
                                   return const Center(
                                       child: CircularProgressIndicator(
                                     strokeWidth: 1.1,
+                                    color: ColorUtils.primaryColor,
                                   ));
                                 }
                               })

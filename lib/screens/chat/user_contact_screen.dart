@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projecture/provider/user_contact_provider.dart';
 import 'package:projecture/screens/chat/widgets/user_contact_widget.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class UserContactScreen extends StatefulWidget {
@@ -20,14 +18,14 @@ class UserContactScreen extends StatefulWidget {
 }
 
 class _UserContactScreenState extends State<UserContactScreen> {
-   Future<QuerySnapshot<Map<String, dynamic>>> getUserContact()async{
-  QuerySnapshot<Map<String, dynamic>> res=await FirebaseFirestore.instance
-                .collection(widget.companyId)
-                .doc(widget.companyId)
-                .collection('user')
-                .get();
-                // Provider.of<UserContactProvider>(context,listen: false).setUserContactData(res.docs);
-                return res;
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserContact() async {
+    QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+        .collection(widget.companyId)
+        .doc(widget.companyId)
+        .collection('user')
+        .get();
+    // Provider.of<UserContactProvider>(context,listen: false).setUserContactData(res.docs);
+    return res;
   }
   // List<Contact>? contacts;
   // List<String> cont = [];
@@ -115,8 +113,8 @@ class _UserContactScreenState extends State<UserContactScreen> {
                                         receiverId: data['Uid'],
                                         phoneNumber: data['Phone'],
                                         name: data['Name'],
-                                        imageUrl: '',
-                                        fcmToken:'',
+                                        imageUrl: data['ProfileImage'],
+                                        fcmToken: '',
                                       )));
                         },
                         child: ListTile(
@@ -129,7 +127,7 @@ class _UserContactScreenState extends State<UserContactScreen> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: CacheNetworkImageWidget(
-                                    imageUrl: '',
+                                    imageUrl: data['ProfileImage'],
                                   ))),
                           subtitle: Text(data['Email']),
                           title: Text(data['Name']),

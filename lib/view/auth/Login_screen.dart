@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:projecture/leader/leader_drawerBottomNavbar_screen.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -38,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
     late String abcd = "aa";
     late String leader = "aa";
     String id = widget.id;
-    print('=============================>>>>>${id}');
+    print('=============================>>>>>$id');
     return GestureDetector(
       onTapDown: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       behavior: HitTestBehavior.translucent,
@@ -184,13 +183,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     cursorColor: ColorUtils.primaryColor,
                     controller: passwordController,
                     validator: (v) {
-                      // add your custom validation here.
                       if (v!.isEmpty) {
                         return 'Please Enter Password';
                       }
-                      if (v.length <= 8) {
-                        return 'Password must be at least 8 characters long';
-                      }
+                      return null;
                     },
                     obscureText: isCheckPassword,
                     decoration: InputDecoration(
@@ -235,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizeConfig.sH3,
               GestureDetector(
                 onTap: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
+                  FocusManager.instance.primaryFocus?.unfocus();
                   if (formkey.currentState!.validate()) {
                     try {
                       final newUser = await _auth.signInWithEmailAndPassword(
@@ -252,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final List<DocumentSnapshot> documents = result.docs;
 
                         for (var doc in documents) {
-                          print("id is  " + doc.id);
+                          print("id is  ${doc.id}");
                           if (_auth.currentUser!.uid == doc.id) {
                             abcd = doc.id;
                             break;
@@ -280,8 +276,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           pref.setString("leaderId", leader);
 
                           if (_auth.currentUser!.uid == leader) {
-                            print("Leader are " + leader);
-                            Get.to(() => LeaderDrawerBottomNavbar());
+                            print("Leader are $leader");
+                            Get.to(() => const LeaderDrawerBottomNavbar());
                           } else {
                             Get.showSnackbar(
                               GetSnackBar(
@@ -294,8 +290,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 duration: const Duration(seconds: 1),
                               ),
                             );
-                            Future.delayed(const Duration(seconds: 1), () {
-                              Get.to(() => DrawerBottomNavbar());
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Get.to(() => const DrawerBottomNavbar());
                             });
                           }
                         } else {

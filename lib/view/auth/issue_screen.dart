@@ -5,8 +5,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -20,12 +18,11 @@ import 'package:projecture/utils/size_config_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:http/http.dart' as http;
 
 class issue extends StatefulWidget {
   String id;
 
-  issue({required this.id});
+  issue({super.key, required this.id});
 
   @override
   State<issue> createState() => _issueState();
@@ -64,7 +61,7 @@ class _issueState extends State<issue> {
 
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     isShimmer = false;
     setState(() {});
   }
@@ -103,7 +100,7 @@ class _issueState extends State<issue> {
                 indicatorColor: themeNotifier.isDark
                     ? ColorUtils.white
                     : ColorUtils.primaryColor,
-                tabs: [
+                tabs: const [
                   Tab(text: "Solve Issue"),
                   Tab(text: "Upload Issue"),
                 ],
@@ -131,7 +128,8 @@ class _issueState extends State<issue> {
                                   if (snapshot.hasData) {
                                     return ListView.builder(
                                       shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.vertical,
                                       itemCount: snapshot.data!.docs.length,
                                       itemBuilder: (BuildContext context, i) {
@@ -573,9 +571,8 @@ class _issueState extends State<issue> {
                                     height: 5.5.h,
                                     width: 53.w,
                                     decoration: themeNotifier.isDark
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
+                                        ? const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
                                               Radius.circular(10.0),
                                             ),
                                             color: ColorUtils.black)

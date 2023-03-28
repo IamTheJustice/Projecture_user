@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:projecture/utils/color_utils.dart';
@@ -40,8 +39,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
   }
 
+  bool isCheckPassword = true;
   final firebase = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final formkey = GlobalKey<FormState>();
@@ -139,7 +140,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validator: (v) {
                         if (v!.isEmpty) {
                           return "please name required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                        } else if (!RegExp(
+                                r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                            .hasMatch(v)) {
                           return "please valid name ";
                         }
                         return null;
@@ -317,10 +320,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (v!.isEmpty) {
                           return 'Please enter password';
                         }
-                        if (v.length <= 8) {
-                          return 'Password must be atleast 8 characters long';
-                        }
+                        return null;
                       },
+                      obscureText: isCheckPassword,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(4.w),
                           filled: true,
@@ -328,6 +330,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: "Password",
                           hintStyle: FontTextStyle.Proxima14Regular.copyWith(
                               color: ColorUtils.primaryColor),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              isCheckPassword = !isCheckPassword;
+                              setState(() {});
+                            },
+                            child: Icon(isCheckPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
                           border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius:
@@ -346,7 +357,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (v != passwordController.text) return 'Not Match';
                         return null;
                       },
+                      obscureText: isCheckPassword,
                       decoration: InputDecoration(
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              isCheckPassword = !isCheckPassword;
+                              setState(() {});
+                            },
+                            child: Icon(isCheckPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
                           contentPadding: EdgeInsets.all(4.w),
                           filled: true,
                           fillColor: ColorUtils.greyE7.withOpacity(0.5),
@@ -362,7 +383,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizeConfig.sH3,
                   GestureDetector(
                     onTap: () async {
-                      FocusScope.of(context).requestFocus(FocusNode());
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (formkey.currentState!.validate()) {
                         final newuser = await _auth
                             .createUserWithEmailAndPassword(

@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +20,7 @@ import '../../utils/shimmer_effect.dart';
 class ToDo extends StatefulWidget {
   String id;
 
-  ToDo({required this.id});
+  ToDo({super.key, required this.id});
 
   @override
   State<ToDo> createState() => _ToDoState();
@@ -32,13 +31,8 @@ class _ToDoState extends State<ToDo> {
   late TutorialCoachMark tutorialCoachMark;
   bool isShimmer = true;
   Future durationShimmer() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 500));
     isShimmer = false;
-    setState(() {});
-  }
-
-  Future patiyu() async {
-    await Future.delayed(Duration(milliseconds: 500));
     setState(() {});
   }
 
@@ -47,7 +41,6 @@ class _ToDoState extends State<ToDo> {
   @override
   void initState() {
     durationShimmer();
-    patiyu();
     createTutorial();
     super.initState();
   }
@@ -61,7 +54,7 @@ class _ToDoState extends State<ToDo> {
       targets: _createTargets(),
       colorShadow: ColorUtils.primaryColor.withOpacity(0.0),
       textSkip: "SKIP",
-      textStyleSkip: const TextStyle(color: ColorUtils.white),
+      textStyleSkip: TextStyle(color: ColorUtils.white, fontSize: 15.sp),
       paddingFocus: 10,
       opacityShadow: 0.8,
       onFinish: () {
@@ -82,7 +75,7 @@ class _ToDoState extends State<ToDo> {
         print("skip");
       },
     );
-    Future.delayed(const Duration(milliseconds: 500), showTutorial);
+    Future.delayed(const Duration(milliseconds: 600), showTutorial);
   }
 
   List<TargetFocus> _createTargets() {
@@ -104,6 +97,7 @@ class _ToDoState extends State<ToDo> {
                   Text("swipe the right side box",
                       style: FontTextStyle.Proxima16Medium.copyWith(
                           color: ColorUtils.white,
+                          fontSize: 14.sp,
                           fontWeight: FontWeightClass.extraB)),
                 ],
               );
@@ -243,8 +237,13 @@ class _ToDoState extends State<ToDo> {
                           );
                         },
                       );
-                    } else
-                      return CircularProgressIndicator();
+                    } else {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: ColorUtils.primaryColor,
+                        strokeWidth: 1.1,
+                      ));
+                    }
                   }));
     });
   }

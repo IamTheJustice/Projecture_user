@@ -287,6 +287,8 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                                           ),
                                           SizeConfig.sH2,
                                           Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 data['Name'],
@@ -557,81 +559,6 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
                         color: ColorUtils.redColor),
                   ),
                 ),
-                // ListTile(
-                //   onTap: () async {
-                //     showDialog(
-                //         context: context,
-                //         builder: (context) {
-                //           return AlertDialog(
-                //             title: Column(
-                //               children: [
-                //                 Text('Delete',
-                //                     style: FontTextStyle.Proxima16Medium.copyWith(
-                //                         color: ColorUtils.primaryColor,
-                //                         fontWeight: FontWeightClass.extraB,
-                //                         fontSize: 13.sp)),
-                //                 SizeConfig.sH1,
-                //                 Lottie.asset("assets/images/delete.json",
-                //                     height: 25.w)
-                //               ],
-                //             ),
-                //             content: Text('are you sure you want to delete?',
-                //                 style: FontTextStyle.Proxima16Medium.copyWith(
-                //                     color: ColorUtils.primaryColor)),
-                //             actions: [
-                //               InkWell(
-                //                 onTap: () {
-                //                   Get.back();
-                //                 },
-                //                 child: Container(
-                //                   height: 10.w,
-                //                   width: 25.w,
-                //                   decoration: const BoxDecoration(
-                //                       borderRadius:
-                //                           BorderRadius.all(Radius.circular(8.0)),
-                //                       color: ColorUtils.primaryColor),
-                //                   child: const Center(
-                //                     child: Text(
-                //                       "Done",
-                //                       style: TextStyle(color: ColorUtils.white),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //               InkWell(
-                //                 onTap: () {
-                //                   Get.back();
-                //                 },
-                //                 child: Container(
-                //                   height: 10.w,
-                //                   width: 25.w,
-                //                   decoration: const BoxDecoration(
-                //                       borderRadius:
-                //                           BorderRadius.all(Radius.circular(8.0)),
-                //                       color: ColorUtils.primaryColor),
-                //                   child: const Center(
-                //                     child: Text(
-                //                       "Cancle",
-                //                       style: TextStyle(color: ColorUtils.white),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           );
-                //         });
-                //   },
-                //   contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
-                //   leading: const Icon(
-                //     Icons.exit_to_app,
-                //     color: ColorUtils.redColor,
-                //   ),
-                //   title: Text(
-                //     'Delete',
-                //     style: FontTextStyle.Proxima16Medium.copyWith(
-                //         color: ColorUtils.redColor),
-                //   ),
-                // ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: Align(
