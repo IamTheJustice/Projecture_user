@@ -421,10 +421,7 @@ class _ShowTaskCheckingState extends State<ShowTaskChecking> {
                       },
                     );
                   } else {
-                    return const CircularProgressIndicator(
-                      color: ColorUtils.primaryColor,
-                      strokeWidth: 1.1,
-                    );
+                    return projectList();
                   }
                 }),
           ),

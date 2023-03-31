@@ -155,11 +155,7 @@ class _DoneScreenState extends State<DoneScreen> {
                         },
                       );
                     } else {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        strokeWidth: 1.1,
-                        color: ColorUtils.primaryColor,
-                      ));
+                      return projectList();
                     }
                   }),
         ),

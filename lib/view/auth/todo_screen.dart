@@ -239,11 +239,7 @@ class _ToDoState extends State<ToDo> {
                         },
                       );
                     } else {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: ColorUtils.primaryColor,
-                        strokeWidth: 1.1,
-                      ));
+                      return projectList();
                     }
                   }));
     });
