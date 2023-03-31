@@ -846,159 +846,120 @@ class _TaskDataState extends State<TaskData> {
                                                                   .end,
                                                           children: [
                                                             InkWell(
-                                                              onTap: () async {
-                                                                final QuerySnapshot
-                                                                    result =
-                                                                    await FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            id)
-                                                                        .doc(id)
-                                                                        .collection(
-                                                                            'user')
-                                                                        .get();
-                                                                final List<
-                                                                        DocumentSnapshot>
-                                                                    document1 =
-                                                                    result.docs;
-                                                                for (var abc
-                                                                    in document1) {
-                                                                  if (_auth
-                                                                          .currentUser!
-                                                                          .uid ==
-                                                                      abc.get(
-                                                                          'Uid')) {
-                                                                    Name = abc.get(
-                                                                        'Name');
-                                                                    Email = abc.get(
-                                                                        'Email');
-                                                                  }
-                                                                }
-                                                                FirebaseFirestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        id)
-                                                                    .doc(id)
-                                                                    .collection(
-                                                                        Project)
-                                                                    .doc(
-                                                                        Project)
-                                                                    .collection(
-                                                                        'Process')
-                                                                    .doc()
-                                                                    .set({
-                                                                  'Point': data[
-                                                                      'Point'],
-                                                                  'AssignDate':
-                                                                      data[
-                                                                          'AssignDate'],
-                                                                  'task': data[
-                                                                      'Task'],
-                                                                  'Image': data[
-                                                                      "Image"],
-                                                                  'Name': Name,
-                                                                  'Email':
-                                                                      Email,
-                                                                  'LastDate': data[
-                                                                      'LastDate'],
-                                                                  'StartingDate': DateFormat(
-                                                                          'dd-MMM-yy')
-                                                                      .format(DateTime
-                                                                          .now()),
-                                                                  'Description':
-                                                                      data[
-                                                                          'Description'],
-                                                                }).whenComplete(() => FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            id)
-                                                                        .doc(id)
-                                                                        .collection(
-                                                                            Project)
-                                                                        .doc(
-                                                                            Project)
-                                                                        .collection(
-                                                                            'InChecking')
-                                                                        .where(
-                                                                          'Task',
-                                                                          isEqualTo:
-                                                                              data['Task'],
-                                                                        ));
-                                                                try {
-                                                                  // Get a reference to the 'task' subcollection
-                                                                  CollectionReference taskCollection = FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          id)
-                                                                      .doc(id)
-                                                                      .collection(
-                                                                          Project)
-                                                                      .doc(
-                                                                          Project)
-                                                                      .collection(
-                                                                          'InChecking');
+                                                              onTap: () {
+                                                                showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) {
+                                                                      return AlertDialog(
+                                                                        backgroundColor:
+                                                                            ColorUtils.white,
+                                                                        title:
+                                                                            Column(
+                                                                          children: [
+                                                                            Image.asset(
+                                                                              "assets/images/sessionEnd.gif",
+                                                                              scale: 1.w,
+                                                                            ),
+                                                                            Text(
+                                                                              'Decline !',
+                                                                              style: FontTextStyle.Proxima16Medium.copyWith(color: Colors.red, fontWeight: FontWeightClass.extraB, fontSize: 13.sp),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        content: Text(
+                                                                            'are you sure you had decline this task ?',
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style: FontTextStyle.Proxima16Medium.copyWith(color: ColorUtils.primaryColor)),
+                                                                        actions: [
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () async {
+                                                                              final QuerySnapshot result = await FirebaseFirestore.instance.collection(id).doc(id).collection('user').get();
+                                                                              final List<DocumentSnapshot> document1 = result.docs;
+                                                                              for (var abc in document1) {
+                                                                                if (_auth.currentUser!.uid == abc.get('Uid')) {
+                                                                                  Name = abc.get('Name');
+                                                                                  Email = abc.get('Email');
+                                                                                }
+                                                                              }
+                                                                              FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('Process').doc().set({
+                                                                                'Point': data['Point'],
+                                                                                'AssignDate': data['AssignDate'],
+                                                                                'task': data['Task'],
+                                                                                'Image': data["Image"],
+                                                                                'Name': Name,
+                                                                                'Email': Email,
+                                                                                'LastDate': data['LastDate'],
+                                                                                'StartingDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
+                                                                                'Description': data['Description'],
+                                                                              }).whenComplete(() => FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('InChecking').where(
+                                                                                    'Task',
+                                                                                    isEqualTo: data['Task'],
+                                                                                  ));
+                                                                              try {
+                                                                                // Get a reference to the 'task' subcollection
+                                                                                CollectionReference taskCollection = FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('InChecking');
 
-                                                                  // Query for the document with field name 'task' and value 'mk'
-                                                                  QuerySnapshot
-                                                                      querySnapshot =
-                                                                      await taskCollection
-                                                                          .where(
-                                                                              'task',
-                                                                              isEqualTo: data['Task'])
-                                                                          .get();
+                                                                                // Query for the document with field name 'task' and value 'mk'
+                                                                                QuerySnapshot querySnapshot = await taskCollection.where('task', isEqualTo: data['Task']).get();
 
-                                                                  // Delete the document(s) found by the query
-                                                                  querySnapshot
-                                                                      .docs
-                                                                      .forEach(
-                                                                          (doc) {
-                                                                    doc.reference
-                                                                        .delete();
-                                                                  });
-                                                                } catch (e) {
-                                                                  print(
-                                                                      'Error deleting document: $e');
-                                                                }
-                                                                FirebaseFirestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        id)
-                                                                    .doc(id)
-                                                                    .collection(
-                                                                        'user')
-                                                                    .doc(_auth
-                                                                        .currentUser!
-                                                                        .uid)
-                                                                    .collection(
-                                                                        'Current Project')
-                                                                    .doc(
-                                                                        Project)
-                                                                    .collection(
-                                                                        'Process')
-                                                                    .doc()
-                                                                    .set({
-                                                                  'Point': data[
-                                                                      'Point'],
-                                                                  'Description':
-                                                                      data[
-                                                                          'Description'],
-                                                                  'Task': data[
-                                                                      'Task'],
-                                                                  'Image': data[
-                                                                      'Image'],
-                                                                  'AssignDate':
-                                                                      data[
-                                                                          'AssignDate'],
-                                                                  'LastDate': data[
-                                                                      'LastDate'],
-                                                                  'StartingDate': DateFormat(
-                                                                          'dd-MMM-yy')
-                                                                      .format(DateTime
-                                                                          .now()),
-                                                                }).whenComplete(
-                                                                        () => {
-                                                                              snapshot.data!.docs[i].reference.delete()
-                                                                            });
+                                                                                // Delete the document(s) found by the query
+                                                                                querySnapshot.docs.forEach((doc) {
+                                                                                  doc.reference.delete();
+                                                                                });
+                                                                              } catch (e) {
+                                                                                print('Error deleting document: $e');
+                                                                              }
+                                                                              FirebaseFirestore.instance.collection(id).doc(id).collection('user').doc(_auth.currentUser!.uid).collection('Current Project').doc(Project).collection('Process').doc().set({
+                                                                                'Point': data['Point'],
+                                                                                'Description': data['Description'],
+                                                                                'Task': data['Task'],
+                                                                                'Image': data['Image'],
+                                                                                'AssignDate': data['AssignDate'],
+                                                                                'LastDate': data['LastDate'],
+                                                                                'StartingDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
+                                                                              }).whenComplete(() => {
+                                                                                    snapshot.data!.docs[i].reference.delete()
+                                                                                  });
+                                                                              Get.back();
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              height: 10.w,
+                                                                              width: 25.w,
+                                                                              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                              child: const Center(
+                                                                                child: Text(
+                                                                                  "Done",
+                                                                                  style: TextStyle(color: ColorUtils.white),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              Get.back();
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              height: 10.w,
+                                                                              width: 25.w,
+                                                                              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                              child: const Center(
+                                                                                child: Text(
+                                                                                  "Cancel",
+                                                                                  style: TextStyle(color: ColorUtils.white),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    });
                                                               },
                                                               child: Padding(
                                                                 padding: EdgeInsets
