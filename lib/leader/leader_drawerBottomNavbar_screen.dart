@@ -16,6 +16,7 @@ import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/Login_screen.dart';
 import 'package:projecture/view/auth/done_screen.dart';
+import 'package:projecture/view/auth/events/card_details_screen.dart';
 import 'package:projecture/view/auth/invite_screen.dart';
 import 'package:projecture/view/auth/issue_screen.dart';
 import 'package:projecture/view/auth/inprocess_screen.dart';
@@ -88,7 +89,7 @@ class _LeaderDrawerBottomNavbarState extends State<LeaderDrawerBottomNavbar> {
   var pageAll = [
     const Homescreen(),
     const ChatScreen(),
-    const MyProfile(),
+    const CardDetailsScreen(),
   ];
 
   var myIndex = 0;

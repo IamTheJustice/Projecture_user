@@ -38,7 +38,6 @@ Future<void> main() async {
         .update({'fcmToken': fcmToken});
     // TODO: If necessary send token to application server.
 
-    // Note: This callback is fired at each app startup and whenever a new
     // token is generated.
   }).onError((err) {
     // Error getting token.
