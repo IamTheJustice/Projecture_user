@@ -190,9 +190,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                 }),
                           );
                         } else
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                       })
-                  : SizedBox(),
+                  : const SizedBox(),
               SizeConfig.sH2,
             ],
           ),

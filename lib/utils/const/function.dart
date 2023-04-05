@@ -82,6 +82,7 @@ Future<List<AllDetail>> fetchHomeDetail({
   Provider.of<UserContactProvider>(context, listen: false).userContact;
   // List<String> cont = [];
   // List<ContactList> cont1 = [];
+  print('fetch home detail');
   final ref = FirebaseFirestore.instance
       .collection(companyId)
       .doc(companyId)

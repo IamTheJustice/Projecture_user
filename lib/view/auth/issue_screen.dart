@@ -138,7 +138,7 @@ class _issueState extends State<issue> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 2.w, horizontal: 7.w),
                                             child: Container(
-                                              height: 40.h,
+                                              height: 44.h,
                                               decoration: BoxDecoration(
                                                   color: ColorUtils.purple,
                                                   borderRadius:
@@ -390,7 +390,127 @@ class _issueState extends State<issue> {
                                                           ),
                                                         ],
                                                       ),
-                                                    )
+                                                    ),
+                                                  SizeConfig.sH2,
+                                                  data['Uid'] ==
+                                                          _auth.currentUser!.uid
+                                                      ? Center(
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return AlertDialog(
+                                                                      backgroundColor:
+                                                                          ColorUtils
+                                                                              .white,
+                                                                      title:
+                                                                          Column(
+                                                                        children: [
+                                                                          Image
+                                                                              .asset(
+                                                                            "assets/images/sessionEnd.gif",
+                                                                            scale:
+                                                                                1.w,
+                                                                          ),
+                                                                          Text(
+                                                                            'Disable !',
+                                                                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                                                                color: Colors.red,
+                                                                                fontWeight: FontWeightClass.extraB,
+                                                                                fontSize: 13.sp),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      content: Text(
+                                                                          'are you sure this issue is solved ?',
+                                                                          textAlign: TextAlign
+                                                                              .center,
+                                                                          style:
+                                                                              FontTextStyle.Proxima16Medium.copyWith(color: ColorUtils.primaryColor)),
+                                                                      actions: [
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            snapshot.data!.docs[i].reference.delete();
+                                                                            Get.back();
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                10.w,
+                                                                            width:
+                                                                                25.w,
+                                                                            decoration:
+                                                                                const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                            child:
+                                                                                const Center(
+                                                                              child: Text(
+                                                                                "Done",
+                                                                                style: TextStyle(color: ColorUtils.white),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            Get.back();
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                10.w,
+                                                                            width:
+                                                                                25.w,
+                                                                            decoration:
+                                                                                const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: ColorUtils.primaryColor),
+                                                                            child:
+                                                                                const Center(
+                                                                              child: Text(
+                                                                                "Cancel",
+                                                                                style: TextStyle(color: ColorUtils.white),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  });
+                                                            },
+                                                            child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      right:
+                                                                          2.w),
+                                                              child: Container(
+                                                                height: 4.5.h,
+                                                                width: 30.w,
+                                                                decoration: const BoxDecoration(
+                                                                    color: ColorUtils
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(12.0))),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Disable",
+                                                                    style: FontTextStyle.Proxima16Medium.copyWith(
+                                                                        color: ColorUtils
+                                                                            .purple,
+                                                                        fontSize: 13
+                                                                            .sp,
+                                                                        fontWeight:
+                                                                            FontWeightClass.semiB),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : SizedBox(),
                                                 ],
                                               ),
                                             ));
@@ -674,6 +794,8 @@ class _issueState extends State<issue> {
                                                               .text,
                                                       'Name': Name,
                                                       'Email': Email,
+                                                      'Uid': _auth
+                                                          .currentUser!.uid,
                                                     });
 
                                                     Get.showSnackbar(

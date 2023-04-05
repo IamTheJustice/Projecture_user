@@ -147,8 +147,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Container())),
-                            subtitle: Text(''),
-                            title: Text(''),
+                            subtitle: const Text(''),
+                            title: const Text(''),
                           );
                         }));
               }
