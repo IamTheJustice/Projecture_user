@@ -37,6 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
     
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
+    cid --$cid
     """);
   }
 
@@ -132,8 +133,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     });
               } else {
                 return Shimmer.fromColors(
-                    baseColor: Colors.red,
-                    highlightColor: Colors.amber,
+                    baseColor: ColorUtils.purple,
+                    highlightColor: ColorUtils.white,
                     child: ListView.builder(
                         itemCount: 10,
                         itemBuilder: (context, i) {

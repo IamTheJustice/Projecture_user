@@ -205,7 +205,7 @@ class GroupCollection {
     //         .toList();
     //   }
     // final state = BlocProvider.of<ContactBloc>(contx).state;
-  
+
     // if (state is ContactLoaded && state.props.length > 0) {
     //   print('contact');
     //   // print(
@@ -214,8 +214,17 @@ class GroupCollection {
     // } else {
     //   BlocProvider.of<ContactBloc>(contx).add(AddContact());
     // }
+    // List<AllDetail> number =
+    //     Provider.of<UserContactProvider>(contx, listen: false)
+    //         .userContact
+    //         .where((element) => element.phoneNumber.contains(num))
+    //         .toList();
     List<QueryDocumentSnapshot<Object?>> number =
-        Provider.of<UserContactProvider>(contx,listen: false).userContact.where((element) => element['Phone'].contains(num)).toList();
+        Provider.of<UserContactProvider>(contx, listen: false)
+            .userContact
+            .where((element) => element['Phone'].contains(num))
+            .toList();
+
     if (number.isNotEmpty) {
       nme = number.first['Phone'];
     } else {

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -96,6 +97,19 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.black26,
+        systemNavigationBarContrastEnforced: false,
+        systemStatusBarContrastEnforced: false,
+        systemNavigationBarDividerColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+        overlays: [SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top]);
     return Consumer<ModelTheme>(
         builder: (context, ModelTheme themeNotifier, child) {
       return Scaffold(
@@ -591,24 +605,36 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                         borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
-                        color: myIndex == 0
-                            ? ColorUtils.purpleColor
-                            : ColorUtils.primaryColor,
+                        color: themeNotifier.isDark
+                            ? myIndex == 0
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 0
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
                       ),
                     ),
                     SizeConfig.sH05,
                     Icon(
                       Icons.home,
-                      color: myIndex == 0
-                          ? ColorUtils.purpleColor
-                          : ColorUtils.primaryColor,
+                      color: themeNotifier.isDark
+                          ? myIndex == 0
+                              ? ColorUtils.purple
+                              : ColorUtils.white
+                          : myIndex == 0
+                              ? ColorUtils.purpleColor
+                              : ColorUtils.primaryColor,
                     ),
                     Text(
                       "Home",
                       style: FontTextStyle.Proxima14Regular.copyWith(
-                        color: myIndex == 0
-                            ? ColorUtils.purpleColor
-                            : ColorUtils.primaryColor,
+                        color: themeNotifier.isDark
+                            ? myIndex == 0
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 0
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
                       ),
                     )
                   ],
@@ -630,24 +656,36 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                         borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
-                        color: myIndex == 1
-                            ? ColorUtils.purpleColor
-                            : ColorUtils.primaryColor,
+                        color: themeNotifier.isDark
+                            ? myIndex == 1
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 1
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
                       ),
                     ),
                     SizeConfig.sH05,
                     Icon(
                       Icons.chat,
-                      color: myIndex == 1
-                          ? ColorUtils.purpleColor
-                          : ColorUtils.primaryColor,
+                      color: themeNotifier.isDark
+                          ? myIndex == 1
+                              ? ColorUtils.purple
+                              : ColorUtils.white
+                          : myIndex == 1
+                              ? ColorUtils.purpleColor
+                              : ColorUtils.primaryColor,
                     ),
                     Text(
                       "Chat",
                       style: FontTextStyle.Proxima14Regular.copyWith(
-                        color: myIndex == 1
-                            ? ColorUtils.purpleColor
-                            : ColorUtils.primaryColor,
+                        color: themeNotifier.isDark
+                            ? myIndex == 1
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 1
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
                       ),
                     )
                   ],
@@ -669,24 +707,36 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                         borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
-                        color: myIndex == 2
-                            ? ColorUtils.purpleColor
-                            : ColorUtils.primaryColor,
+                        color: themeNotifier.isDark
+                            ? myIndex == 2
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 2
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
                       ),
                     ),
                     SizeConfig.sH05,
                     Icon(
                       Icons.account_circle,
-                      color: myIndex == 2
-                          ? ColorUtils.purpleColor
-                          : ColorUtils.primaryColor,
+                      color: themeNotifier.isDark
+                          ? myIndex == 2
+                              ? ColorUtils.purple
+                              : ColorUtils.white
+                          : myIndex == 2
+                              ? ColorUtils.purpleColor
+                              : ColorUtils.primaryColor,
                     ),
                     Text(
                       "Profile",
                       style: FontTextStyle.Proxima14Regular.copyWith(
-                        color: myIndex == 2
-                            ? ColorUtils.purpleColor
-                            : ColorUtils.primaryColor,
+                        color: themeNotifier.isDark
+                            ? myIndex == 2
+                                ? ColorUtils.purple
+                                : ColorUtils.white
+                            : myIndex == 2
+                                ? ColorUtils.purpleColor
+                                : ColorUtils.primaryColor,
                       ),
                     )
                   ],

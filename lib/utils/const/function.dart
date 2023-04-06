@@ -8,6 +8,7 @@ import 'package:projecture/model/chatting_info_model.dart';
 import 'package:projecture/model/date_time_model.dart';
 import 'package:projecture/provider/user_contact_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String getImageName1(String path) {
   int first = path.lastIndexOf('/');
@@ -79,13 +80,20 @@ Future<List<AllDetail>> fetchHomeDetail({
 }) async {
   List<AllDetail> main = [];
   List<AllDetail> main1 = [];
-  Provider.of<UserContactProvider>(context, listen: false).userContact;
+  final pref = await SharedPreferences.getInstance();
+  String? cid = pref.getString("companyId");
+  List<AllDetail> xx = [];
+  // if (Provider.of<UserContactProvider>(context, listen: false)
+  //     .userContact
+  //     .isNotEmpty) {
+  //   xx = Provider.of<UserContactProvider>(context, listen: false).userContact;
+  // } else {
   // List<String> cont = [];
   // List<ContactList> cont1 = [];
-  print('fetch home detail');
+  print('fetch home detail $cid');
   final ref = FirebaseFirestore.instance
-      .collection(companyId)
-      .doc(companyId)
+      .collection(cid ?? '')
+      .doc(cid ?? '')
       .collection('user')
       .withConverter(
         fromFirestore: AllDetail.fromFirestore,
@@ -93,7 +101,11 @@ Future<List<AllDetail>> fetchHomeDetail({
       );
 
   QuerySnapshot<AllDetail> x = await ref.get();
-  List<AllDetail> xx = x.docs.map((e) => e.data()).toList();
+  xx = x.docs.map((e) => e.data()).toList();
+  // Provider.of<UserContactProvider>(context, listen: false)
+  //     .setUserContactData(xx);
+  print("alldetail ${xx} ${xx.length}");
+  // }
   // return xx;
   // return xx;
   // // if (await FlutterContacts.requestPermission()) {
@@ -331,8 +343,7 @@ List<DateTimeModel> covertDatetimemodel(
         // '${DateTime.fromMillisecondsSinceEpoch(e.time!).day}/${DateTime.fromMillisecondsSinceEpoch(e.time!).month}/${DateTime.fromMillisecondsSinceEpoch(e.time!).year}')
         .toList();
     if (c2.isEmpty) {
-      c1.add(DateTimeModel(
-          date: DateTime.fromMillisecondsSinceEpoch(e.time!),
+      c1.add(DateTimeModel(date: DateTime.fromMillisecondsSinceEpoch(e.time!),
           // '${DateTime.fromMillisecondsSinceEpoch(e.time!).day}/${DateTime.fromMillisecondsSinceEpoch(e.time!).month}/${DateTime.fromMillisecondsSinceEpoch(e.time!).year}',
           listOfChat: [e]));
     } else {

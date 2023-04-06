@@ -51,14 +51,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
         onTapDown: (_) => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text("Card"),
-            centerTitle: true,
-            backgroundColor: themeNotifier.isDark
-                ? ColorUtils.black
-                : ColorUtils.primaryColor,
-            iconTheme: const IconThemeData(color: ColorUtils.white),
-          ),
+          backgroundColor: themeNotifier.isDark
+              ? Colors.black.withOpacity(0.8)
+              : ColorUtils.white,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -66,9 +61,12 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
               Center(
                 child: Text("Frontbit solution aa company name",
                     style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.primaryColor, fontSize: 14.sp)),
+                        color: themeNotifier.isDark
+                            ? ColorUtils.white
+                            : ColorUtils.primaryColor,
+                        fontSize: 14.sp)),
               ),
-              SizeConfig.sH2,
+              SizeConfig.sH3,
               id != null
                   ? StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
@@ -96,89 +94,126 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                                   width: 3)),
                                           child: Image.network(
                                             data['ProfileImage'],
-                                            height: 15.h,
-                                            width: 30.w,
+                                            height: 20.h,
+                                            width: 40.w,
                                             fit: BoxFit.fill,
                                           ),
                                         ),
                                       ),
+                                      SizeConfig.sH3,
                                       Center(
                                         child: Text(data['Name'],
                                             style: FontTextStyle.Proxima16Medium
                                                 .copyWith(
-                                                    color:
-                                                        ColorUtils.primaryColor,
+                                                    color: themeNotifier.isDark
+                                                        ? ColorUtils.white
+                                                        : ColorUtils
+                                                            .primaryColor,
                                                     fontSize: 16.sp)),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            left: 4.w, top: 1.h),
-                                        child: Text(data['City'],
-                                            style: FontTextStyle.Proxima16Medium
-                                                .copyWith(
-                                              color: ColorUtils.primaryColor,
-                                            )),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 9.w, top: 1.h),
+                                            left: 9.w, top: 2.h),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
                                             Row(
                                               children: [
+                                                Text("City : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
+                                                    )),
+                                                Text(data['City'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
+                                                    )),
+                                              ],
+                                            ),
+                                            SizeConfig.sH1,
+                                            Row(
+                                              children: [
                                                 Text("DOB : ",
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(
-                                                      color: ColorUtils
-                                                          .primaryColor,
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
                                                     )),
                                                 Text(data['DOB'],
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(
-                                                      color: ColorUtils
-                                                          .primaryColor,
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
                                                     )),
                                               ],
                                             ),
-                                            SizeConfig.sH05,
+                                            SizeConfig.sH1,
                                             Row(
                                               children: [
                                                 Text("phone no : ",
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(
-                                                      color: ColorUtils
-                                                          .primaryColor,
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
                                                     )),
                                                 Text(data['Phone'],
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(
-                                                      color: ColorUtils
-                                                          .primaryColor,
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
                                                     )),
                                               ],
                                             ),
-                                            SizeConfig.sH05,
+                                            SizeConfig.sH1,
                                             Row(
                                               children: [
                                                 Text("Email : ",
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(
-                                                      color: ColorUtils
-                                                          .primaryColor,
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
                                                     )),
                                                 Text(data['Email'],
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(
-                                                      color: ColorUtils
-                                                          .primaryColor,
+                                                      color:
+                                                          themeNotifier.isDark
+                                                              ? ColorUtils.white
+                                                              : ColorUtils
+                                                                  .primaryColor,
                                                     )),
                                               ],
                                             ),
@@ -189,8 +224,14 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                   );
                                 }),
                           );
-                        } else
-                          return const CircularProgressIndicator();
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: ColorUtils.primaryColor,
+                              strokeWidth: 1,
+                            ),
+                          );
+                        }
                       })
                   : const SizedBox(),
               SizeConfig.sH2,

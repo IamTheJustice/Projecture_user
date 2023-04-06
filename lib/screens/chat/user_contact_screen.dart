@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projecture/model/all_detail_model.dart';
+import 'package:projecture/provider/user_contact_provider.dart';
 import 'package:projecture/screens/chat/widgets/user_contact_widget.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
 import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class UserContactScreen extends StatefulWidget {
@@ -18,14 +21,26 @@ class UserContactScreen extends StatefulWidget {
 }
 
 class _UserContactScreenState extends State<UserContactScreen> {
-  Future<QuerySnapshot<Map<String, dynamic>>> getUserContact() async {
-    QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+  Future<List<AllDetail>> getUserContact() async {
+    // QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+    //     .collection(widget.companyId)
+    //     .doc(widget.companyId)
+    //     .collection('user')
+    //     .get();
+    final ref = FirebaseFirestore.instance
         .collection(widget.companyId)
         .doc(widget.companyId)
         .collection('user')
-        .get();
-    // Provider.of<UserContactProvider>(context,listen: false).setUserContactData(res.docs);
-    return res;
+        .withConverter(
+          fromFirestore: AllDetail.fromFirestore,
+          toFirestore: (AllDetail allDetail, _) => allDetail.toFirestore(),
+        );
+
+    QuerySnapshot<AllDetail> x = await ref.get();
+    List<AllDetail> xx = x.docs.map((e) => e.data()).toList();
+    // Provider.of<UserContactProvider>(context, listen: false)
+    //     .setUserContactData(xx);
+    return xx;
   }
   // List<Contact>? contacts;
   // List<String> cont = [];
@@ -94,15 +109,15 @@ class _UserContactScreenState extends State<UserContactScreen> {
         onRefresh: () async {
           // BlocProvider.of<GetDataBloc>(context).emit(GetDataInitial());
         },
-        child: FutureBuilder<QuerySnapshot>(
+        child: FutureBuilder<List<AllDetail>>(
             future: getUserContact(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, i) {
-                      var data = snapshot.data!.docs[i];
+                      var data = snapshot.data![i];
                       return InkWell(
                         onTap: () {
                           // print("code::::: ${data[index].fcmToken}");
@@ -110,11 +125,11 @@ class _UserContactScreenState extends State<UserContactScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => UserContactWidget(
-                                        receiverId: data['Uid'],
-                                        phoneNumber: data['Phone'],
-                                        name: data['Name'],
-                                        imageUrl: data['ProfileImage'],
-                                        fcmToken: '',
+                                        receiverId: data.id,
+                                        phoneNumber: data.phoneNumber,
+                                        name: data.name,
+                                        imageUrl: '',
+                                        fcmToken: data.fcmToken,
                                       )));
                         },
                         child: ListTile(
@@ -127,10 +142,10 @@ class _UserContactScreenState extends State<UserContactScreen> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: CacheNetworkImageWidget(
-                                    imageUrl: data['ProfileImage'],
+                                    imageUrl: '',
                                   ))),
-                          subtitle: Text(data['Email']),
-                          title: Text(data['Name']),
+                          subtitle: Text(data.email),
+                          title: Text(data.name),
                         ),
                       );
                     });
