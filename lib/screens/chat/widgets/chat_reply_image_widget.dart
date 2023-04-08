@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
+import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/const/function.dart';
 import 'package:projecture/utils/const/function/group_collection.dart';
 import '../../../model/chatting_info_model.dart';
@@ -117,7 +118,7 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
                   ),
                 );
               });
-        }else {
+        } else {
           isLongpress = true;
           setState(() {});
           showDialog(
@@ -194,7 +195,7 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
               constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.blue[200],
+                color: ColorUtils.primaryColor.withOpacity(0.9),
               ),
               padding: const EdgeInsets.all(0),
               child:
@@ -211,16 +212,20 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
                       key: _textKey,
                       margin: EdgeInsets.only(top: 5, left: 5, right: 5),
                       padding: EdgeInsets.all(3),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black.withOpacity(0.3)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorUtils.white.withOpacity(0.15)),
                       child: GroupCollection.fetchOneMessage(widget.listOfChat, widget.replyId).isNotEmpty
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
+                                  widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : widget.name,
+                                  // widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.5),
                                 ),
-                                Text(GroupCollection.fetchOneMessage(widget.listOfChat, widget.replyId))
+                                Text(
+                                  GroupCollection.fetchOneMessage(widget.listOfChat, widget.replyId),
+                                  style: TextStyle(color: Colors.grey.shade300, fontSize: 13),
+                                )
                               ],
                             )
                           : Row(
@@ -229,12 +234,17 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
+                                      widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : widget.name,
+                                      // widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.5),
                                     ),
-                                    Text(GroupCollection.fetchType(widget.listOfChat, widget.replyId) == 'url' ? 'photo' : 'Video')
+                                    Text(
+                                      GroupCollection.fetchType(widget.listOfChat, widget.replyId) == 'url' ? 'photo' : 'Video',
+                                      style: TextStyle(color: Colors.grey.shade300, fontSize: 13),
+                                    )
                                   ],
                                 ),
                                 ClipRRect(
@@ -244,7 +254,6 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
                                     width: 45,
                                     child: CacheNetworkImageWidget(
                                       imageUrl: GroupCollection.fetchOneImageUrl(widget.listOfChat, widget.replyId),
-                                      
                                     ),
                                   ),
                                 ),
@@ -266,7 +275,6 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
                           borderRadius: BorderRadius.circular(10),
                           child: CacheNetworkImageWidget(
                             imageUrl: widget.imageUrl,
-                           
                           ),
                         ),
                       ),
@@ -278,18 +286,19 @@ class _ChatReplyImageWidgetState extends State<ChatReplyImageWidget> {
                           children: [
                             Text(
                               formatDate(widget.time),
-                              style: const TextStyle(fontSize: 9),
+                              style: const TextStyle(fontSize: 9, color: Colors.white),
                             ),
                             widget.sender == currentUser!.uid
                                 ? widget.isRead
                                     ? const Icon(
-                                        Icons.done,
-                                        color: Colors.red,
+                                        Icons.done_all,
+                                        color: Colors.blue,
                                         size: 14,
                                       )
                                     : const Icon(
-                                        Icons.done,
+                                        Icons.done_all,
                                         size: 14,
+                                        color: Colors.white,
                                       )
                                 : Container()
                           ],

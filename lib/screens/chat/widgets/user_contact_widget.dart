@@ -18,10 +18,14 @@ import 'package:projecture/screens/chat/widgets/chat_reply_video_widget.dart';
 import 'package:projecture/screens/chat/widgets/chat_text_widget.dart';
 import 'package:projecture/screens/chat/widgets/chat_video_widget.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
+import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/const/function.dart';
 import 'package:projecture/utils/const/function/Image_picker.dart';
 import 'package:projecture/utils/const/function/get_download_url.dart';
+import 'package:projecture/utils/const/function/local_notification_services.dart';
 import 'package:projecture/utils/const/function/write_collection.dart';
+import 'package:projecture/utils/font_style_utils.dart';
+import 'package:sizer/sizer.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -32,6 +36,7 @@ class UserContactWidget extends StatefulWidget {
   String phoneNumber;
   String receiverId;
   String fcmToken;
+  // final String companyId;
   @override
   State<UserContactWidget> createState() => _UserContactWidgetState();
 }
@@ -55,9 +60,10 @@ class _UserContactWidgetState extends State<UserContactWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // fetchCurrentUserNotificationDetail().then((value) {
-    //   allDetailNotification = value;
-    // });
+    fetchCurrentUserNotificationDetail().then((value) {
+      log('Ero value Notification $value');
+      allDetailNotification = value;
+    });
   }
 
   Future<bool> getUid() async {
@@ -76,31 +82,65 @@ class _UserContactWidgetState extends State<UserContactWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            leading: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                height: 30,
-                width: 50,
-                child: Row(
-                  children: [
-                    const Icon(Icons.arrow_back),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: CacheNetworkImageWidget(
-                          imageUrl: widget.imageUrl,
-                        ),
+          elevation: 0.0,
+          backgroundColor: ColorUtils.primaryColor,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 30,
+              width: 50,
+              child: Row(
+                children: [
+                  const Icon(Icons.arrow_back),
+                  Container(
+                    height: 30,
+                    width: 30,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CacheNetworkImageWidget(
+                        imageUrl: widget.imageUrl,
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
-            title: Text(widget.name)),
+          ),
+          title: Text(
+            widget.name,
+            style: FontTextStyle.Proxima16Medium.copyWith(fontSize: 17.sp, color: ColorUtils.white),
+          ),
+          centerTitle: true,
+          iconTheme: const IconThemeData(color: ColorUtils.white),
+        ),
+        // appBar: AppBar(
+        //     leading: InkWell(
+        //       onTap: () {
+        //         Navigator.pop(context);
+        //       },
+        //       child: Container(
+        //         height: 30,
+        //         width: 50,
+        //         child: Row(
+        //           children: [
+        //             const Icon(Icons.arrow_back),
+        //             Container(
+        //               height: 30,
+        //               width: 30,
+        //               child: ClipRRect(
+        //                 borderRadius: BorderRadius.circular(50),
+        //                 child: CacheNetworkImageWidget(
+        //                   imageUrl: widget.imageUrl,
+        //                 ),
+        //               ),
+        //             )
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //     title: Text(widget.name)),
         body: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Expanded(
             child: FutureBuilder<bool>(
@@ -114,7 +154,7 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                           child: StreamBuilder<List<ChattingInfo>>(
                             stream: fetchChatCurrentUser(snapshot.data! ? '${currentUser!.uid}_${widget.receiverId}' : '${widget.receiverId}_${currentUser!.uid}'),
                             builder: (context, snap) {
-                              // log('datata ${snap.data}');.
+                              log('datata ${snap.connectionState}');
                               if (snap.hasData) {
                                 DateTime dateTime = DateTime.now();
                                 // log("current::::: ${snap.data}");
@@ -137,11 +177,10 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(top: 5),
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue[200],
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), boxShadow: [
+                                          BoxShadow(color: ColorUtils.purple, spreadRadius: 0, blurRadius: 1)
+                                        ]),
                                         child: Text(
                                           '${dateTime.day}/${dateTime.month}/${dateTime.year}' == '${groupByValue.day}/${groupByValue.month}/${groupByValue.year}'
                                               ? 'Today'
@@ -149,7 +188,8 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                                   ? 'Yesterday'
                                                   : '${groupByValue.day}/${groupByValue.month}/${groupByValue.year}',
                                           // textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.grey[600]),
+
+                                          style: TextStyle(color: ColorUtils.purple, fontSize: 11.5),
                                         ),
                                       ),
                                     ],
@@ -342,7 +382,7 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                             margin: EdgeInsets.only(right: 10),
                             height: 150,
                             width: 250,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blue[200]),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorUtils.primaryColor.withOpacity(0.9)),
                             child: Center(child: CircularProgressIndicator()),
                           ),
                         ),
@@ -352,7 +392,7 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                             margin: EdgeInsets.only(right: 10),
                             height: 200,
                             width: 200,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blue[200]),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorUtils.primaryColor.withOpacity(0.9)),
                             child: Center(child: CircularProgressIndicator()),
                           ),
                         )
@@ -420,8 +460,8 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
                                           child: CacheNetworkImageWidget(
-                                              imageUrl: replyImageUrl,
-                                             ),
+                                            imageUrl: replyImageUrl,
+                                          ),
                                         ),
                                       ),
                                       Positioned(
@@ -464,6 +504,7 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                     height: 50,
                     child: TextFormField(
                       controller: messageController,
+                      cursorColor: ColorUtils.primaryColor,
                       decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
                           suffixIcon: InkWell(
@@ -508,16 +549,16 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                                   }
                                                   messagereply = '';
                                                   setState(() {});
-                                                  // LocalNotificationServices.sendNotification(
-                                                  //   title: allDetailNotification.phoneNumber,
-                                                  //   message: 'image',
-                                                  //   token: widget.fcmToken,
-                                                  //   receiverId: currentUser.uid,
-                                                  //   phoneNumber: allDetailNotification.phoneNumber,
-                                                  //   name: widget.name,
-                                                  //   imageUrl: allDetailNotification.imageUrl,
-                                                  //   fcmToken: allDetailNotification.fcmToken,
-                                                  // );
+                                                  LocalNotificationServices.sendNotification(
+                                                    title: allDetailNotification.phoneNumber,
+                                                    message: 'image',
+                                                    token: widget.fcmToken,
+                                                    receiverId: currentUser.uid,
+                                                    phoneNumber: allDetailNotification.phoneNumber,
+                                                    name: widget.name,
+                                                    imageUrl: '',
+                                                    fcmToken: allDetailNotification.fcmToken,
+                                                  );
                                                 } catch (e) {}
                                               },
                                               child: Container(
@@ -560,17 +601,17 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                                   }
                                                   messagereply = '';
                                                   setState(() {});
-                                                  // LocalNotificationServices.sendNotification(
-                                                  //   title: allDetailNotification.phoneNumber,
-                                                  //   message: 'image',
-                                                  //   token: widget.fcmToken,
-                                                  //   receiverId: currentUser.uid,
-                                                  //   phoneNumber: allDetailNotification.phoneNumber,
-                                                  //   name: widget.name,
-                                                  //   imageUrl: allDetailNotification.imageUrl,
-                                                  //   fcmToken: allDetailNotification.fcmToken,
-                                                  // );
-                                                  // // setState(() {});
+                                                  LocalNotificationServices.sendNotification(
+                                                    title: allDetailNotification.phoneNumber,
+                                                    message: 'image',
+                                                    token: widget.fcmToken,
+                                                    receiverId: currentUser.uid,
+                                                    phoneNumber: allDetailNotification.phoneNumber,
+                                                    name: widget.name,
+                                                    imageUrl: '',
+                                                    fcmToken: allDetailNotification.fcmToken,
+                                                  );
+                                                  // setState(() {});
                                                 } catch (e) {}
                                               },
                                               child: Container(
@@ -597,24 +638,30 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                                 }
                                                 setState(() {});
                                                 String? videoUrl = await GetDownloadUrl.getGownloadVideoUrl(videoFile!);
+                                                log('videoUrl $videoUrl');
                                                 if (videoUrl != null) {
                                                   final imageFileName = await VideoThumbnail.thumbnailFile(
                                                     video: videoUrl,
                                                     imageFormat: ImageFormat.PNG,
                                                   );
-
+                                                  log('unique');
                                                   String UniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
                                                   Reference referenceroot = FirebaseStorage.instance.ref();
                                                   Reference referenceDirImages = referenceroot.child('images');
                                                   Reference referenceImageToUpload = referenceDirImages.child(UniqueFileName);
                                                   String? imageUrl;
+                                                  log('imageFile $imageFileName');
                                                   if (imageFileName != null) {
                                                     try {
                                                       await referenceImageToUpload.putFile(File(imageFileName));
                                                       imageUrl = await referenceImageToUpload.getDownloadURL();
-                                                      isUploadVideo = true;
-                                                      setState(() {});
-                                                    } catch (e) {}
+                                                      setState(() {
+                                                        isUploadVideo = true;
+                                                      });
+                                                      log('upload $isUploadVideo');
+                                                    } catch (e) {
+                                                      log('catch $e');
+                                                    }
                                                   }
 
                                                   User? currentUser = FirebaseAuth.instance.currentUser;
@@ -627,16 +674,16 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                                   }
                                                   messagereply = '';
                                                   setState(() {});
-                                                  // LocalNotificationServices.sendNotification(
-                                                  //   title: allDetailNotification.phoneNumber,
-                                                  //   message: 'video',
-                                                  //   token: widget.fcmToken,
-                                                  //   receiverId: currentUser.uid,
-                                                  //   phoneNumber: allDetailNotification.phoneNumber,
-                                                  //   name: widget.name,
-                                                  //   imageUrl: allDetailNotification.imageUrl,
-                                                  //   fcmToken: allDetailNotification.fcmToken,
-                                                  // );
+                                                  LocalNotificationServices.sendNotification(
+                                                    title: allDetailNotification.phoneNumber,
+                                                    message: 'video',
+                                                    token: widget.fcmToken,
+                                                    receiverId: currentUser.uid,
+                                                    phoneNumber: allDetailNotification.phoneNumber,
+                                                    name: widget.name,
+                                                    imageUrl: '',
+                                                    fcmToken: allDetailNotification.fcmToken,
+                                                  );
                                                 }
                                               },
                                               child: Container(
@@ -691,17 +738,17 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                                                   }
                                                   messagereply = '';
                                                   setState(() {});
-                                                  // LocalNotificationServices.sendNotification(
-                                                  //   title: allDetailNotification.phoneNumber,
-                                                  //   message: 'video',
-                                                  //   token: widget.fcmToken,
-                                                  //   receiverId: currentUser.uid,
-                                                  //   phoneNumber: allDetailNotification.phoneNumber,
-                                                  //   name: widget.name,
-                                                  //   imageUrl: allDetailNotification.imageUrl,
-                                                  //   fcmToken: allDetailNotification.fcmToken,
-                                                  // );
-                                                  // // log('sudd message');
+                                                  LocalNotificationServices.sendNotification(
+                                                    title: allDetailNotification.phoneNumber,
+                                                    message: 'video',
+                                                    token: widget.fcmToken,
+                                                    receiverId: currentUser.uid,
+                                                    phoneNumber: allDetailNotification.phoneNumber,
+                                                    name: widget.name,
+                                                    imageUrl: '',
+                                                    fcmToken: allDetailNotification.fcmToken,
+                                                  );
+                                                  // log('sudd message');
                                                 }
                                               },
                                               child: Container(
@@ -718,12 +765,14 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                             },
                             child: const Icon(
                               Icons.image,
-                              color: Colors.blue,
+                              color: ColorUtils.primaryColor,
                               size: 30,
                             ),
                           ),
                           isDense: true,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
+                          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: ColorUtils.primaryColor, width: 1.5)),
+                          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: ColorUtils.primaryColor, width: 1.5)),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: ColorUtils.primaryColor))),
                     ),
                   ),
                 ),
@@ -742,16 +791,21 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                         WriteCollection.d2WriteCollection(type: 'text', receiverId: widget.receiverId, msgText: messageController.text, imageUrl: '', replyId: messagereply, replyPhoneNumber: replyPhoneNumber);
                       }
 
-                      // await LocalNotificationServices.sendNotification(
-                      //   title: allDetailNotification.phoneNumber,
-                      //   message: messageController.text,
-                      //   token: widget.fcmToken,
-                      //   receiverId: currentUser.uid,
-                      //   phoneNumber: allDetailNotification.phoneNumber,
-                      //   name: widget.name,
-                      //   imageUrl: allDetailNotification.imageUrl,
-                      //   fcmToken: allDetailNotification.fcmToken,
-                      // );
+                      try {
+                        await LocalNotificationServices.sendNotification(
+                          title: allDetailNotification.name,
+                          message: messageController.text,
+                          token: widget.fcmToken,
+                          receiverId: currentUser.uid,
+                          phoneNumber: allDetailNotification.phoneNumber,
+                          name: widget.name,
+                          // imageUrl: allDetailNotification.imageUrl,
+                          imageUrl: '',
+                          fcmToken: allDetailNotification.fcmToken,
+                        );
+                      } catch (e) {
+                        log('Eroorrr :$e');
+                      }
                       log('seee');
                       if (isRightSwipe) {
                         isRightSwipe = false;
@@ -765,10 +819,10 @@ class _UserContactWidgetState extends State<UserContactWidget> {
                   child: Container(
                     height: 50,
                     width: 50,
-                    decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(50)),
+                    decoration: BoxDecoration(color: ColorUtils.primaryColor, borderRadius: BorderRadius.circular(10)),
                     child: const Center(
                       child: Icon(
-                        Icons.send,
+                        Icons.send_rounded,
                         size: 30,
                         color: Colors.white,
                       ),

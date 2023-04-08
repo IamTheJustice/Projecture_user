@@ -27,11 +27,7 @@ class _UserContactScreenState extends State<UserContactScreen> {
     //     .doc(widget.companyId)
     //     .collection('user')
     //     .get();
-    final ref = FirebaseFirestore.instance
-        .collection(widget.companyId)
-        .doc(widget.companyId)
-        .collection('user')
-        .withConverter(
+    final ref = FirebaseFirestore.instance.collection(widget.companyId).doc(widget.companyId).collection('user').withConverter(
           fromFirestore: AllDetail.fromFirestore,
           toFirestore: (AllDetail allDetail, _) => allDetail.toFirestore(),
         );
@@ -57,8 +53,7 @@ class _UserContactScreenState extends State<UserContactScreen> {
         backgroundColor: ColorUtils.primaryColor,
         title: Text(
           "All Users",
-          style: FontTextStyle.Proxima16Medium.copyWith(
-              fontSize: 17.sp, color: ColorUtils.white),
+          style: FontTextStyle.Proxima16Medium.copyWith(fontSize: 17.sp, color: ColorUtils.white),
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: ColorUtils.white),
@@ -130,15 +125,14 @@ class _UserContactScreenState extends State<UserContactScreen> {
                                         name: data.name,
                                         imageUrl: '',
                                         fcmToken: data.fcmToken,
+                                        // companyId: widget.companyId,
                                       )));
                         },
                         child: ListTile(
                           leading: Container(
                               height: 50,
                               width: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.grey),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.grey),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: CacheNetworkImageWidget(

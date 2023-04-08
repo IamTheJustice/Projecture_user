@@ -27,26 +27,22 @@ class LocalNotificationServices {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('user granted Permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       print('user granted provisional Permission');
     } else {
       print('user declined or has not accepted Permission');
     }
   }
 
-  static FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static void initialize() {
-    InitializationSettings initializationSettings = InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'));
+    InitializationSettings initializationSettings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'));
     _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (x) {
         var message = jsonDecode(x.payload ?? '');
-        print(
-            "onMessageOpenedApp:::: onDidReceiveNotificationResponse $message $x ${x.payload}");
+        print("onMessageOpenedApp:::: onDidReceiveNotificationResponse $message $x ${x.payload}");
 
         if (message["click_action"] == "FLUTTER_NOTIFICATION_CLICK") {
           // Map<String, dynamic> receiverData = message.data["receiverData"];
@@ -108,15 +104,9 @@ class LocalNotificationServices {
       m.Random random = new m.Random();
       int id = random.nextInt(100000);
       NotificationDetails notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails('mychannel', 'my channel',
-            importance: Importance.max, priority: Priority.high),
+        android: AndroidNotificationDetails('mychannel', 'my channel', importance: Importance.max, priority: Priority.high),
       );
-      await _flutterLocalNotificationsPlugin.show(
-          id,
-          message.notification!.title,
-          message.notification!.body,
-          notificationDetails,
-          payload: jsonEncode(message.data));
+      await _flutterLocalNotificationsPlugin.show(id, message.notification!.title, message.notification!.body, notificationDetails, payload: jsonEncode(message.data));
     } catch (e) {
       print('ERROR::::: $e');
     }
@@ -144,24 +134,23 @@ class LocalNotificationServices {
       'name': name
     };
     try {
-      http.Response r =
-          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-              headers: <String, String>{
-                'Content-Type': 'application/json',
-                'Authorization':
-                    'key=AAAAnPP-sGw:APA91bG6SZCGicrlUZPDPyLkq_OSTCefgqu7vFf-QnNXAsxzADCgyylgyG92zWcWnywnizHwBr61wpuT2fYJZB4DRFLw3Gfl5prd_DikrgVq8eMnkCXWHLNSSiNva7rSsa4UQzZQBqzQ',
-              },
-              body: jsonEncode(<String, dynamic>{
-                "notification": <String, dynamic>{
-                  'body': message,
-                  'title': title
-                },
-                "priority": "high",
-                "data": data,
-                "to": "$token"
-              }));
+      String serverKey = "AAAAo1eFVts:APA91bH324koTmWLvemO9ygU6M-SU9-w_VMIUCdyMh4YIcXZLsimxe2f2d8dDlEp4VIQNGKTkJlT9yF347jPthqhCipc_4Rlrm1zv775O19NHRtcIYSb8La2VHD9TQIUXyrTa5urwYbX";
+      http.Response r = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'key=$serverKey',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "notification": <String, dynamic>{
+              'body': message,
+              'title': title
+            },
+            "priority": "high",
+            "data": data,
+            "to": "$token"
+          }));
       if (r.statusCode == 200) {
-        print('done');
+        print('done ${r.body}');
       } else {
         print('code ${r.statusCode}');
       }
@@ -191,22 +180,20 @@ class LocalNotificationServices {
       'name': title
     };
     try {
-      http.Response r =
-          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-              headers: <String, String>{
-                'Content-Type': 'application/json',
-                'Authorization':
-                    'key=AAAAnPP-sGw:APA91bG6SZCGicrlUZPDPyLkq_OSTCefgqu7vFf-QnNXAsxzADCgyylgyG92zWcWnywnizHwBr61wpuT2fYJZB4DRFLw3Gfl5prd_DikrgVq8eMnkCXWHLNSSiNva7rSsa4UQzZQBqzQ',
-              },
-              body: jsonEncode(<String, dynamic>{
-                "notification": <String, dynamic>{
-                  'body': message,
-                  'title': title
-                },
-                "priority": "high",
-                "data": data,
-                "registration_ids": userToken
-              }));
+      http.Response r = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'key=AAAAnPP-sGw:APA91bG6SZCGicrlUZPDPyLkq_OSTCefgqu7vFf-QnNXAsxzADCgyylgyG92zWcWnywnizHwBr61wpuT2fYJZB4DRFLw3Gfl5prd_DikrgVq8eMnkCXWHLNSSiNva7rSsa4UQzZQBqzQ',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "notification": <String, dynamic>{
+              'body': message,
+              'title': title
+            },
+            "priority": "high",
+            "data": data,
+            "registration_ids": userToken
+          }));
       if (r.statusCode == 200) {
         print('done $userToken');
       } else {

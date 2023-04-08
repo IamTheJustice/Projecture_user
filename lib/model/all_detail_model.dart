@@ -31,13 +31,13 @@ class AllDetail {
     final data = snapshot.data();
     // print("code:::::11 ${data?['fcmToken']}");
     return AllDetail(
-        id: data?['Uid'],
-        fcmToken: data?['fcmToken'],
-        name: data?['Name'],
-        phoneNumber: data?['Phone'],
-        email: data?['Email'],
-        // imageUrl: data?['imageUrl']
-        );
+      id: data?['Uid'],
+      fcmToken: data?['fcmToken'],
+      name: data?['Name'],
+      phoneNumber: data?['Phone'],
+      email: data?['Email'],
+      // imageUrl: data?['imageUrl']
+    );
   }
   Map<String, dynamic> toFirestore() {
     return {
@@ -59,12 +59,12 @@ class AllDetail {
         'fcmToken': fcmToken
       };
   static AllDetail fromJson(Map<String, dynamic> json) => AllDetail(
-      id: json['id'],
+      id: json['Uid'],
       fcmToken: json['fcmToken'],
-      name: json['name'],
-      email: json['email'],
+      name: json['Name'],
+      email: json['Email'],
       // imageUrl: json['imageUrl'],
-      phoneNumber: json['phoneNumber']);
+      phoneNumber: json['Phone']);
 
   @override
   // TODO: implement hashCode

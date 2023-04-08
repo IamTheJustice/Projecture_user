@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/const/function.dart';
 import 'package:swipe_to/swipe_to.dart';
 import '../../../model/chatting_info_model.dart';
@@ -168,7 +169,7 @@ class _ChatTextWidgetState extends State<ChatTextWidget> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.blue[200],
+              color: ColorUtils.primaryColor.withOpacity(0.9),
             ),
             padding: const EdgeInsets.all(0),
             child: Stack(children: [
@@ -176,7 +177,7 @@ class _ChatTextWidgetState extends State<ChatTextWidget> {
                 padding: EdgeInsets.only(left: 10, right: currentUser!.uid == widget.sender ? 70 : 55, top: 5, bottom: 10),
                 child: Text(
                   widget.messageText,
-                  style: const TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
               Positioned(
@@ -187,18 +188,19 @@ class _ChatTextWidgetState extends State<ChatTextWidget> {
                   children: [
                     Text(
                       formatDate(widget.time),
-                      style: const TextStyle(fontSize: 9),
+                      style: const TextStyle(fontSize: 9, color: Colors.white),
                     ),
                     widget.sender == currentUser!.uid
                         ? widget.isRead
                             ? const Icon(
-                                Icons.done,
-                                color: Colors.red,
+                                Icons.done_all,
+                                color: Colors.blue,
                                 size: 14,
                               )
                             : const Icon(
-                                Icons.done,
+                                Icons.done_all,
                                 size: 14,
+                                color: Colors.white,
                               )
                         : Container()
                   ],

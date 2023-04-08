@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture/screens/video_player/video_player.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
+import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/const/function.dart';
 import '../../../model/chatting_info_model.dart';
 
@@ -94,7 +95,7 @@ class _ChatVideoWidgetState extends State<ChatVideoWidget> {
                   ),
                 );
               });
-        }else {
+        } else {
           isLongpress = true;
           setState(() {});
           showDialog(
@@ -173,7 +174,7 @@ class _ChatVideoWidgetState extends State<ChatVideoWidget> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.blue[200],
+                color: ColorUtils.primaryColor.withOpacity(0.9),
               ),
               padding: const EdgeInsets.all(0),
               child: Stack(children: [
@@ -212,12 +213,12 @@ class _ChatVideoWidgetState extends State<ChatVideoWidget> {
                       widget.sender == currentUser!.uid
                           ? widget.isRead
                               ? const Icon(
-                                  Icons.done,
-                                  color: Colors.red,
+                                  Icons.done_all,
+                                  color: Colors.blue,
                                   size: 14,
                                 )
                               : const Icon(
-                                  Icons.done,
+                                  Icons.done_all,
                                   size: 14,
                                   color: Colors.white,
                                 )

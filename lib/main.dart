@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:projecture/app_mode/model_theme.dart';
+import 'package:projecture/provider/user_contact_provider.dart';
 import 'package:projecture/utils/const/function/local_notification_services.dart';
 import 'package:projecture/view/auth/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -23,19 +24,20 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   await Firebase.initializeApp();
   LocalNotificationServices.initialize();
   FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
     print('on refresh token');
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
-    FirebaseFirestore.instance
-        .collection('user')
-        .doc(currentUser.uid)
-        .update({'fcmToken': fcmToken});
+    FirebaseFirestore.instance.collection('user').doc(currentUser.uid).update({
+      'fcmToken': fcmToken
+    });
     // TODO: If necessary send token to application server.
 
     // token is generated.
@@ -45,8 +47,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   print("token:::::: ${await FirebaseMessaging.instance.getToken()}");
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print(
-        "onMessageOpenedApp:onmessage $message ${message.data['phoneNumber']}");
+    print("onMessageOpenedApp:onmessage $message ${message.data['phoneNumber']}");
 
     log("111111111::::: ${message}${message.data}");
     if (message.notification != null) {
@@ -63,13 +64,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ModelTheme(),
-      child: Consumer<ModelTheme>(
-          builder: (context, ModelTheme themeNotifier, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ModelTheme()),
+        ChangeNotifierProvider(create: (context) => UserContactProvider()),
+      ],
+      child: Consumer<ModelTheme>(builder: (context, ModelTheme themeNotifier, child) {
         return Sizer(
-          builder: (BuildContext context, Orientation orientation,
-              DeviceType deviceType) {
+          builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
             return GetMaterialApp(
               builder: (context, child) {
                 return MediaQuery(
@@ -78,9 +80,7 @@ class MyApp extends StatelessWidget {
                 );
               },
               title: 'Projecture',
-              theme: themeNotifier.isDark
-                  ? ThemeData(brightness: Brightness.dark)
-                  : ThemeData(brightness: Brightness.light),
+              theme: themeNotifier.isDark ? ThemeData(brightness: Brightness.dark) : ThemeData(brightness: Brightness.light),
               debugShowCheckedModeBanner: false,
               // smartManagement: SmartManagement.full,
               home: const SplashScreen(),

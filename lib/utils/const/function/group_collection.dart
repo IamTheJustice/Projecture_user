@@ -188,57 +188,55 @@ class GroupCollection {
   //   return c1.reversed.toList();
   // }
 
-  static String numberToName(String num, BuildContext contx) {
-    String nme = '';
-    // if (await FlutterContacts.requestPermission()) {
-    //   List<Contact> contacts = await FlutterContacts.getContacts(
-    //       withProperties: true, withPhoto: true);
-    // List<QueryDocumentSnapshot<Object?>> cont1 = [];
+  // static String numberToName(String num, BuildContext contx) {
+  //   String nme = '';
+  //   // if (await FlutterContacts.requestPermission()) {
+  //   //   List<Contact> contacts = await FlutterContacts.getContacts(
+  //   //       withProperties: true, withPhoto: true);
+  //   // List<QueryDocumentSnapshot<Object?>> cont1 = [];
 
-    //   if (contacts != null) {
-    //     cont1 = contacts
-    //         .map((e) => ContactList(
-    //             name: '${e.name.first} ${e.name.last}',
-    //             number: e.phones.isNotEmpty
-    //                 ? getNum1(e.phones.first.number, 4)
-    //                 : 'empty'))
-    //         .toList();
-    //   }
-    // final state = BlocProvider.of<ContactBloc>(contx).state;
+  //   //   if (contacts != null) {
+  //   //     cont1 = contacts
+  //   //         .map((e) => ContactList(
+  //   //             name: '${e.name.first} ${e.name.last}',
+  //   //             number: e.phones.isNotEmpty
+  //   //                 ? getNum1(e.phones.first.number, 4)
+  //   //                 : 'empty'))
+  //   //         .toList();
+  //   //   }
+  //   // final state = BlocProvider.of<ContactBloc>(contx).state;
 
-    // if (state is ContactLoaded && state.props.length > 0) {
-    //   print('contact');
-    //   // print(
-    //   //     "data:::: ${BlocProvider.of<GetDataBloc>(ctx).state.props.length}");
-    //   cont1 = state.contactList;
-    // } else {
-    //   BlocProvider.of<ContactBloc>(contx).add(AddContact());
-    // }
-    // List<AllDetail> number =
-    //     Provider.of<UserContactProvider>(contx, listen: false)
-    //         .userContact
-    //         .where((element) => element.phoneNumber.contains(num))
-    //         .toList();
-    List<QueryDocumentSnapshot<Object?>> number =
-        Provider.of<UserContactProvider>(contx, listen: false)
-            .userContact
-            .where((element) => element['Phone'].contains(num))
-            .toList();
+  //   // if (state is ContactLoaded && state.props.length > 0) {
+  //   //   print('contact');
+  //   //   // print(
+  //   //   //     "data:::: ${BlocProvider.of<GetDataBloc>(ctx).state.props.length}");
+  //   //   cont1 = state.contactList;
+  //   // } else {
+  //   //   BlocProvider.of<ContactBloc>(contx).add(AddContact());
+  //   // }
+  //   // List<AllDetail> number =
+  //   //     Provider.of<UserContactProvider>(contx, listen: false)
+  //   //         .userContact
+  //   //         .where((element) => element.phoneNumber.contains(num))
+  //   //         .toList();
+  //   List<QueryDocumentSnapshot<Object?>> number = Provider.of<UserContactProvider>(contx, listen: false).userContact.where((element) => element['Phone'].contains(num)).toList();
 
-    if (number.isNotEmpty) {
-      nme = number.first['Phone'];
-    } else {
-      nme = num;
-    }
-    return nme;
-  }
+  //   if (number.isNotEmpty) {
+  //     log('1');
+  //     nme = number.first['Name'];
+  //   } else {
+  //     log('2');
+  //     nme = num;
+  //   }
+  //   log('name to number $nme');
+  //   return nme;
+  // }
 
   static Future<AllDetail> fetchData(String id) async {
-    final ref =
-        FirebaseFirestore.instance.collection("user").doc(id).withConverter(
-              fromFirestore: AllDetail.fromFirestore,
-              toFirestore: (AllDetail allDetail, _) => allDetail.toFirestore(),
-            );
+    final ref = FirebaseFirestore.instance.collection("user").doc(id).withConverter(
+          fromFirestore: AllDetail.fromFirestore,
+          toFirestore: (AllDetail allDetail, _) => allDetail.toFirestore(),
+        );
     log('1111');
     DocumentSnapshot<AllDetail> x = await ref.get();
     return x.data() != null

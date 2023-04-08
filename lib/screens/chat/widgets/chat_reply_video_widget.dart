@@ -3,13 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
+import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/const/function.dart';
 import 'package:projecture/utils/const/function/group_collection.dart';
 import '../../../model/chatting_info_model.dart';
 import '../../video_player/video_player.dart';
 
 class ChatReplyVideoWidget extends StatefulWidget {
-  ChatReplyVideoWidget({super.key,required this.listOfChatDateDocument ,required this.index,required this.name,required this.receiverId,required this.videoUrl, required this.imageUrl, required this.replyId, required this.replyPhoneNumber, required this.isRead, required this.messageText, required this.sender, required this.time, required this.listOfChat});
+  ChatReplyVideoWidget({super.key, required this.listOfChatDateDocument, required this.index, required this.name, required this.receiverId, required this.videoUrl, required this.imageUrl, required this.replyId, required this.replyPhoneNumber, required this.isRead, required this.messageText, required this.sender, required this.time, required this.listOfChat});
   String sender;
   String messageText;
   int time;
@@ -20,7 +21,7 @@ class ChatReplyVideoWidget extends StatefulWidget {
   List<ChattingInfo> listOfChatDateDocument;
   String imageUrl;
   String videoUrl;
- String name;
+  String name;
   String receiverId;
   int index;
   @override
@@ -52,7 +53,7 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
   Widget build(BuildContext context) {
     // print("::::::::::::::: $textSize");
     return InkWell(
-          onLongPress: () {
+      onLongPress: () {
         if (currentUser!.uid == widget.sender) {
           isLongpress = true;
           setState(() {});
@@ -118,7 +119,7 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
                   ),
                 );
               });
-        }else {
+        } else {
           isLongpress = true;
           setState(() {});
           showDialog(
@@ -195,7 +196,7 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
               constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.blue[200],
+                color: ColorUtils.primaryColor.withOpacity(0.9),
               ),
               padding: const EdgeInsets.all(0),
               child:
@@ -218,10 +219,14 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
+                                  widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : widget.name,
+                                  // widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.5),
                                 ),
-                                Text(GroupCollection.fetchOneMessage(widget.listOfChat, widget.replyId))
+                                Text(
+                                  GroupCollection.fetchOneMessage(widget.listOfChat, widget.replyId),
+                                  style: TextStyle(color: Colors.grey.shade300, fontSize: 13),
+                                )
                               ],
                             )
                           : Row(
@@ -232,10 +237,14 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
+                                      widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : widget.name,
+                                      // widget.replyPhoneNumber == getNum1(currentUser!.phoneNumber.toString(), 3) ? 'you' : GroupCollection.numberToName(widget.replyPhoneNumber, context),
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14.5),
                                     ),
-                                    Text(GroupCollection.fetchType(widget.listOfChat, widget.replyId) == 'url' ? 'photo' : 'Video')
+                                    Text(
+                                      GroupCollection.fetchType(widget.listOfChat, widget.replyId) == 'url' ? 'photo' : 'Video',
+                                      style: TextStyle(color: Colors.grey.shade300, fontSize: 13),
+                                    )
                                   ],
                                 ),
                                 ClipRRect(
@@ -245,7 +254,6 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
                                     width: 45,
                                     child: CacheNetworkImageWidget(
                                       imageUrl: GroupCollection.fetchOneImageUrl(widget.listOfChat, widget.replyId),
-                                     
                                     ),
                                   ),
                                 ),
@@ -289,18 +297,19 @@ class _ChatReplyVideoWidgetState extends State<ChatReplyVideoWidget> {
                           children: [
                             Text(
                               formatDate(widget.time),
-                              style: const TextStyle(fontSize: 9),
+                              style: const TextStyle(fontSize: 9, color: Colors.white),
                             ),
                             widget.sender == currentUser!.uid
                                 ? widget.isRead
                                     ? const Icon(
-                                        Icons.done,
-                                        color: Colors.red,
+                                        Icons.done_all,
+                                        color: Colors.blue,
                                         size: 14,
                                       )
                                     : const Icon(
-                                        Icons.done,
+                                        Icons.done_all,
                                         size: 14,
+                                        color: Colors.white,
                                       )
                                 : Container()
                           ],

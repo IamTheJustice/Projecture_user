@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture/screens/show_image/show_image.dart';
 import 'package:projecture/screens/widgets/cache_network_image_widget.dart';
+import 'package:projecture/utils/color_utils.dart';
 import '../../../model/chatting_info_model.dart';
 import '../../../utils/const/function.dart';
 
@@ -162,7 +163,7 @@ class _ChatImageWidgetState extends State<ChatImageWidget> {
       },
       child: Container(
         padding: const EdgeInsets.only(left: 14, right: 14, top: 5, bottom: 5),
-        color: isLongpress ? Colors.blue.withOpacity(0.5) : null,
+        color: isLongpress ? ColorUtils.primaryColor : null,
         child: Align(
           alignment: currentUser!.uid == widget.sender ? Alignment.topRight : Alignment.topLeft,
           child: InkWell(
@@ -172,7 +173,7 @@ class _ChatImageWidgetState extends State<ChatImageWidget> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.blue[200],
+                color: ColorUtils.primaryColor.withOpacity(0.9),
               ),
               padding: const EdgeInsets.all(0),
               child: Stack(children: [
@@ -184,7 +185,6 @@ class _ChatImageWidgetState extends State<ChatImageWidget> {
                     borderRadius: BorderRadius.circular(10),
                     child: CacheNetworkImageWidget(
                       imageUrl: widget.imageUrl,
-                      
                     ),
                   ),
                 ),
@@ -201,12 +201,12 @@ class _ChatImageWidgetState extends State<ChatImageWidget> {
                       widget.sender == currentUser!.uid
                           ? widget.isRead
                               ? const Icon(
-                                  Icons.done,
-                                  color: Colors.red,
+                                  Icons.done_all,
+                                  color: Colors.blue,
                                   size: 14,
                                 )
                               : const Icon(
-                                  Icons.done,
+                                  Icons.done_all,
                                   size: 14,
                                   color: Colors.white,
                                 )
