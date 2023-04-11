@@ -15,6 +15,7 @@ import 'package:projecture/utils/color_utils.dart';
 import 'package:projecture/utils/font_style_utils.dart';
 import 'package:projecture/utils/size_config_utils.dart';
 import 'package:projecture/view/auth/Login_screen.dart';
+import 'package:projecture/view/auth/company_list_screen.dart';
 import 'package:projecture/view/auth/done_screen.dart';
 import 'package:projecture/view/auth/events/card_details_screen.dart';
 import 'package:projecture/view/auth/invite_screen.dart';
@@ -477,7 +478,7 @@ class _DrawerBottomNavbarState extends State<DrawerBottomNavbar> {
                             actions: [
                               InkWell(
                                 onTap: () {
-                                  Get.to(() => LoginScreen(id: id!));
+                                  Get.to(() => CompanyListScreen());
                                 },
                                 child: Container(
                                   height: 10.w,

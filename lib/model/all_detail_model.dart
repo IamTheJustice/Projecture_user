@@ -5,19 +5,20 @@ class AllDetail {
   String name;
   String phoneNumber;
   String email;
-  // String imageUrl;
+  String imageUrl;
   String id;
   bool inx;
   String fcmToken;
 
-  AllDetail(
-      {required this.id,
-      this.inx = false,
-      required this.name,
-      required this.email,
-      // required this.imageUrl,
-      required this.phoneNumber,
-      required this.fcmToken});
+  AllDetail({
+    required this.id,
+    this.inx = false,
+    required this.name,
+    required this.email,
+    required this.imageUrl,
+    required this.phoneNumber,
+    required this.fcmToken,
+  });
 
   @override
   bool operator ==(Object other) {
@@ -31,13 +32,12 @@ class AllDetail {
     final data = snapshot.data();
     // print("code:::::11 ${data?['fcmToken']}");
     return AllDetail(
-      id: data?['Uid'],
-      fcmToken: data?['fcmToken'],
-      name: data?['Name'],
-      phoneNumber: data?['Phone'],
-      email: data?['Email'],
-      // imageUrl: data?['imageUrl']
-    );
+        id: data?['Uid'],
+        fcmToken: data?['fcmToken'],
+        name: data?['Name'],
+        phoneNumber: data?['Phone'],
+        email: data?['Email'],
+        imageUrl: data?['ProfileImage']);
   }
   Map<String, dynamic> toFirestore() {
     return {
@@ -54,7 +54,7 @@ class AllDetail {
         'name': name,
         'phoneNumber': phoneNumber,
         'email': email,
-        // 'imageUrl': imageUrl,
+        'imageUrl': imageUrl,
         'id': id,
         'fcmToken': fcmToken
       };
@@ -63,7 +63,7 @@ class AllDetail {
       fcmToken: json['fcmToken'],
       name: json['Name'],
       email: json['Email'],
-      // imageUrl: json['imageUrl'],
+      imageUrl: json['imageUrl'],
       phoneNumber: json['Phone']);
 
   @override

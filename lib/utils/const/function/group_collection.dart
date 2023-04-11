@@ -233,10 +233,11 @@ class GroupCollection {
   // }
 
   static Future<AllDetail> fetchData(String id) async {
-    final ref = FirebaseFirestore.instance.collection("user").doc(id).withConverter(
-          fromFirestore: AllDetail.fromFirestore,
-          toFirestore: (AllDetail allDetail, _) => allDetail.toFirestore(),
-        );
+    final ref =
+        FirebaseFirestore.instance.collection("user").doc(id).withConverter(
+              fromFirestore: AllDetail.fromFirestore,
+              toFirestore: (AllDetail allDetail, _) => allDetail.toFirestore(),
+            );
     log('1111');
     DocumentSnapshot<AllDetail> x = await ref.get();
     return x.data() != null
@@ -245,7 +246,7 @@ class GroupCollection {
             id: '',
             name: '',
             email: '',
-            // imageUrl: '',
+            imageUrl: '',
             phoneNumber: '',
             fcmToken: '');
   }

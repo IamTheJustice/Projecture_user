@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,20 +87,35 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                   var data = snapshot.data!.docs[i];
                                   return Column(
                                     children: [
-                                      Center(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: ColorUtils.purple,
-                                                  width: 3)),
-                                          child: Image.network(
-                                            data['ProfileImage'],
-                                            height: 20.h,
-                                            width: 40.w,
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
+                                      data['ProfileImage'] != ""
+                                          ? Center(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                            ColorUtils.purple,
+                                                        width: 3)),
+                                                child: Image.network(
+                                                  data['ProfileImage'],
+                                                  height: 20.h,
+                                                  width: 40.w,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            )
+                                          : Center(
+                                              child: Container(
+                                                  height: 20.h,
+                                                  width: 40.w,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color:
+                                                              ColorUtils.purple,
+                                                          width: 3)),
+                                                  child: Lottie.asset(
+                                                      "assets/lotties/warning.json",
+                                                      height: 20.w)),
+                                            ),
                                       SizeConfig.sH3,
                                       Center(
                                         child: Text(data['Name'],
