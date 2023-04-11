@@ -15,6 +15,7 @@ import 'package:projecture/utils/size_config_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import '../utils/const/function/local_notification_services.dart';
 import '../utils/font_style_utils.dart';
 
 class TaskData extends StatefulWidget {
@@ -57,6 +58,7 @@ class _TaskDataState extends State<TaskData> {
 
   String? cid;
   String? uid;
+  String? FcmToken;
   setData() async {
     final pref = await SharedPreferences.getInstance();
     cid = pref.getString("companyId");
@@ -883,7 +885,17 @@ class _TaskDataState extends State<TaskData> {
                                                                                 if (_auth.currentUser!.uid == abc.get('Uid')) {
                                                                                   Name = abc.get('Name');
                                                                                   Email = abc.get('Email');
+                                                                                  FcmToken = abc.get('fcmToken');
                                                                                 }
+                                                                              }
+                                                                              try {
+                                                                                await LocalNotificationServices.sendNotification(
+                                                                                  token: FcmToken,
+                                                                                  message: 'Your Task is Decline by Leader which Named id ${data['Task']}',
+                                                                                  title: 'Decline',
+                                                                                );
+                                                                              } catch (e) {
+                                                                                log('Eroorrr :$e');
                                                                               }
                                                                               FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('Process').doc().set({
                                                                                 'Point': data['Point'],

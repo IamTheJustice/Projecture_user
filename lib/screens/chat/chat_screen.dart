@@ -43,7 +43,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   User? currentUser = FirebaseAuth.instance.currentUser;
   Future<bool> getUid(String id) async {
-    final d1 = await FirebaseFirestore.instance.collection('conversation').doc(id).get();
+    final d1 = await FirebaseFirestore.instance
+        .collection('conversation')
+        .doc(id)
+        .get();
     return d1.exists;
   }
 
@@ -53,7 +56,10 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => UserContactScreen(companyId: cid!)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => UserContactScreen(companyId: cid!)));
           },
           backgroundColor: ColorUtils.primaryColor,
           child: const Icon(
@@ -64,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
         body: FutureBuilder<List<AllDetail>>(
             future: fetchHomeDetail(companyId: cid ?? "", context: context),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+              if (snapshot.hasData) {
                 List<AllDetail> data = snapshot.data!;
                 if (data.isEmpty) {
                   return Center(
@@ -95,22 +101,31 @@ class _ChatScreenState extends State<ChatScreen> {
                             leading: Container(
                                 height: 50,
                                 width: 50,
-                                decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(50)),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(50)),
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: CacheNetworkImageWidget(
                                       imageUrl: "data[index].imageUrl",
                                     ))),
                             subtitle: FutureBuilder<bool>(
-                                future: getUid('${currentUser!.uid}_${data[index].id}'),
+                                future: getUid(
+                                    '${currentUser!.uid}_${data[index].id}'),
                                 builder: (context, snp) {
                                   if (snp.hasData) {
                                     return StreamBuilder<ChattingInfo>(
-                                        stream: fetchlastChatCurrentUser(snp.data! ? '${currentUser!.uid}_${data[index].id}' : '${data[index].id}_${currentUser!.uid}'),
+                                        stream: fetchlastChatCurrentUser(snp
+                                                .data!
+                                            ? '${currentUser!.uid}_${data[index].id}'
+                                            : '${data[index].id}_${currentUser!.uid}'),
                                         builder: (context, snapsot) {
                                           if (snapsot.hasData) {
                                             return Text(
-                                              snapsot.data!.messageText.isNotEmpty ? snapsot.data!.messageText : snapsot.data!.type,
+                                              snapsot.data!.messageText
+                                                      .isNotEmpty
+                                                  ? snapsot.data!.messageText
+                                                  : snapsot.data!.type,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             );
@@ -135,7 +150,15 @@ class _ChatScreenState extends State<ChatScreen> {
                         itemCount: 10,
                         itemBuilder: (context, i) {
                           return ListTile(
-                            leading: Container(height: 50, width: 50, decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(50)), child: ClipRRect(borderRadius: BorderRadius.circular(50), child: Container())),
+                            leading: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container())),
                             subtitle: Container(
                               width: 100,
                               color: Colors.grey,

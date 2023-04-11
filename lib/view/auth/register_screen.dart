@@ -228,8 +228,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: child!);
                           },
                           initialDate: date,
-                          firstDate: DateTime(2022),
-                          lastDate: DateTime(2030),
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime.now(),
                         ).then((selectedDate) {
                           if (selectedDate != null) {
                             formattedDate =
