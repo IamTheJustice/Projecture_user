@@ -203,7 +203,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
           backgroundColor:
               themeNotifier.isDark ? ColorUtils.black : ColorUtils.primaryColor,
           title: Text(
-            "Notice",
+            "Show Task",
             style: FontTextStyle.Proxima16Medium.copyWith(
                 fontSize: 17.sp, color: ColorUtils.white),
           ),
@@ -317,7 +317,7 @@ class _ShowTaskProcessState extends State<ShowTaskProcess> {
                                   ),
                                   children: <Widget>[
                                     SizedBox(
-                                      height: 230.0,
+                                      height: 245.0,
                                       width: Get.width,
                                       child: Padding(
                                           padding: EdgeInsets.only(bottom: 3.h),

@@ -98,7 +98,7 @@ class _DoneScreenState extends State<DoneScreen> {
                                     onTap: () {
                                       Get.to(() => ShowTaskDone(
                                             id: id,
-                                            Project: data['PROJECT NAME'],
+                                            Project: data['Project Name'],
                                           ));
                                     },
                                     child: Container(
@@ -139,7 +139,7 @@ class _DoneScreenState extends State<DoneScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 5.w, vertical: 3.w),
                                   child: Text(
-                                    data['PROJECT NAME'],
+                                    data['Project Name'],
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:

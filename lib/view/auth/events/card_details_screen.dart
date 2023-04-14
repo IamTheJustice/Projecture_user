@@ -87,18 +87,6 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                       child: Column(
                                         children: [
                                           SizeConfig.sH2,
-                                          Center(
-                                            child: Text('company name',
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .primaryColor,
-                                                        fontSize: 15.sp,
-                                                        fontWeight:
-                                                            FontWeightClass
-                                                                .extraB)),
-                                          ),
                                           SizeConfig.sH2,
                                           data['ProfileImage'] != ""
                                               ? Center(

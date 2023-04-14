@@ -131,13 +131,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailController,
                     validator: (v) {
                       if (v!.isEmpty) {
-                        return "Please Email required";
+                        return " Email required";
                       } else if (!RegExp(
                               r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                               r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                               r"{0,253}[a-zA-Z0-9])?)*$")
                           .hasMatch(v)) {
-                        return "Please enter valid email ";
+                        return "enter valid email ";
                       }
                       return null;
                     },

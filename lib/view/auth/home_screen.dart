@@ -30,25 +30,24 @@ class _HomescreenState extends State<Homescreen> {
     {
       "imagepath": "assets/images/HomeProject.png",
       "title": 'Project',
-      "textt": '10'
     },
-    {"imagepath": "assets/images/notice.png", "title": 'Notice', "textt": '10'},
+    {"imagepath": "assets/images/notice.png", "title": 'Notice'},
     {
       "imagepath": "assets/images/homeEvents.png",
       "title": 'Events',
-      "textt": '10'
     },
     {
       "imagepath": "assets/images/HomeIsuue.png",
       "title": 'Issue',
-      "textt": '10'
     },
     {
       "imagepath": "assets/images/history.png",
       "title": 'History',
-      "textt": '10'
     },
-    {"imagepath": "assets/images/report.png", "title": 'Report', "textt": '10'},
+    {
+      "imagepath": "assets/images/report.png",
+      "title": 'Report',
+    },
   ];
 
   @override
@@ -177,12 +176,6 @@ class _HomescreenState extends State<Homescreen> {
                                 style: FontTextStyle.Proxima16Medium.copyWith(
                                     fontSize: 14.sp,
                                     color: ColorUtils.primaryColor),
-                              ),
-                              SizeConfig.sH05,
-                              Text(
-                                templist[index]['textt'],
-                                style: FontTextStyle.Proxima16Medium.copyWith(
-                                    color: ColorUtils.greyB6),
                               ),
                             ],
                           ),

@@ -195,16 +195,9 @@ class _WalletScreenState extends State<WalletScreen> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return GridView.builder(
+                            return ListView.builder(
                                 padding: EdgeInsets.only(
                                     top: 2.h, left: 6.w, right: 6.w),
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 0.0,
-                                        childAspectRatio: 3 / 2,
-                                        mainAxisExtent: 100,
-                                        crossAxisSpacing: 5.0),
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
@@ -224,30 +217,31 @@ class _WalletScreenState extends State<WalletScreen> {
                                           ],
                                           color: ColorUtils.purple,
                                           borderRadius: const BorderRadius.all(
-                                              Radius.circular(20))),
+                                              Radius.circular(10))),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Flexible(
-                                            child: Text(
-                                              data['Task'],
-                                              softWrap: true,
-                                              style: FontTextStyle
-                                                      .Proxima14Regular
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeightClass
-                                                              .extraB,
-                                                      fontSize: 14.sp,
-                                                      color: ColorUtils.white),
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 3.w),
+                                              child: Text(
+                                                data['Task'],
+                                                softWrap: true,
+                                                style: FontTextStyle
+                                                        .Proxima14Regular
+                                                    .copyWith(
+                                                        fontSize: 14.sp,
+                                                        color:
+                                                            ColorUtils.white),
+                                              ),
                                             ),
                                           ),
+                                          Spacer(),
                                           Container(
-                                            height: 5.h,
-                                            width: 10.w,
+                                            height: 4.h,
+                                            width: 8.w,
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
@@ -264,7 +258,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                                                 .semiB,
                                                         color:
                                                             ColorUtils.yellow,
-                                                        fontSize: 16.sp),
+                                                        fontSize: 13.sp),
                                               ),
                                             ),
                                           ),

@@ -95,7 +95,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               SizeConfig.sW3,
                                               Center(
                                                 child: Text(
-                                                  data['PROJECT NAME'],
+                                                  data['Project Name'],
                                                   style: FontTextStyle
                                                           .Proxima16Medium
                                                       .copyWith(

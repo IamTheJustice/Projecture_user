@@ -139,11 +139,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: fullnameController,
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please name required";
+                          return "Name required";
                         } else if (!RegExp(
                                 r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
                             .hasMatch(v)) {
-                          return "please valid name ";
+                          return "Enter valid name ";
                         }
                         return null;
                       },
@@ -170,9 +170,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: cityController,
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please city required";
+                          return "City required";
                         } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                          return "please valid city name ";
+                          return "Enter valid city name ";
                         }
                         return null;
                       },
@@ -198,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       readOnly: true,
                       validator: (v) {
                         if (v == null || v.isEmpty) {
-                          return "please required date";
+                          return "Date required";
                         }
                         return null;
                       },
@@ -252,13 +252,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: emailController,
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please email required";
+                          return "Email required";
                         } else if (!RegExp(
                                 r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                                 r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                                 r"{0,253}[a-zA-Z0-9])?)*$")
                             .hasMatch(v)) {
-                          return "please enter valid email ";
+                          return "Enter valid email ";
                         }
                         return null;
                       },
@@ -287,10 +287,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: PhoneController,
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please mobile number required";
+                          return "Mobile number required";
                         } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
                             .hasMatch(v)) {
-                          return "please enter 10 digits ";
+                          return "Enter 10 digits ";
                         }
                         return null;
                       },

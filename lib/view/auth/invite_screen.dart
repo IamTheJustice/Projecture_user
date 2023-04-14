@@ -78,7 +78,7 @@ class _InviteScreenState extends State<InviteScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 2.w, horizontal: 3.w),
+                                    vertical: 4.w, horizontal: 3.w),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       boxShadow: [
@@ -125,7 +125,7 @@ class _InviteScreenState extends State<InviteScreen> {
                                                           fontSize: 10.sp),
                                                     ),
                                                   ),
-                                                  SizeConfig.sH1,
+                                                  SizeConfig.sH3,
                                                   Padding(
                                                     padding: EdgeInsets.only(
                                                         right: 2.w),
@@ -145,7 +145,7 @@ class _InviteScreenState extends State<InviteScreen> {
                                                                           fontWeight: FontWeightClass
                                                                               .extraB,
                                                                           fontSize:
-                                                                              13.sp),
+                                                                              15.sp),
                                                                     ),
                                                                     SizeConfig
                                                                         .sH1,
@@ -311,7 +311,7 @@ class _InviteScreenState extends State<InviteScreen> {
                                                                           8.0))),
                                                           child: Center(
                                                             child: Text(
-                                                              "Invite",
+                                                              "Accept",
                                                               style: FontTextStyle
                                                                       .Proxima16Medium
                                                                   .copyWith(

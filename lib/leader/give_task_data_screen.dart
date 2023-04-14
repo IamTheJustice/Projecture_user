@@ -433,170 +433,164 @@ class _TaskDataState extends State<TaskData> {
                                 onTap: () {
                                   FocusScope.of(context).requestFocus();
 
-                                  if (formkey.currentState!.validate()) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            backgroundColor: ColorUtils.white,
-                                            title: Column(
-                                              children: [
-                                                Text(
-                                                  'Upload',
-                                                  style: FontTextStyle
-                                                          .Proxima16Medium
-                                                      .copyWith(
-                                                          color: ColorUtils
-                                                              .primaryColor,
-                                                          fontWeight:
-                                                              FontWeightClass
-                                                                  .extraB,
-                                                          fontSize: 13.sp),
-                                                ),
-                                                Lottie.asset(
-                                                    "assets/lotties/upload.json",
-                                                    height: 25.w)
-                                              ],
-                                            ),
-                                            content: Text(
-                                                'are you sure want to Upload?',
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          backgroundColor: ColorUtils.white,
+                                          title: Column(
+                                            children: [
+                                              Text(
+                                                'Upload',
                                                 style: FontTextStyle
                                                         .Proxima16Medium
                                                     .copyWith(
                                                         color: ColorUtils
-                                                            .primaryColor)),
-                                            actions: [
-                                              InkWell(
-                                                onTap: () async {
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          new FocusNode());
-                                                  FirebaseFirestore.instance
-                                                      .collection(id)
-                                                      .doc(id)
-                                                      .collection(Project)
-                                                      .doc(Project)
-                                                      .collection('task')
-                                                      .doc()
-                                                      .set({
-                                                    'Description':
-                                                        DescriptionController
-                                                            .text,
-                                                    'task':
-                                                        TaskNameController.text,
-                                                    'Image': imageUrl,
-                                                    'Name': Name,
-                                                    'Email': Email,
-                                                    'LastDate':
-                                                        dateController.text,
-                                                    'AssignDate': DateFormat(
-                                                            'dd-MMM-yy')
-                                                        .format(DateTime.now()),
-                                                    'Point':
-                                                        addPointController.text,
-                                                  });
-                                                  FirebaseFirestore.instance
-                                                      .collection(id)
-                                                      .doc(id)
-                                                      .collection('user')
-                                                      .doc(uid)
-                                                      .collection(
-                                                          'Current Project')
-                                                      .doc(Project)
-                                                      .collection('Task')
-                                                      .doc()
-                                                      .set({
-                                                    'Description':
-                                                        DescriptionController
-                                                            .text,
-                                                    'Task':
-                                                        TaskNameController.text,
-                                                    'Image': imageUrl,
-                                                    'LastDate':
-                                                        dateController.text,
-                                                    'AssignDate': DateFormat(
-                                                            'dd-MMM-yy')
-                                                        .format(DateTime.now()),
-                                                    'Point':
-                                                        addPointController.text,
-                                                  });
-                                                  Get.back();
-
-                                                  Get.showSnackbar(
-                                                    GetSnackBar(
-                                                      message:
-                                                          "Upload Data Succesfully",
-                                                      borderRadius: 10.0,
-                                                      margin: EdgeInsets.only(
-                                                          left: 4.w,
-                                                          right: 4.w,
-                                                          bottom: 4.w),
-                                                      snackPosition:
-                                                          SnackPosition.BOTTOM,
-                                                      backgroundColor:
-                                                          themeNotifier.isDark
-                                                              ? ColorUtils.black
-                                                              : ColorUtils
-                                                                  .primaryColor
-                                                                  .withOpacity(
-                                                                      0.9),
-                                                      duration: const Duration(
-                                                          seconds: 2),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  height: 10.w,
-                                                  width: 25.w,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          8.0)),
-                                                          color: ColorUtils
-                                                              .primaryColor),
-                                                  child: const Center(
-                                                    child: Text(
-                                                      "Done",
-                                                      style: TextStyle(
-                                                          color:
-                                                              ColorUtils.white),
-                                                    ),
-                                                  ),
-                                                ),
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeightClass
+                                                                .extraB,
+                                                        fontSize: 13.sp),
                                               ),
-                                              InkWell(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Container(
-                                                  height: 10.w,
-                                                  width: 25.w,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          8.0)),
-                                                          color: ColorUtils
-                                                              .primaryColor),
-                                                  child: const Center(
-                                                    child: Text(
-                                                      "Cancel",
-                                                      style: TextStyle(
-                                                          color:
-                                                              ColorUtils.white),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                                              Lottie.asset(
+                                                  "assets/lotties/upload.json",
+                                                  height: 25.w)
                                             ],
-                                          );
-                                        });
-                                  }
+                                          ),
+                                          content: Text(
+                                              'are you sure want to Upload?',
+                                              style:
+                                                  FontTextStyle.Proxima16Medium
+                                                      .copyWith(
+                                                          color: ColorUtils
+                                                              .primaryColor)),
+                                          actions: [
+                                            InkWell(
+                                              onTap: () async {
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                                FirebaseFirestore.instance
+                                                    .collection(id)
+                                                    .doc(id)
+                                                    .collection(Project)
+                                                    .doc(Project)
+                                                    .collection('task')
+                                                    .doc()
+                                                    .set({
+                                                  'Description':
+                                                      DescriptionController
+                                                          .text,
+                                                  'task':
+                                                      TaskNameController.text,
+                                                  'Image': imageUrl,
+                                                  'Name': Name,
+                                                  'Email': Email,
+                                                  'LastDate':
+                                                      dateController.text,
+                                                  'AssignDate': DateFormat(
+                                                          'dd-MMM-yy')
+                                                      .format(DateTime.now()),
+                                                  'Point':
+                                                      addPointController.text,
+                                                });
+                                                FirebaseFirestore.instance
+                                                    .collection(id)
+                                                    .doc(id)
+                                                    .collection('user')
+                                                    .doc(uid)
+                                                    .collection(
+                                                        'Current Project')
+                                                    .doc(Project)
+                                                    .collection('Task')
+                                                    .doc()
+                                                    .set({
+                                                  'Description':
+                                                      DescriptionController
+                                                          .text,
+                                                  'Task':
+                                                      TaskNameController.text,
+                                                  'Image': imageUrl,
+                                                  'LastDate':
+                                                      dateController.text,
+                                                  'AssignDate': DateFormat(
+                                                          'dd-MMM-yy')
+                                                      .format(DateTime.now()),
+                                                  'Point':
+                                                      addPointController.text,
+                                                });
+                                                Get.back();
+
+                                                Get.showSnackbar(
+                                                  GetSnackBar(
+                                                    message:
+                                                        "Upload Data Succesfully",
+                                                    borderRadius: 10.0,
+                                                    margin: EdgeInsets.only(
+                                                        left: 4.w,
+                                                        right: 4.w,
+                                                        bottom: 4.w),
+                                                    snackPosition:
+                                                        SnackPosition.BOTTOM,
+                                                    backgroundColor:
+                                                        themeNotifier.isDark
+                                                            ? ColorUtils.black
+                                                            : ColorUtils
+                                                                .primaryColor
+                                                                .withOpacity(
+                                                                    0.9),
+                                                    duration: const Duration(
+                                                        seconds: 2),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                height: 10.w,
+                                                width: 25.w,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.0)),
+                                                    color: ColorUtils
+                                                        .primaryColor),
+                                                child: const Center(
+                                                  child: Text(
+                                                    "Done",
+                                                    style: TextStyle(
+                                                        color:
+                                                            ColorUtils.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Container(
+                                                height: 10.w,
+                                                width: 25.w,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.0)),
+                                                    color: ColorUtils
+                                                        .primaryColor),
+                                                child: const Center(
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        color:
+                                                            ColorUtils.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 }),
                           ],
                         ),
@@ -1168,14 +1162,14 @@ class _AlertBoxState extends State<AlertBox> {
               ),
               SizeConfig.sH2,
               Text(
-                'Start Task',
+                'Approve !!',
                 style: FontTextStyle.Proxima16Medium.copyWith(
                     color: ColorUtils.primaryColor,
                     fontWeight: FontWeightClass.extraB,
                     fontSize: 13.sp),
               ),
               SizeConfig.sH1,
-              Text('are you sure want to start Task?',
+              Text('are you sure want to Approved Task?',
                   textAlign: TextAlign.center,
                   style: FontTextStyle.Proxima16Medium.copyWith(
                       color: ColorUtils.primaryColor)),
@@ -1336,7 +1330,7 @@ class _AlertBoxState extends State<AlertBox> {
                         log('================$pointController');
                         Get.showSnackbar(
                           GetSnackBar(
-                            message: "Start Task Successfully",
+                            message: "Task Approve",
                             borderRadius: 10.0,
                             margin: EdgeInsets.only(
                                 left: 4.w, right: 4.w, bottom: 4.w),
