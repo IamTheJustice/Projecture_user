@@ -23,7 +23,6 @@ import 'package:projecture/view/auth/issue_screen.dart';
 import 'package:projecture/view/auth/inprocess_screen.dart';
 import 'package:projecture/view/auth/todo_screen.dart';
 import 'package:projecture/view/auth/home_screen.dart';
-import 'package:projecture/view/auth/profile_screen.dart';
 import 'package:projecture/screens/chat/chat_screen.dart';
 import 'package:projecture/view/auth/checking_screen.dart';
 import 'package:projecture/view/auth/wallet_screen.dart';
@@ -33,6 +32,7 @@ import 'package:sizer/sizer.dart';
 
 class DrawerBottomNavbar extends StatefulWidget {
   const DrawerBottomNavbar({super.key});
+  //
 
   @override
   State<DrawerBottomNavbar> createState() => _DrawerBottomNavbarState();

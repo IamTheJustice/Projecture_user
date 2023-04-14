@@ -103,7 +103,7 @@ class _CheckingScreenState extends State<CheckingScreen> {
                                       onTap: () {
                                         Get.to(() => ShowTaskChecking(
                                               id: id,
-                                              Project: data['PROJECT NAME'],
+                                              Project: data['Project Name'],
                                             ));
                                       },
                                       child: Container(
@@ -145,7 +145,7 @@ class _CheckingScreenState extends State<CheckingScreen> {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 5.w, vertical: 3.w),
                                     child: Text(
-                                      data['PROJECT NAME'],
+                                      data['Project Name'],
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                       style: FontTextStyle.Proxima16Medium

@@ -72,6 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<AllDetail> data = snapshot.data!;
+                log('============================${snapshot.data!}');
                 if (data.isEmpty) {
                   return Center(
                       child: Text(

@@ -103,7 +103,7 @@ class _ProcessState extends State<Process> {
                                           onTap: () {
                                             Get.to(() => ShowTaskProcess(
                                                   id: id,
-                                                  Project: data['PROJECT NAME'],
+                                                  Project: data['Project Name'],
                                                 ));
                                           },
                                           child: Container(
@@ -148,7 +148,7 @@ class _ProcessState extends State<Process> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 5.w, vertical: 3.w),
                                         child: Text(
-                                          data['PROJECT NAME'],
+                                          data['Project Name'],
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                           style: FontTextStyle.Proxima16Medium

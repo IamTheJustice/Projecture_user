@@ -30,6 +30,7 @@ class _InviteScreenState extends State<InviteScreen> {
 
   String? cid;
   String? uid;
+  String? token;
   setData() async {
     final pref = await SharedPreferences.getInstance();
     cid = pref.getString("companyId");
@@ -159,7 +160,34 @@ class _InviteScreenState extends State<InviteScreen> {
                                                                                 ColorUtils.primaryColor)),
                                                                 actions: [
                                                                   InkWell(
-                                                                    onTap: () {
+                                                                    onTap:
+                                                                        () async {
+                                                                      final QuerySnapshot result = await FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              id)
+                                                                          .doc(
+                                                                              id)
+                                                                          .collection(
+                                                                              'user')
+                                                                          .get();
+                                                                      final List<
+                                                                              DocumentSnapshot>
+                                                                          documents =
+                                                                          result
+                                                                              .docs;
+
+                                                                      for (var doc
+                                                                          in documents) {
+                                                                        print(
+                                                                            "id is  ${doc.id}");
+                                                                        if (_auth.currentUser!.uid ==
+                                                                            doc.id) {
+                                                                          token =
+                                                                              doc.get('fcmToken');
+                                                                          break;
+                                                                        }
+                                                                      }
                                                                       FirebaseFirestore
                                                                           .instance
                                                                           .collection(
@@ -172,6 +200,8 @@ class _InviteScreenState extends State<InviteScreen> {
                                                                               .currentUser!
                                                                               .uid)
                                                                           .set({
+                                                                        'fcmToken':
+                                                                            token,
                                                                         "Name":
                                                                             data['name'],
                                                                         "Email":
