@@ -56,6 +56,8 @@ class _TaskDataState extends State<TaskData> {
     super.initState();
   }
 
+  String? Email;
+  String? Name;
   String? cid;
   String? uid;
   String? FcmToken;
@@ -73,9 +75,9 @@ class _TaskDataState extends State<TaskData> {
   @override
   Widget build(BuildContext context) {
     String Project = widget.Project;
-    String Name = widget.Name;
+    String Name1 = widget.Name;
     String id = widget.id;
-    String Email = widget.Email;
+    String Email1 = widget.Email;
     String uid = widget.Uid;
     return Consumer<ModelTheme>(
         builder: (context, ModelTheme themeNotifier, child) {
@@ -484,8 +486,8 @@ class _TaskDataState extends State<TaskData> {
                                                   'task':
                                                       TaskNameController.text,
                                                   'Image': imageUrl,
-                                                  'Name': Name,
-                                                  'Email': Email,
+                                                  'Name': Name1,
+                                                  'Email': Email1,
                                                   'LastDate':
                                                       dateController.text,
                                                   'AssignDate': DateFormat(
@@ -873,6 +875,7 @@ class _TaskDataState extends State<TaskData> {
                                                                           InkWell(
                                                                             onTap:
                                                                                 () async {
+                                                                              log("+++++++==================${uid}");
                                                                               final QuerySnapshot result = await FirebaseFirestore.instance.collection(id).doc(id).collection('user').get();
                                                                               final List<DocumentSnapshot> document1 = result.docs;
                                                                               for (var abc in document1) {
@@ -896,15 +899,12 @@ class _TaskDataState extends State<TaskData> {
                                                                                 'AssignDate': data['AssignDate'],
                                                                                 'task': data['Task'],
                                                                                 'Image': data["Image"],
-                                                                                'Name': Name,
-                                                                                'Email': Email,
+                                                                                'Name': Name1,
+                                                                                'Email': Email1,
                                                                                 'LastDate': data['LastDate'],
                                                                                 'StartingDate': DateFormat('dd-MMM-yy').format(DateTime.now()),
                                                                                 'Description': data['Description'],
-                                                                              }).whenComplete(() => FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('InChecking').where(
-                                                                                    'Task',
-                                                                                    isEqualTo: data['Task'],
-                                                                                  ));
+                                                                              });
                                                                               try {
                                                                                 // Get a reference to the 'task' subcollection
                                                                                 CollectionReference taskCollection = FirebaseFirestore.instance.collection(id).doc(id).collection(Project).doc(Project).collection('InChecking');
@@ -919,7 +919,7 @@ class _TaskDataState extends State<TaskData> {
                                                                               } catch (e) {
                                                                                 print('Error deleting document: $e');
                                                                               }
-                                                                              FirebaseFirestore.instance.collection(id).doc(id).collection('user').doc(_auth.currentUser!.uid).collection('Current Project').doc(Project).collection('Process').doc().set({
+                                                                              FirebaseFirestore.instance.collection(id).doc(id).collection('user').doc(uid).collection('Current Project').doc(Project).collection('Process').doc().set({
                                                                                 'Point': data['Point'],
                                                                                 'Description': data['Description'],
                                                                                 'Task': data['Task'],
@@ -1009,11 +1009,11 @@ class _TaskDataState extends State<TaskData> {
                                                                         Uid:
                                                                             uid,
                                                                         Name:
-                                                                            Name,
+                                                                            Name1,
                                                                         Project:
                                                                             Project,
                                                                         Email:
-                                                                            Email,
+                                                                            Email1,
                                                                         task: data[
                                                                             'Task'],
                                                                         Assigndate:
@@ -1162,7 +1162,7 @@ class _AlertBoxState extends State<AlertBox> {
               ),
               SizeConfig.sH2,
               Text(
-                'Approve !!',
+                'Approved !!',
                 style: FontTextStyle.Proxima16Medium.copyWith(
                     color: ColorUtils.primaryColor,
                     fontWeight: FontWeightClass.extraB,
@@ -1330,7 +1330,7 @@ class _AlertBoxState extends State<AlertBox> {
                         log('================$pointController');
                         Get.showSnackbar(
                           GetSnackBar(
-                            message: "Task Approve",
+                            message: "Task approved",
                             borderRadius: 10.0,
                             margin: EdgeInsets.only(
                                 left: 4.w, right: 4.w, bottom: 4.w),

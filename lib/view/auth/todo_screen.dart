@@ -320,7 +320,7 @@ class _ShowTaskToDoState extends State<ShowTaskToDo> {
                                       ? ColorUtils.purple
                                       : Colors.red,
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
+                                      Radius.circular(20)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: ColorUtils.black.withOpacity(0.1),
