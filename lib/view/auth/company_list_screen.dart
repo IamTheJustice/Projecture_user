@@ -106,9 +106,9 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 2.w, horizontal: 3.w),
-                                          child: GestureDetector(
+                                         child: GestureDetector(
                                             onTap: () {
-                                              Get.to(() =>
+                                              Get.off(() =>
                                                   LoginScreen(id: data['uid']));
                                             },
                                             child: Container(

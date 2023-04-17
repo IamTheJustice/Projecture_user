@@ -277,7 +277,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (_auth.currentUser!.uid == leader) {
                             print("Leader are $leader");
-                            Get.to(() => const LeaderDrawerBottomNavbar());
+                            Get.off(() => const LeaderDrawerBottomNavbar());
                           } else {
                             Get.showSnackbar(
                               GetSnackBar(
@@ -291,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                             Future.delayed(const Duration(seconds: 2), () {
-                              Get.to(() => const DrawerBottomNavbar());
+                              Get.off(() => const DrawerBottomNavbar());
                             });
                           }
                         } else {

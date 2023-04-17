@@ -885,6 +885,13 @@ class _TaskDataState extends State<TaskData> {
                                                                                   FcmToken = abc.get('fcmToken');
                                                                                 }
                                                                               }
+                                                                              final QuerySnapshot result1 = await FirebaseFirestore.instance.collection(id).doc(id).collection('user').get();
+                                                                              final List<DocumentSnapshot> document101 = result.docs;
+                                                                              for (var abc in document1) {
+                                                                                if (_auth.currentUser!.uid == uid) {
+                                                                                  FcmToken = abc.get('fcmToken');
+                                                                                }
+                                                                              }
                                                                               try {
                                                                                 await LocalNotificationServices.sendNotification(
                                                                                   token: FcmToken,
